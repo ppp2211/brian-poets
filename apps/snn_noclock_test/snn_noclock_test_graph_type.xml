@@ -1,0 +1,131 @@
+<?xml version="1.0"?>
+<Graphs xmlns="https://poets-project.org/schemas/virtual-graph-schema-v2">
+  <GraphType id="snn_noclock_test">
+
+    <Properties>
+    </Properties>
+
+    <SharedCode><![CDATA[
+	    #include <cmath>
+	
+		    ]]></SharedCode>
+
+    <MessageTypes>
+      <MessageType id="__init__">
+        <!-- This doesn't have any properties -->
+      </MessageType>
+
+      <MessageType id="spike">
+        <Message>
+       </Message>
+    </MessageType>
+
+      <MessageType id="tick">
+      </MessageType>
+    </MessageTypes>
+
+    <DeviceTypes>
+      <DeviceType id="neuron">
+
+          <Documentation><![CDATA[
+ 	const double _lio_1 = - dt;
+       const double _v = (I + (v * exp(_lio_1 / tau))) - (I * exp(_lio_1 / tau));
+       // Replace I and Tau per neuron (2, 0 / 10, 100):
+	// I and tau are in static arrays = how to extract??
+
+       const std::clock_t _start_time = std::clock();
+       const double _run_time = (double)(std::clock() - _start_time)/CLOCKS_PER_SEC;
+
+       Neuron flow:
+       init():
+         V = reset
+         fired = 0
+         t = 0
+       fire():
+         if v > thr and not waitTick:
+           send spike message
+           V = reset
+           fired = 1
+       tock(): 
+         if not waitTick:
+           t += dt
+           fired = 0
+           waitTick = 0
+       spike():
+         if incoming message:
+           V += weight       
+         
+        ]]></Documentation>
+
+        <Properties>
+		<Scalar name="I" type="float" />
+		<Scalar name="tau" type="float" />
+		<Scalar name="thr" type="float" />
+		<Scalar name="rst" type="float" />
+		<Scalar name="dt" type="float" />
+                <Scalar name="v_init" type="float" />
+        </Properties>
+
+        <State>
+          <Scalar type="float" name="v" />
+          <Scalar type="float" name="t" />
+          <Scalar name="sentSpike" type="int8_t" />
+        </State>
+
+
+        <InputPin name="__init__" messageTypeId="__init__">
+          <OnReceive><![CDATA[
+          deviceState->v=deviceProperties->v_init;
+	  deviceState->t=0; 
+          deviceState->sentSpike=0;
+          handler_log(3, "v_actual=%d, v_init=%d", deviceState->v, deviceProperties->v_init);
+          ]]>
+          </OnReceive>
+        </InputPin>
+
+        <ReadyToSend><![CDATA[
+        *readyToSend=0;
+        deviceState->sentSpike=false;
+        float &v=deviceState->v;
+        float &t=deviceState->t;
+        float _lio_1 = - deviceProperties->dt;
+	float v_expr = (deviceProperties->I + (v * exp(_lio_1 / deviceProperties->tau))) - (deviceProperties->I * exp(_lio_1 / deviceProperties->tau));
+
+        v = v_expr;
+        t += deviceProperties->dt;
+
+        handler_log(3, "time=%d, voltage=%d", deviceState->t, deviceState->v);
+	
+        if(!deviceState->waitTick && (deviceState->v >= deviceProperties->thr) && !deviceState->sentSpike ){
+            *readyToSend |= OUTPUT_FLAG_fire;
+        }else if(!deviceState->waitTick){
+            *readyToSend |= OUTPUT_FLAG_tock;
+        }
+        ]]></ReadyToSend>
+
+        <OutputPin name="fire" messageTypeId="spike">
+          <OnSend><![CDATA[
+          deviceState->v=deviceProperties->rst;
+          handler_log(1, "FIRE at t=%d", deviceState->t);
+          
+          assert(!deviceState->sentSpike);
+          deviceState->sentSpike=true;
+          ]]></OnSend>
+        </OutputPin>
+
+        <InputPin name="input" messageTypeId="spike">
+            <Properties>
+                <Scalar type="float" name="weight" />
+            </Properties>
+
+          <OnReceive><![CDATA[
+          deviceState->v += edgeProperties->weight;
+
+          handler_log(3, "sentSpike=%d, time=%d", deviceState->sentSpike, deviceState->t);
+          ]]></OnReceive>
+        </InputPin>
+
+      </DeviceType>
+    </DeviceTypes>
+  </GraphType>
+</Graphs>

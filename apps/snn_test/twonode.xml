@@ -1,0 +1,169 @@
+<?xml version='1.0' encoding='ASCII'?>
+<Graphs xmlns="https://poets-project.org/schemas/virtual-graph-schema-v2">
+  <GraphType id="snn_test">
+    <SharedCode><![CDATA[
+	    #include <cmath>
+	
+		    ]]></SharedCode>
+    <MessageTypes>
+      <MessageType id="__init__"/>
+      <MessageType id="tick"/>
+      <MessageType id="spike">
+        <Message>
+          <Scalar name="fired" type="int8_t"/>
+        </Message>
+      </MessageType>
+    </MessageTypes>
+    <DeviceTypes>
+      <DeviceType id="clock">
+        <Properties>
+          <Scalar name="neuronCount" type="uint32_t"/>
+        </Properties>
+        <State>
+          <Scalar name="waitCount" type="uint32_t"/>
+        </State>
+        <InputPin name="__init__" messageTypeId="__init__">
+          <OnReceive><![CDATA[
+          deviceState->waitCount = deviceProperties->neuronCount;
+          handler_log(3,"waitCount=%d, neuronCount=%d", deviceState->waitCount, deviceProperties->neuronCount);
+          ]]></OnReceive>
+        </InputPin>
+        <InputPin name="tock" messageTypeId="tick">
+          <OnReceive><![CDATA[
+          assert(deviceState->waitCount > 0);
+          deviceState->waitCount--;
+          handler_log(3,"tock : waitCount = %d\n", deviceState->waitCount);
+          ]]></OnReceive>
+        </InputPin>
+        <OutputPin name="tick" messageTypeId="tick">
+          <OnSend><![CDATA[
+          handler_log(3,"tick : waitCount = %d\n", deviceState->waitCount);
+          assert(deviceState->waitCount==0);
+          deviceState->waitCount=deviceProperties->neuronCount;
+          ]]></OnSend>
+        </OutputPin>
+        <ReadyToSend><![CDATA[
+        *readyToSend = deviceState->waitCount==0 ? OUTPUT_FLAG_tick : 0;
+        ]]></ReadyToSend>
+      </DeviceType>
+      <DeviceType id="neuron">
+        <Properties>
+          <Scalar name="I" type="float"/>
+          <Scalar name="tau" type="float"/>
+          <Scalar name="thr" type="float"/>
+          <Scalar name="rst" type="float"/>
+          <Scalar name="dt" type="float"/>
+        </Properties>
+        <State>
+          <Scalar name="v" type="float"/>
+          <Scalar name="t" type="float"/>
+          <Scalar name="fireValue" type="int8_t"/>
+          <Scalar name="waitTick" type="int8_t"/>
+          <Scalar name="sentSpike" type="int8_t"/>
+        </State>
+        <InputPin name="__init__" messageTypeId="__init__">
+          <OnReceive><![CDATA[
+          deviceState->v=deviceProperties->rst;
+	  deviceState->t=0; 
+	  deviceState->fireValue=false; // We don't fire in the first round
+
+          deviceState->waitTick=false;
+          deviceState->sentSpike=true;
+
+          handler_log(3, "sentSpike=%d, waitTick=%d", deviceState->sentSpike, deviceState->waitTick);
+          
+          ]]></OnReceive>
+        </InputPin>
+        <InputPin name="tick" messageTypeId="tick">
+          <OnReceive><![CDATA[
+          handler_log(3, "sentSpike=%d, waitTick=%d", deviceState->sentSpike, deviceState->waitTick);
+
+          assert(deviceState->waitTick);
+          assert(!deviceState->sentSpike);
+          deviceState->waitTick=false;
+	  ]]></OnReceive>
+        </InputPin>
+        <InputPin name="input" messageTypeId="spike">
+          <Properties>
+            <Scalar name="weight" type="float"/>
+          </Properties>
+          <OnReceive><![CDATA[
+		  //assert(deviceState->Icount < deviceProperties->fanin);
+
+		  //deviceState->Icount++;
+          if(message->fired){
+            deviceState->v += edgeProperties->weight;
+          }
+
+          handler_log(3, "sentSpike=%d, waitTick=%d", deviceState->sentSpike, deviceState->waitTick);
+          ]]></OnReceive>
+        </InputPin>
+        <OutputPin name="tock" messageTypeId="tick">
+          <OnSend><![CDATA[
+          assert(!deviceState->waitTick && deviceState->sentSpike);
+
+          float &v=deviceState->v;
+          float &t=deviceState->t;
+
+	  //v=v_expr // is this how it works???
+	  float _lio_1 = - deviceProperties->dt;
+	  float v_expr = (deviceProperties->I + (v * exp(_lio_1 / deviceProperties->tau))) - (deviceProperties->I * exp(_lio_1 / deviceProperties->tau));
+
+          v = v_expr;
+
+	  deviceState->fireValue = (v >= deviceProperties->thr);
+          if(deviceState->fireValue){
+            handler_log(1, "FIRE! %f %f", v, t);
+            v=deviceProperties->rst;
+          }
+          t += deviceProperties->dt;
+          deviceState->sentSpike=false;
+          deviceState->waitTick=true;
+          handler_log(3, "sentSpike=%d, waitTick=%d", deviceState->sentSpike, deviceState->waitTick);
+
+          ]]></OnSend>
+        </OutputPin>
+        <OutputPin name="fire" messageTypeId="spike">
+          <OnSend><![CDATA[
+          handler_log(3, "sentSpike=%d, waitTick=%d", deviceState->sentSpike, deviceState->waitTick);
+
+          assert(!deviceState->waitTick);
+          assert(!deviceState->sentSpike);
+          message->fired=deviceState->fireValue;
+          deviceState->sentSpike=true;
+          ]]></OnSend>
+        </OutputPin>
+        <ReadyToSend><![CDATA[
+        *readyToSend=0;
+	if(!deviceState->waitTick && deviceState->sentSpike ){
+            *readyToSend |= OUTPUT_FLAG_tock;
+        }else if(!deviceState->waitTick && !deviceState->sentSpike){
+            *readyToSend |= OUTPUT_FLAG_fire;
+        }
+        ]]></ReadyToSend>
+      </DeviceType>
+    </DeviceTypes>
+  </GraphType>
+  <GraphInstance id="snn_two_neuron_test" graphTypeId="snn_test">
+    <DeviceInstances sorted="1">
+      <DevI id="clock" type="clock">
+        <P>"neuronCount": 2</P>
+      </DevI>
+      <DevI id="n_0" type="neuron">
+        <P>"rst": 0, "tau": 10, "I": 2, "dt": 0.125, "thr": 1</P>
+      </DevI>
+      <DevI id="n_1" type="neuron">
+        <P>"rst": 0, "tau": 100, "I": 0, "dt": 0.125, "thr": 1</P>
+      </DevI>
+    </DeviceInstances>
+    <EdgeInstances sorted="1">
+      <EdgeI path="clock:tock-n_0:tock"/>
+      <EdgeI path="clock:tock-n_1:tock"/>
+      <EdgeI path="n_0:tick-clock:tick"/>
+      <EdgeI path="n_1:input-n_0:fire">
+        <P>"weight": 0.2</P>
+      </EdgeI>
+      <EdgeI path="n_1:tick-clock:tick"/>
+    </EdgeInstances>
+  </GraphInstance>
+</Graphs>
