@@ -1,0 +1,204 @@
+<?xml version="1.0"?>
+<Graphs xmlns="https://poets-project.org/schemas/virtual-graph-schema-v2">
+  <GraphType id="snn_taylor">
+
+    <Properties>
+    </Properties>
+
+    <SharedCode><![CDATA[
+		    ]]></SharedCode>
+
+    <MessageTypes>
+      <MessageType id="__init__">
+        <!-- This doesn't have any properties -->
+      </MessageType>
+
+      <MessageType id="spike">
+        <Message>
+           <Scalar type="int8_t" name="fired" />
+       </Message>
+    </MessageType>
+
+      <MessageType id="tick">
+      </MessageType>
+    </MessageTypes>
+
+    <DeviceTypes>
+      <DeviceType id="neuron">
+
+          <Documentation><![CDATA[
+ 	const double _lio_1 = - dt;
+       const double _v = (I + (v * exp(_lio_1 / tau))) - (I * exp(_lio_1 / tau));
+       // Replace I and Tau per neuron (2, 0 / 10, 100):
+	// I and tau are in static arrays = how to extract??
+
+       const std::clock_t _start_time = std::clock();
+       const double _run_time = (double)(std::clock() - _start_time)/CLOCKS_PER_SEC;
+
+       Neuron flow:
+       init():
+         V = reset
+         fired = 0
+         t = 0
+         waitTick = 0
+       fire():
+         if v > thr and not waitTick:
+           send spike message
+           V = reset
+           fired = 1
+       tock(): 
+         if not waitTick:
+           t += dt
+           fired = 0
+           waitTick = 0
+       spike():
+         if incoming message:
+           V += weight       
+         
+        ]]></Documentation>
+
+        <Properties>
+		<Scalar name="I" type="float" />
+		<Scalar name="tau" type="float" />
+		<Scalar name="thr" type="float" />
+		<Scalar name="rst" type="float" />
+		<Scalar name="dt" type="float" />
+                <Scalar name="v_init" type="float" />
+        </Properties>
+
+        <State>
+          <Scalar type="float" name="v" />
+          <Scalar type="float" name="t" />
+          <Scalar name="waitTick" type="int8_t" />
+          <Scalar name="sentSpike" type="int8_t" />
+        </State>
+
+
+        <InputPin name="__init__" messageTypeId="__init__">
+          <OnReceive><![CDATA[
+          deviceState->v=deviceProperties->v_init;
+	  deviceState->t=0;
+          deviceState->waitTick=false;
+          deviceState->sentSpike=true; //don't fire in round 1
+
+          handler_log(3, "sentSpike=%d, waitTick=%d", deviceState->sentSpike, deviceState->waitTick);
+          ]]>
+          </OnReceive>
+        </InputPin>
+
+        <ReadyToSend><![CDATA[
+        *readyToSend=0;
+	if(!deviceState->waitTick && deviceState->sentSpike){
+            *readyToSend |= OUTPUT_FLAG_tock;
+        }else if(!deviceState->waitTick){
+            *readyToSend |= OUTPUT_FLAG_fire;
+        }
+        ]]></ReadyToSend>
+
+        <OutputPin name="tock" messageTypeId="tick">
+          <OnSend><![CDATA[
+          assert(!deviceState->waitTick);
+
+          float &v=deviceState->v;
+          float &t=deviceState->t;
+
+	  float _lio_1 = - deviceProperties->dt;
+          
+          float _exp_term = (_lio_1 / deviceProperties->tau);
+          float _exp = 1 + _exp_term + ((_exp_term*_exp_term)/2);
+          
+          float v_expr = (deviceProperties->I + (v * _exp)) - (deviceProperties->I * _exp);
+
+          v = v_expr;
+
+          t += deviceProperties->dt;
+          deviceState->sentSpike=false;
+          deviceState->waitTick=true;
+          handler_log(3, "sentSpike=%d, waitTick=%d", deviceState->sentSpike, deviceState->waitTick);
+
+          ]]></OnSend>
+        </OutputPin>
+
+        <InputPin name="tick" messageTypeId="tick">
+          <OnReceive><![CDATA[
+          handler_log(3, "sentSpike=%d, waitTick=%d", deviceState->sentSpike, deviceState->waitTick);
+
+          assert(deviceState->waitTick);
+          assert(!deviceState->sentSpike);
+          deviceState->waitTick=false;
+	  ]]></OnReceive>
+        </InputPin>
+
+        <OutputPin name="fire" messageTypeId="spike">
+          <OnSend><![CDATA[
+          handler_log(3, "sentSpike=%d, waitTick=%d", deviceState->sentSpike, deviceState->waitTick);
+
+          if(deviceState->v >= deviceProperties->thr){ 
+              message->fired = true;          
+              deviceState->v=deviceProperties->rst;
+              handler_log(1, "FIRE!");
+          } else {
+              message->fired = false;
+          }
+
+          assert(!deviceState->waitTick);
+          assert(!deviceState->sentSpike);
+          deviceState->sentSpike=true;
+          ]]></OnSend>
+        </OutputPin>
+
+        <InputPin name="input" messageTypeId="spike">
+            <Properties>
+                <Scalar type="float" name="weight" />
+            </Properties>
+
+          <OnReceive><![CDATA[
+          if(message->fired){
+              deviceState->v += edgeProperties->weight;
+          }
+          handler_log(3, "sentSpike=%d, waitTick=%d", deviceState->sentSpike, deviceState->waitTick);
+          ]]></OnReceive>
+        </InputPin>
+
+      </DeviceType>
+
+      <DeviceType id="clock">
+        <Properties>
+          <Scalar type="uint32_t" name="neuronCount" />
+        </Properties>
+
+        <State>
+          <Scalar type="uint32_t" name="waitCount" />
+        </State>
+
+        <InputPin name="__init__" messageTypeId="__init__">
+          <OnReceive><![CDATA[
+          deviceState->waitCount = deviceProperties->neuronCount;
+          handler_log(3,"waitCount=%d, neuronCount=%d", deviceState->waitCount, deviceProperties->neuronCount);
+          ]]></OnReceive>
+        </InputPin>
+
+        <ReadyToSend><![CDATA[
+        *readyToSend = deviceState->waitCount==0 ? OUTPUT_FLAG_tick : 0;
+        ]]></ReadyToSend>
+
+        <InputPin name="tock" messageTypeId="tick">
+          <OnReceive><![CDATA[
+          assert(deviceState->waitCount > 0);
+          deviceState->waitCount--;
+          handler_log(3,"tock : waitCount = %d\n", deviceState->waitCount);
+          ]]></OnReceive>
+        </InputPin>
+
+        <OutputPin name="tick" messageTypeId="tick">
+          <OnSend><![CDATA[
+          handler_log(3,"tick : waitCount = %d\n", deviceState->waitCount);
+          assert(deviceState->waitCount==0);
+          deviceState->waitCount=deviceProperties->neuronCount;
+          ]]></OnSend>
+        </OutputPin>
+
+      </DeviceType>
+    </DeviceTypes>
+  </GraphType>
+</Graphs>
