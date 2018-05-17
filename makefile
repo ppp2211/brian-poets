@@ -54,3 +54,4 @@ include apps/snn_test/makefile.inc
 include apps/snn_noclock_test/makefile.inc
 include apps/snn_always_spike/makefile.inc
 include apps/snn_taylor/makefile.inc
+include apps/snn_noclock_always_spike/makefile.inc

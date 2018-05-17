@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='ASCII'?>
+<Graphs xmlns="https://poets-project.org/schemas/virtual-graph-schema-v2">
+  <GraphType id="snn_noclock_always_spike">
+    <SharedCode><![CDATA[
+	    #include <cmath>
+	
+		    ]]></SharedCode>
+    <MessageTypes>
+      <MessageType id="spike">
+        <Message>
+          <Scalar name="fired" type="int8_t"/>
+          <Scalar name="time" type="float"/>
+        </Message>
+      </MessageType>
+      <MessageType id="__init__"/>
+    </MessageTypes>
+    <DeviceTypes>
+      <DeviceType id="neuron">
+        <Properties>
+          <Scalar name="I" type="float"/>
+          <Scalar name="tau" type="float"/>
+          <Scalar name="thr" type="float"/>
+          <Scalar name="rst" type="float"/>
+          <Scalar name="dt" type="float"/>
+          <Scalar name="v_init" type="float"/>
+        </Properties>
+        <State>
+          <Scalar name="v" type="float"/>
+          <Scalar name="t" type="float"/>
+        </State>
+        <InputPin name="__init__" messageTypeId="__init__">
+          <OnReceive><![CDATA[
+          deviceState->v=deviceProperties->v_init;
+	  deviceState->t=0;
+
+          handler_log(3, "INIT: t=%d, v=%d", deviceState->t, deviceState->v);
+          
+          ]]></OnReceive>
+        </InputPin>
+        <InputPin name="input" messageTypeId="spike">
+          <Properties>
+            <Scalar name="weight" type="float"/>
+          </Properties>
+          <OnReceive><![CDATA[
+          if(message->fired){
+              deviceState->v += edgeProperties->weight;
+          }
+          handler_log(3, "Incoming: t_sent=%d, t_recv=%d", message->time, deviceState->t);
+          ]]></OnReceive>
+        </InputPin>
+        <OutputPin name="fire" messageTypeId="spike">
+          <OnSend><![CDATA[
+	  float &v=deviceState->v;
+          float &t=deviceState->t;
+  float _lio_1 = - deviceProperties->dt;
+	  float v_expr = (deviceProperties->I + (v * exp(_lio_1 / deviceProperties->tau))) - (deviceProperties->I * exp(_lio_1 / deviceProperties->tau));
+
+          v = v_expr;
+
+          t += deviceProperties->dt;
+          
+          handler_log(3, "Fire: t=%d, v=%d", deviceState->t, deviceState->v);
+          message->time = t;
+          if(deviceState->v >= deviceProperties->thr){ 
+              message->fired = true;          
+              deviceState->v=deviceProperties->rst;
+              handler_log(1, "FIRE!");
+          } else {
+              message->fired = false;
+          }
+          ]]></OnSend>
+        </OutputPin>
+        <ReadyToSend><![CDATA[
+        *readyToSend=0;
+        // no checks - just fire
+        *readyToSend |= OUTPUT_FLAG_fire;
+        ]]></ReadyToSend>
+      </DeviceType>
+    </DeviceTypes>
+  </GraphType>
+  <GraphInstance id="snn_noclock_always_spike_twonode" graphTypeId="snn_noclock_always_spike">
+    <DeviceInstances sorted="1">
+      <DevI id="n_0" type="neuron">
+        <P>"rst": 0, "I": 2, "dt": 0.125, "tau": 10, "thr": 1</P>
+      </DevI>
+      <DevI id="n_1" type="neuron">
+        <P>"rst": 0, "I": 0, "dt": 0.125, "tau": 100, "thr": 1</P>
+      </DevI>
+    </DeviceInstances>
+    <EdgeInstances sorted="1">
+      <EdgeI path="n_1:input-n_0:fire">
+        <P>"weight": 0.2</P>
+      </EdgeI>
+    </EdgeInstances>
+  </GraphInstance>
+</Graphs>
