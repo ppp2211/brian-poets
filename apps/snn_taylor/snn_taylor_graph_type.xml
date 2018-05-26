@@ -81,7 +81,6 @@
           deviceState->waitTick=false;
           deviceState->sentSpike=true; //don't fire in round 1
 
-          handler_log(3, "sentSpike=%d, waitTick=%d", deviceState->sentSpike, deviceState->waitTick);
           ]]>
           </OnReceive>
         </InputPin>
@@ -114,14 +113,12 @@
           t += deviceProperties->dt;
           deviceState->sentSpike=false;
           deviceState->waitTick=true;
-          handler_log(3, "sentSpike=%d, waitTick=%d", deviceState->sentSpike, deviceState->waitTick);
 
           ]]></OnSend>
         </OutputPin>
 
         <InputPin name="tick" messageTypeId="tick">
           <OnReceive><![CDATA[
-          handler_log(3, "sentSpike=%d, waitTick=%d", deviceState->sentSpike, deviceState->waitTick);
 
           assert(deviceState->waitTick);
           assert(!deviceState->sentSpike);
@@ -131,15 +128,14 @@
 
         <OutputPin name="fire" messageTypeId="spike">
           <OnSend><![CDATA[
-          handler_log(3, "sentSpike=%d, waitTick=%d", deviceState->sentSpike, deviceState->waitTick);
-
           if(deviceState->v >= deviceProperties->thr){ 
               message->fired = true;          
               deviceState->v=deviceProperties->rst;
-              handler_log(1, "FIRE!");
+              handler_log(1, "FIRE! t=%d", deviceState->v);
           } else {
               message->fired = false;
-          }
+              handler_log(3, "No fire, t=%f, v=%f", deviceState->t, deviceState->v);
+         }
 
           assert(!deviceState->waitTick);
           assert(!deviceState->sentSpike);
@@ -156,7 +152,7 @@
           if(message->fired){
               deviceState->v += edgeProperties->weight;
           }
-          handler_log(3, "sentSpike=%d, waitTick=%d", deviceState->sentSpike, deviceState->waitTick);
+          handler_log(3, "Spike recv, t=%f, v=%f", deviceState->t, deviceState->v);
           ]]></OnReceive>
         </InputPin>
 
@@ -174,7 +170,6 @@
         <InputPin name="__init__" messageTypeId="__init__">
           <OnReceive><![CDATA[
           deviceState->waitCount = deviceProperties->neuronCount;
-          handler_log(3,"waitCount=%d, neuronCount=%d", deviceState->waitCount, deviceProperties->neuronCount);
           ]]></OnReceive>
         </InputPin>
 

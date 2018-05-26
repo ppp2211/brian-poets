@@ -14,22 +14,18 @@ urand=random.random
 import os
 appBase=os.path.dirname(os.path.realpath(__file__))
 
-src=appBase+"/snn_test_graph_type.xml"
+src=appBase+"/snn_noclock_always_spike_graph_type.xml"
 (graphTypes,graphInstances)=load_graph_types_and_instances(src,src)
 
 N = 100 #two neurons for now
 
-graphType=graphTypes["snn_test"]
+graphType=graphTypes["snn_noclock_always_spike"]
 neuronType=graphType.device_types["neuron"]
-clockType=graphType.device_types["clock"]
 
-instName="snn_100_neuron_test"
+instName="snn_noclock_100_neuron_test"
 
 properties={}
 res=GraphInstance(instName, graphType, properties)
-
-clock=DeviceInstance(res, "clock", clockType, {"neuronCount":N})
-res.add_device_instance(clock)
 
 dt = 0.125
 
@@ -46,9 +42,6 @@ for i in range(N):
     }
     nodes[i]=DeviceInstance(res, "n_{}".format(i), neuronType, props)
     res.add_device_instance(nodes[i])
-
-    res.add_edge_instance(EdgeInstance(res,nodes[i],"tick",clock,"tick",None))
-    res.add_edge_instance(EdgeInstance(res,clock,"tock",nodes[i],"tock",None))
 
 '''
 for dst in range(N):
