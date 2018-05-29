@@ -47,15 +47,15 @@ dt = 0.125
 nodes=[None]*N
 for i in range(N):
     if i==0:
-        I = 2.0
-        tau = 10.0
-        thr = 1.0 
-        rst = 0.0
+        I = 2
+        tau = 10
+        thr = 1 
+        rst = 0
     else:
-        I = 0.0
-        tau = 100.0
-        thr = 1.0 
-        rst = 0.0
+        I = 0
+        tau = 100
+        thr = 1 
+        rst = 0
     props={
         "I":I, "tau":tau, "thr":thr, "rst":rst, "dt":dt
     }

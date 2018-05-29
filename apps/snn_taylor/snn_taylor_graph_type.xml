@@ -16,6 +16,7 @@
       <MessageType id="spike">
         <Message>
            <Scalar type="int8_t" name="fired" />
+           <Scalar type="float" name="timestamp" />
        </Message>
     </MessageType>
 
@@ -67,8 +68,8 @@
         </Properties>
 
         <State>
-          <Scalar type="float" name="v" />
-          <Scalar type="float" name="t" />
+          <Scalar name="v" type="float" />
+          <Scalar name="t" type="float" />
           <Scalar name="waitTick" type="int8_t" />
           <Scalar name="sentSpike" type="int8_t" />
         </State>
@@ -77,9 +78,10 @@
         <InputPin name="__init__" messageTypeId="__init__">
           <OnReceive><![CDATA[
           deviceState->v=deviceProperties->v_init;
-	  deviceState->t=0;
+	  deviceState->t=0.0;
           deviceState->waitTick=false;
           deviceState->sentSpike=true; //don't fire in round 1
+          handler_log(1, "INIT v=%f v_init=%f", deviceState->v, deviceProperties->v_init);
 
           ]]>
           </OnReceive>
@@ -98,19 +100,16 @@
           <OnSend><![CDATA[
           assert(!deviceState->waitTick);
 
-          float &v=deviceState->v;
-          float &t=deviceState->t;
-
 	  float _lio_1 = - deviceProperties->dt;
           
           float _exp_term = (_lio_1 / deviceProperties->tau);
-          float _exp = 1 + _exp_term + ((_exp_term*_exp_term)/2);
-          
-          float v_expr = (deviceProperties->I + (v * _exp)) - (deviceProperties->I * _exp);
+          float _exp = (1 + _exp_term + ((_exp_term * _exp_term)/2.0));
 
-          v = v_expr;
+          float v_expr = ((deviceProperties->I + (deviceState->v * _exp)) - (deviceProperties->I * _exp));
+          deviceState->v = v_expr;
 
-          t += deviceProperties->dt;
+          handler_log(3, "Tock: t=%f, v=%f", deviceState->t, deviceState->v);
+          deviceState->t += deviceProperties->dt;
           deviceState->sentSpike=false;
           deviceState->waitTick=true;
 
@@ -128,10 +127,11 @@
 
         <OutputPin name="fire" messageTypeId="spike">
           <OnSend><![CDATA[
+          message->timestamp = deviceState->t;
           if(deviceState->v >= deviceProperties->thr){ 
               message->fired = true;          
               deviceState->v=deviceProperties->rst;
-              handler_log(1, "FIRE! t=%d", deviceState->v);
+              handler_log(1, "FIRE! t=%f", deviceState->t);
           } else {
               message->fired = false;
               handler_log(3, "No fire, t=%f, v=%f", deviceState->t, deviceState->v);
@@ -151,8 +151,8 @@
           <OnReceive><![CDATA[
           if(message->fired){
               deviceState->v += edgeProperties->weight;
-          }
-          handler_log(3, "Spike recv, t=%f, v=%f", deviceState->t, deviceState->v);
+              handler_log(1, "Spike recv, t_recv=%f, t_sent=%f, v=%f", deviceState->t, message->timestamp, deviceState->v);
+         }
           ]]></OnReceive>
         </InputPin>
 
@@ -181,13 +181,13 @@
           <OnReceive><![CDATA[
           assert(deviceState->waitCount > 0);
           deviceState->waitCount--;
-          handler_log(3,"tock : waitCount = %d\n", deviceState->waitCount);
+          //handler_log(3,"tock : waitCount = %d\n", deviceState->waitCount);
           ]]></OnReceive>
         </InputPin>
 
         <OutputPin name="tick" messageTypeId="tick">
           <OnSend><![CDATA[
-          handler_log(3,"tick : waitCount = %d\n", deviceState->waitCount);
+          //handler_log(3,"tick : waitCount = %d\n", deviceState->waitCount);
           assert(deviceState->waitCount==0);
           deviceState->waitCount=deviceProperties->neuronCount;
           ]]></OnSend>
