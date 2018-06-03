@@ -5,12 +5,23 @@
     </Properties>
 
     <SharedCode><![CDATA[
+        //reinventing some wheels...
+
         float exp(float exponent)
         {   //4th order taylor series approximation
     	    float exp2 = exponent*exponent;
             float exp3 = exp2*exponent;
             float exp4 = exp3*exponent;
             return (1.0 + exponent + (exp2/2.0) + (exp3/6.0) + (exp4/24.0)); 
+        }
+
+        float fabs(float input)
+        {   
+            float f = input;
+            int *v = (int *)(&f);
+            *v = *v & 0x7FFFFFFF;
+            
+            return f;
         }
         ]]></SharedCode>
 
@@ -87,7 +98,7 @@
 	  deviceState->t=0.0;
           deviceState->waitTick=false;
           deviceState->sentSpike=true; //don't fire in round 1
-          handler_log(1, "INIT v=%f v_init=%f", deviceState->v, deviceProperties->v_init);
+          handler_log(1, "INIT v=%f v_init=%f, ABS_TEST=%f", deviceState->v, deviceProperties->v_init, fabs(0.2));
 
           ]]>
           </OnReceive>
@@ -105,7 +116,7 @@
         <OutputPin name="tock" messageTypeId="tick">
           <OnSend><![CDATA[
           assert(!deviceState->waitTick);
-
+          float test = fabs(-1);
 	  float _lio_1 = - deviceProperties->dt;
           
           float _exp_term = (_lio_1 / deviceProperties->tau);
