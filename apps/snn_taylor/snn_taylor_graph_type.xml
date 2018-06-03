@@ -1,12 +1,18 @@
 <?xml version="1.0"?>
 <Graphs xmlns="https://poets-project.org/schemas/virtual-graph-schema-v2">
   <GraphType id="snn_taylor">
-
     <Properties>
     </Properties>
 
     <SharedCode><![CDATA[
-		    ]]></SharedCode>
+        float exp(float exponent)
+        {   //4th order taylor series approximation
+    	    float exp2 = exponent*exponent;
+            float exp3 = exp2*exponent;
+            float exp4 = exp3*exponent;
+            return (1.0 + exponent + (exp2/2.0) + (exp3/6.0) + (exp4/24.0)); 
+        }
+        ]]></SharedCode>
 
     <MessageTypes>
       <MessageType id="__init__">
@@ -103,9 +109,8 @@
 	  float _lio_1 = - deviceProperties->dt;
           
           float _exp_term = (_lio_1 / deviceProperties->tau);
-          float _exp = (1 + _exp_term + ((_exp_term * _exp_term)/2.0));
 
-          float v_expr = ((deviceProperties->I + (deviceState->v * _exp)) - (deviceProperties->I * _exp));
+          float v_expr = (deviceProperties->I + (deviceState->v * exp(_exp_term)) - (deviceProperties->I * exp(_exp_term)));
           deviceState->v = v_expr;
 
           handler_log(3, "Tock: t=%f, v=%f", deviceState->t, deviceState->v);
