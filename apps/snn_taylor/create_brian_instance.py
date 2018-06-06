@@ -18,41 +18,55 @@ neuronSrc = []
 neuronDst = []
 N = 0
 endTime = 0
+connP = -1
 
 with open(scriptPath, 'r') as brianSrc:
     for line in brianSrc:
         lineArr = re.split('[\[\]\(\)=<>,*]', line.strip().replace(' ',''))
+        #print(lineArr)
         if (lineArr[0] == "N"):
             N = int(lineArr[1])
         elif (len(lineArr) > 1):
             if (lineArr[1] == "NeuronGroup"):
                 thr = float(lineArr[6].strip("'")) #todo process this
                 rst = float(lineArr[9].strip("'"))
+
+            elif (lineArr[0] == "tau"):
+                for i in range(0, N):
+                    tauArr.append(float(lineArr[1]))
+            elif (lineArr[0] == "I"):
+                for i in range(0, N):
+                    IArr.append(float(lineArr[1]))  
+
             elif (lineArr[0] == "G.tau"):
                 for i in range(0, N):
-                    tauArr.append(float(lineArr[2+i]))    
+                    tauArr.append(float(lineArr[2+i]))
             elif (lineArr[0] == "G.I"):
                 for i in range(0, N):
-                    IArr.append(float(lineArr[2+i]))    
+                    IArr.append(float(lineArr[2+i])) 
+
             elif (lineArr[1] == "Synapses"):
-                 weight = float(lineArr[6].strip("'"))
+                weight = float(lineArr[6].strip("'"))
             elif (lineArr[0] == "S.connect"):
-                ij = 0 
-                for i in range (2, len(lineArr)):
-                     if lineArr[i] is "j":
-                         ij = 1
-                     elif lineArr[i] is not '':
-                         if not ij:
-                             neuronSrc.append(int(lineArr[i]))
-                         else:
-                             neuronDst.append(int(lineArr[i]))
+                if (lineArr[1] == "condition"):
+                    connP = float(lineArr[5])
+                else:
+                    ij = 0 
+                    for i in range (2, len(lineArr)):
+                         if lineArr[i] is "j":
+                             ij = 1
+                         elif lineArr[i] is not '':
+                             if not ij:
+                                 neuronSrc.append(int(lineArr[i]))
+                             else:
+                                 neuronDst.append(int(lineArr[i]))
             elif (lineArr[0] == "run"):
                 endTime = float(lineArr[1])
                 if lineArr[2] == "s":
                     endTime = endTime * 1000
                     
 
-'''       
+'''     
 print("N = ",N)
 print("Tau =",tauArr)
 print("Thr =",thr)
@@ -97,9 +111,17 @@ for i in range(N):
 #ei=EdgeInstance(res, nodes[1], "input", nodes[0], "fire", {"weight":weight} )
 #res.add_edge_instance(ei)
 
-for src in neuronSrc:
-    for dst in neuronDst:
-        ei=EdgeInstance(res, nodes[dst], "input", nodes[src], "fire", {"weight":weight} )
-        res.add_edge_instance(ei)
+if connP == -1:
+    for src in neuronSrc:
+        for dst in neuronDst:
+            ei=EdgeInstance(res, nodes[dst], "input", nodes[src], "fire", {"weight":weight} )
+            res.add_edge_instance(ei)
+elif (connP > 0.0):
+    for i in range(N):
+        for j in range(N):
+            x = random.uniform(0, 1)
+            if (i != j) and (x <= connP):
+                ei=EdgeInstance(res, nodes[j], "input", nodes[i], "fire", {"weight":weight} )
+                res.add_edge_instance(ei)
 
 save_graph(res,sys.stdout)
