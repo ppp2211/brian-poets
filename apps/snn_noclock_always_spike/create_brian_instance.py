@@ -47,34 +47,21 @@ with open(scriptPath, 'r') as brianSrc:
                          else:
                              neuronDst.append(int(lineArr[i]))
             elif (lineArr[0] == "run"):
-                endTime = float(lineArr[1])
+                endTime = lineArr[1]
                 if lineArr[2] == "s":
                     endTime = endTime * 1000
                     
 
-'''       
-print("N = ",N)
-print("Tau =",tauArr)
-print("Thr =",thr)
-print("Res =",rst)
-print("I =",IArr)
-print("Src =",neuronSrc,"Dest =",neuronDst)
-'''
 appBase=os.path.dirname(os.path.realpath(__file__))
-src=appBase+"/snn_taylor_graph_type.xml"
+src=appBase+"/snn_noclock_always_spike_graph_type.xml"
 (graphTypes,graphInstances)=load_graph_types_and_instances(src,src)
 
-graphType=graphTypes["snn_taylor"]
+graphType=graphTypes["snn_noclock_always_spike"]
 neuronType=graphType.device_types["neuron"]
-clockType=graphType.device_types["clock"]
-
-instName="snn_brian_taylor"
+instName="snn_noclock_always_spike"
 
 properties={}
 res=GraphInstance(instName, graphType, properties)
-
-clock=DeviceInstance(res, "clock", clockType, {"neuronCount":N})
-res.add_device_instance(clock)
 
 dt = 0.125
 
@@ -82,8 +69,6 @@ nodes=[None]*N
 for i in range(N):
     I = IArr[i] 
     tau = tauArr[i]
-#        thr = 1.0 
-#        rst = 0.0
     props={
         "I":I, "tau":tau, "thr":thr, "rst":rst, "dt":dt, "endTime":endTime
     }
@@ -92,10 +77,7 @@ for i in range(N):
 
     res.add_edge_instance(EdgeInstance(res,nodes[i],"tick",clock,"tick",None))
     res.add_edge_instance(EdgeInstance(res,clock,"tock",nodes[i],"tock",None))
-
-    #single synapse between neuron 0 and 1 with weight v+=0.2    
-#ei=EdgeInstance(res, nodes[1], "input", nodes[0], "fire", {"weight":weight} )
-#res.add_edge_instance(ei)
+ 
 
 for src in neuronSrc:
     for dst in neuronDst:
