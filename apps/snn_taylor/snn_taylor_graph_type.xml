@@ -23,6 +23,7 @@
             
             return f;
         }
+
         ]]></SharedCode>
 
     <MessageTypes>
@@ -82,6 +83,7 @@
 		<Scalar name="rst" type="float" />
 		<Scalar name="dt" type="float" />
                 <Scalar name="v_init" type="float" />
+                <Scalar name="endTime" type="float" />
         </Properties>
 
         <State>
@@ -116,6 +118,9 @@
         <OutputPin name="tock" messageTypeId="tick">
           <OnSend><![CDATA[
           assert(!deviceState->waitTick);
+          if (deviceState->t >= deviceProperties->endTime){
+              handler_exit(0);
+          }
           float test = fabs(-1);
 	  float _lio_1 = - deviceProperties->dt;
           

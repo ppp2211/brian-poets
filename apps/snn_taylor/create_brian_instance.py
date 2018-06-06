@@ -17,10 +17,11 @@ IArr = []
 neuronSrc = []
 neuronDst = []
 N = 0
+endTime = 0
 
 with open(scriptPath, 'r') as brianSrc:
     for line in brianSrc:
-        lineArr = re.split('[\[\]\(\)=<>,]', line.strip().replace(' ',''))
+        lineArr = re.split('[\[\]\(\)=<>,*]', line.strip().replace(' ',''))
         if (lineArr[0] == "N"):
             N = int(lineArr[1])
         elif (len(lineArr) > 1):
@@ -45,6 +46,12 @@ with open(scriptPath, 'r') as brianSrc:
                              neuronSrc.append(int(lineArr[i]))
                          else:
                              neuronDst.append(int(lineArr[i]))
+            elif (lineArr[0] == "run"):
+                endTime = lineArr[1]
+                if lineArr[2] == "s":
+                    endTime = endTime * 1000
+                    
+
 '''       
 print("N = ",N)
 print("Tau =",tauArr)
@@ -78,7 +85,7 @@ for i in range(N):
 #        thr = 1.0 
 #        rst = 0.0
     props={
-        "I":I, "tau":tau, "thr":thr, "rst":rst, "dt":dt
+        "I":I, "tau":tau, "thr":thr, "rst":rst, "dt":dt, "endTime":endTime
     }
     nodes[i]=DeviceInstance(res, "n_{}".format(i), neuronType, props)
     res.add_device_instance(nodes[i])
