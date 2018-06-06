@@ -15,6 +15,7 @@ with open(sys.argv[3], 'r') as brianLog:
 	for line in brianLog:
 		if "const double _v" in line:
 			eq += purge(line)
+			eq += "deviceState->v = _v;\n"
 			break
 		elif "_lio_1" in line:
 			eq += purge(line)

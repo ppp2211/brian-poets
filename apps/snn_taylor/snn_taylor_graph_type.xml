@@ -122,9 +122,9 @@
               handler_exit(0);
           }
 
-          //##INSERT_EQUATIONS_HERE##
+          float &v = deviceState->v;
 
-          deviceState->v = v_expr;
+          //##INSERT_EQUATIONS_HERE##
 
           handler_log(3, "Tock: t=%f, v=%f", deviceState->t, deviceState->v);
           deviceState->t += deviceProperties->dt;
