@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# $1 - type of graph (always_spike, sparse_spike, noclock_always_spike)
+# $2 - name of brian source file without extension
+
+make providers/$1.graph.so 
+python3 apps/$1/create_brian_instance.py brian/$2.py > $1_$2.tmp
+#python3 brian/$2.py 2&> $2.out
+python3 tools/replace_eq.py $1_$2.tmp $1_$2.xml brian/$2.out
+rm $1_$2.tmp
+pts-xmlc $1_$2.xml
+pts-serve --headless true
