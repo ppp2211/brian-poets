@@ -6,9 +6,26 @@
     </Properties>
 
     <SharedCode><![CDATA[
-	    #include <cmath>
-	
-		    ]]></SharedCode>
+        //reinventing some wheels...
+
+        float exp(float exponent)
+        {   //4th order taylor series approximation
+          float exp2 = exponent*exponent;
+            float exp3 = exp2*exponent;
+            float exp4 = exp3*exponent;
+            return (1.0 + exponent + (exp2/2.0) + (exp3/6.0) + (exp4/24.0)); 
+        }
+
+        float fabs(float input)
+        {   
+            float f = input;
+            int *v = (int *)(&f);
+            *v = *v & 0x7FFFFFFF;
+            
+            return f;
+        }
+
+        ]]></SharedCode>
 
     <MessageTypes>
       <MessageType id="__init__">
@@ -18,7 +35,7 @@
       <MessageType id="spike">
         <Message>
            <Scalar type="int8_t" name="fired" />
-           <Scalar type="float" name="time" />
+           <Scalar type="float" name="timestamp" />
        </Message>
     </MessageType>
 
@@ -60,6 +77,7 @@
 		<Scalar name="rst" type="float" />
 		<Scalar name="dt" type="float" />
                 <Scalar name="v_init" type="float" />
+                <Scalar name="endTime" type="float" />
         </Properties>
 
         <State>
@@ -71,9 +89,8 @@
         <InputPin name="__init__" messageTypeId="__init__">
           <OnReceive><![CDATA[
           deviceState->v=deviceProperties->v_init;
-	  deviceState->t=0;
-
-          handler_log(3, "INIT: t=%f, v=%f", deviceState->t, deviceState->v);
+    deviceState->t=0.0;
+          handler_log(1, "INIT v=%f v_init=%f", deviceState->v, deviceProperties->v_init);
           ]]>
           </OnReceive>
         </InputPin>
@@ -87,23 +104,26 @@
 
         <OutputPin name="fire" messageTypeId="spike">
           <OnSend><![CDATA[
-	  float &v=deviceState->v;
           float &t=deviceState->t;
-  float _lio_1 = - deviceProperties->dt;
-	  float v_expr = (deviceProperties->I + (v * exp(_lio_1 / deviceProperties->tau))) - (deviceProperties->I * exp(_lio_1 / deviceProperties->tau));
 
-          v = v_expr;
+          if (deviceState->t >= deviceProperties->endTime){
+              handler_exit(0);
+          }
+
+          float &v = deviceState->v;
+
+          //##INSERT_EQUATIONS_HERE##
 
           t += deviceProperties->dt;
           
-          handler_log(3, "Fire: t=%f, v=%f", deviceState->t, deviceState->v);
-          message->time = t;
+          message->timestamp = t;
           if(deviceState->v >= deviceProperties->thr){ 
               message->fired = true;          
               deviceState->v=deviceProperties->rst;
-              handler_log(1, "FIRE!");
+              handler_log(1, "FIRE! t=%f", deviceState->t);
           } else {
               message->fired = false;
+              handler_log(3, "Fire: t=%f, v=%f", deviceState->t, deviceState->v);
           }
           ]]></OnSend>
         </OutputPin>
@@ -117,7 +137,7 @@
           if(message->fired){
               deviceState->v += edgeProperties->weight;
           }
-          handler_log(3, "Incoming: t_sent=%f, t_recv=%f", message->time, deviceState->t);
+          handler_log(3, "Spike recv, t_recv=%f, t_sent=%f, v=%f", deviceState->t, message->timestamp, deviceState->v);
           ]]></OnReceive>
         </InputPin>
 

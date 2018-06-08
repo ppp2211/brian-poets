@@ -22,32 +22,45 @@ endTime = 0
 with open(scriptPath, 'r') as brianSrc:
     for line in brianSrc:
         lineArr = re.split('[\[\]\(\)=<>,*]', line.strip().replace(' ',''))
+        #print(lineArr)
         if (lineArr[0] == "N"):
             N = int(lineArr[1])
         elif (len(lineArr) > 1):
             if (lineArr[1] == "NeuronGroup"):
                 thr = float(lineArr[6].strip("'")) #todo process this
                 rst = float(lineArr[9].strip("'"))
+
+            elif (lineArr[0] == "tau"):
+                for i in range(0, N):
+                    tauArr.append(float(lineArr[1]))
+            elif (lineArr[0] == "I"):
+                for i in range(0, N):
+                    IArr.append(float(lineArr[1]))  
+
             elif (lineArr[0] == "G.tau"):
                 for i in range(0, N):
-                    tauArr.append(float(lineArr[2+i]))    
+                    tauArr.append(float(lineArr[2+i]))
             elif (lineArr[0] == "G.I"):
                 for i in range(0, N):
-                    IArr.append(float(lineArr[2+i]))    
+                    IArr.append(float(lineArr[2+i])) 
+
             elif (lineArr[1] == "Synapses"):
-                 weight = float(lineArr[6].strip("'"))
+                weight = float(lineArr[6].strip("'"))
             elif (lineArr[0] == "S.connect"):
-                ij = 0 
-                for i in range (2, len(lineArr)):
-                     if lineArr[i] is "j":
-                         ij = 1
-                     elif lineArr[i] is not '':
-                         if not ij:
-                             neuronSrc.append(int(lineArr[i]))
-                         else:
-                             neuronDst.append(int(lineArr[i]))
+                if (lineArr[1] == "condition"):
+                    connP = float(lineArr[5])
+                else:
+                    ij = 0 
+                    for i in range (2, len(lineArr)):
+                         if lineArr[i] is "j":
+                             ij = 1
+                         elif lineArr[i] is not '':
+                             if not ij:
+                                 neuronSrc.append(int(lineArr[i]))
+                             else:
+                                 neuronDst.append(int(lineArr[i]))
             elif (lineArr[0] == "run"):
-                endTime = lineArr[1]
+                endTime = float(lineArr[1])
                 if lineArr[2] == "s":
                     endTime = endTime * 1000
                     
