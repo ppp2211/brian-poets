@@ -95,10 +95,19 @@ for i in range(N):
     res.add_edge_instance(EdgeInstance(res,nodes[i],"tick",clock,"tick",None))
     res.add_edge_instance(EdgeInstance(res,clock,"tock",nodes[i],"tock",None))
 
-for src in neuronSrc:
-    for dst in neuronDst:
-        ei=EdgeInstance(res, nodes[dst], "input", nodes[src], "fire", {"weight":weight} )
-        res.add_edge_instance(ei)
+if connP == -1:
+    for src in neuronSrc:
+        for dst in neuronDst:
+            ei=EdgeInstance(res, nodes[dst], "input", nodes[src], "fire", {"weight":weight} )
+            res.add_edge_instance(ei)
+elif (connP > 0.0):
+    for i in range(N):
+        for j in range(N):
+            x = random.uniform(0, 1)
+            if (i != j) and (x <= connP):
+                ei=EdgeInstance(res, nodes[j], "input", nodes[i], "fire", {"weight":weight} )
+                res.add_edge_instance(ei)
+
 
 
 save_graph(res,sys.stdout)
