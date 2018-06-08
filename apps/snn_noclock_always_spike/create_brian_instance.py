@@ -18,6 +18,7 @@ neuronSrc = []
 neuronDst = []
 N = 0
 endTime = 0
+connP = -1
 
 with open(scriptPath, 'r') as brianSrc:
     for line in brianSrc:
