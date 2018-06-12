@@ -1,9 +1,0 @@
-#!/bin/bash
-
-# Created to avoid makefile issues with "
-if [[ $# -eq 0 ]] ; then
-    echo 'No arguments'
-    exit 1
-fi
-
-socat "UNIX-LISTEN:$1" EXEC:"ssh -C $2 socat STDIO UNIX-CONNECT\:$3" &
