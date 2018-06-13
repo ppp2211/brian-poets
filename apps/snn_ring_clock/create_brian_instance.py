@@ -71,15 +71,11 @@ src=appBase+"/snn_ring_clock_graph_type.xml"
 
 graphType=graphTypes["snn_ring_clock"]
 neuronType=graphType.device_types["neuron"]
-clockType=graphType.device_types["clock"]
 
 instName="snn_ring_clock"
 
 properties={}
 res=GraphInstance(instName, graphType, properties)
-
-clock=DeviceInstance(res, "clock", clockType, {"neuronCount":N})
-res.add_device_instance(clock)
 
 dt = 0.125
 
@@ -88,14 +84,15 @@ for i in range(N):
     I = IArr[i] 
     tau = tauArr[i]
     props={
-        "I":I, "tau":tau, "thr":thr, "rst":rst, "dt":dt, "endTime":endTime
+        "I":I, "tau":tau, "thr":thr, "rst":rst, "dt":dt, "endTime":endTime, "index":i
     }
     nodes[i]=DeviceInstance(res, "n_{}".format(i), neuronType, props)
     res.add_device_instance(nodes[i])
-    if(i<N-1):
-        res.add_edge_instance(EdgeInstance(res,nodes[i],"tick",nodes[i+1],"tick",None))
-    else:
-        res.add_edge_instance(EdgeInstance(res,nodes[i],"tick",nodes[0],"tick",None))
+    if(i > 0):
+        res.add_edge_instance(EdgeInstance(res,nodes[i],"tick",nodes[i-1],"tock",None))
+    if(i == N-1):
+        res.add_edge_instance(EdgeInstance(res,nodes[0],"tick",nodes[N-1],"tock",None))
+
 if connP == -1:
     for src in neuronSrc:
         for dst in neuronDst:

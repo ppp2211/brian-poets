@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <Graphs xmlns="https://poets-project.org/schemas/virtual-graph-schema-v2">
-  <GraphType id="snn_sparse_spike">
+  <GraphType id="snn_ring_clock">
 
     <Properties>
     </Properties>
@@ -34,6 +34,13 @@
 
       <MessageType id="spike">
         <Message>
+          <Scalar type="float" name="timestamp" />
+	</Message>
+      </MessageType>
+
+      <MessageType id="log">
+        <Message>
+          <Scalar type="uint32_t" name="index" />
           <Scalar type="float" name="timestamp" />
 	</Message>
       </MessageType>

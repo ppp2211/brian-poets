@@ -88,7 +88,7 @@ for i in range(N):
     I = IArr[i] 
     tau = tauArr[i]
     props={
-        "I":I, "tau":tau, "thr":thr, "rst":rst, "dt":dt, "endTime":endTime
+        "I":I, "tau":tau, "thr":thr, "rst":rst, "dt":dt, "endTime":endTime, "index":i
     }
     nodes[i]=DeviceInstance(res, "n_{}".format(i), neuronType, props)
     res.add_device_instance(nodes[i])

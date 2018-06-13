@@ -39,6 +39,13 @@
        </Message>
     </MessageType>
 
+      <MessageType id="log">
+        <Message>
+          <Scalar type="uint32_t" name="index" />
+          <Scalar type="float" name="timestamp" />
+	</Message>
+      </MessageType>
+
       <MessageType id="tick">
       </MessageType>
     </MessageTypes>
@@ -78,29 +85,29 @@
         ]]></Documentation>
 
         <Properties>
-		<Scalar name="I" type="float" />
-    <Scalar name="tau" type="float" />
-    <Scalar name="thr" type="float" />
-    <Scalar name="rst" type="float" />
-    <Scalar name="dt" type="float" />
-                <Scalar name="v_init" type="float" />
-                <Scalar name="endTime" type="float" />
-        </Properties>
+	  <Scalar name="I" type="float" />
+	  <Scalar name="tau" type="float" />
+	  <Scalar name="thr" type="float" />
+	  <Scalar name="rst" type="float" />
+	  <Scalar name="dt" type="float" />
+          <Scalar name="v_init" type="float" />
+          <Scalar name="endTime" type="float" />
+	  <Scalar name="index" type="uint32_t" />
+	</Properties>
 
         <State>
           <Scalar name="v" type="float" />
           <Scalar name="t" type="float" />
           <Scalar name="waitTick" type="int8_t" />
-          <Scalar name="sentSpike" type="int8_t" />
+          <Scalar name="readyToLog" type="int8_t" />
         </State>
 
 
         <InputPin name="__init__" messageTypeId="__init__">
           <OnReceive><![CDATA[
           deviceState->v=deviceProperties->v_init;
-    deviceState->t=0.0;
+	  deviceState->t=0.0;
           deviceState->waitTick=false;
-          deviceState->sentSpike=true; //don't fire in round 1
           handler_log(1, "INIT v=%f v_init=%f", deviceState->v, deviceProperties->v_init);
           ]]>
           </OnReceive>
@@ -108,8 +115,10 @@
 
         <ReadyToSend><![CDATA[
         *readyToSend=0;
-	if(!deviceState->waitTick && (deviceState->v >= deviceProperties->thr) && !deviceState->sentSpike ){
+	if(!deviceState->waitTick && (deviceState->v >= deviceProperties->thr)){
             *readyToSend |= OUTPUT_FLAG_fire;
+        }else if(deviceState->readyToLog){
+            *readyToSend |= OUTPUT_FLAG_log;
         }else if(!deviceState->waitTick){
             *readyToSend |= OUTPUT_FLAG_tock;
         }
@@ -118,6 +127,15 @@
         <OutputPin name="tock" messageTypeId="tick">
           <OnSend><![CDATA[
           assert(!deviceState->waitTick);
+          deviceState->waitTick=true;
+          handler_log(3, "Tock: t=%f, v=%f", deviceState->t, deviceState->v);
+
+          ]]></OnSend>
+        </OutputPin>
+
+        <InputPin name="tick" messageTypeId="tick">
+          <OnReceive><![CDATA[
+          assert(deviceState->waitTick);
 
           if (deviceState->t >= deviceProperties->endTime){
               handler_exit(0);
@@ -128,33 +146,25 @@
           //##INSERT_EQUATIONS_HERE##
 
           deviceState->t += deviceProperties->dt;
-          deviceState->sentSpike=false;
-          deviceState->waitTick=true;
-          handler_log(3, "Tock: t=%f, v=%f", deviceState->t, deviceState->v);
-
-          ]]></OnSend>
-        </OutputPin>
-
-        <InputPin name="tick" messageTypeId="tick">
-          <OnReceive><![CDATA[
-          handler_log(3, "sentSpike=%d, waitTick=%d", deviceState->sentSpike, deviceState->waitTick);
-
-          assert(deviceState->waitTick);
-          assert(!deviceState->sentSpike);
           deviceState->waitTick=false;
 	  ]]></OnReceive>
         </InputPin>
 
         <OutputPin name="fire" messageTypeId="spike">
           <OnSend><![CDATA[
+          assert(!deviceState->waitTick);
           message->timestamp = deviceState->t;
-          
           deviceState->v=deviceProperties->rst;
           handler_log(1, "FIRE! t=%f", deviceState->t);
-          
-          assert(!deviceState->waitTick);
-          assert(!deviceState->sentSpike);
-          deviceState->sentSpike=true;
+          deviceState->readyToLog=true;
+          ]]></OnSend>
+        </OutputPin>
+
+        <OutputPin name="log" messageTypeId="log" application="true">
+          <OnSend><![CDATA[
+          message->timestamp = deviceState->t;
+	  message->index = deviceProperties->index;
+          deviceState->readyToLog=false;
           ]]></OnSend>
         </OutputPin>
 
@@ -165,8 +175,7 @@
 
           <OnReceive><![CDATA[
           deviceState->v += edgeProperties->weight;
-
-          handler_log(1, "Spike recv, t_recv=%f, t_sent=%f, v=%f", deviceState->t, message->timestamp, deviceState->v);
+          handler_log(3, "Spike recv, t_recv=%f, t_sent=%f, v=%f", deviceState->t, message->timestamp, deviceState->v);
           ]]></OnReceive>
         </InputPin>
 
