@@ -1,0 +1,147 @@
+<?xml version="1.0"?>
+<Graphs xmlns="https://poets-project.org/schemas/virtual-graph-schema-v2">
+  <GraphType id="snn_sparse_spike">
+
+    <Properties>
+    </Properties>
+
+    <SharedCode><![CDATA[
+        //reinventing some wheels...
+
+        float exp(float exponent)
+        {   //4th order taylor series approximation
+          float exp2 = exponent*exponent;
+            float exp3 = exp2*exponent;
+            float exp4 = exp3*exponent;
+            return (1.0 + exponent + (exp2/2.0) + (exp3/6.0) + (exp4/24.0)); 
+        }
+
+        float fabs(float input)
+        {   
+            float f = input;
+            int *v = (int *)(&f);
+            *v = *v & 0x7FFFFFFF;
+            
+            return f;
+        }
+
+        ]]></SharedCode>
+
+    <MessageTypes>
+      <MessageType id="__init__">
+        <!-- This doesn't have any properties -->
+      </MessageType>
+
+      <MessageType id="spike">
+        <Message>
+          <Scalar type="float" name="timestamp" />
+	</Message>
+      </MessageType>
+
+      <MessageType id="tick">
+      </MessageType>
+    </MessageTypes>
+
+    <DeviceTypes>
+      <DeviceType id="neuron">
+
+        <Documentation><![CDATA[
+        ]]></Documentation>
+
+        <Properties>
+	  <Scalar name="I" type="float" />
+	  <Scalar name="tau" type="float" />
+	  <Scalar name="thr" type="float" />
+	  <Scalar name="rst" type="float" />
+	  <Scalar name="dt" type="float" />
+          <Scalar name="v_init" type="float" />
+          <Scalar name="endTime" type="float" />
+	  <Scalar name="index" type="uint32_t" />
+	</Properties>
+
+        <State>
+          <Scalar name="v" type="float" />
+          <Scalar name="t" type="float" />
+          <Scalar name="waitTick" type="int8_t" />
+	  <Scalar name="readyToLog" type="int8_t" />
+	</State>
+
+
+        <InputPin name="__init__" messageTypeId="__init__">
+          <OnReceive><![CDATA[
+          deviceState->v=deviceProperties->v_init;
+	  deviceState->t=0.0;
+          deviceState->waitTick=false;
+          handler_log(1, "INIT v=%f v_init=%f", deviceState->v, deviceProperties->v_init);
+          ]]>
+          </OnReceive>
+        </InputPin>
+
+        <ReadyToSend><![CDATA[
+        *readyToSend=0;
+	if(!deviceState->waitTick && (deviceState->v >= deviceProperties->thr)){
+	*readyToSend |= OUTPUT_FLAG_fire;
+	}else if(deviceState->readyToLog){
+	*readyToSend |= OUTPUT_FLAG_log;
+	}else if(!deviceState->waitTick){
+        *readyToSend |= OUTPUT_FLAG_tock;
+        }
+        ]]></ReadyToSend>
+
+        <OutputPin name="tock" messageTypeId="tick">
+          <OnSend><![CDATA[
+          assert(!deviceState->waitTick);
+          deviceState->waitTick=true;
+          handler_log(3, "Tock: t=%f, v=%f", deviceState->t, deviceState->v);
+          ]]></OnSend>
+        </OutputPin>
+
+        <InputPin name="tick" messageTypeId="tick">
+          <OnReceive><![CDATA[
+          assert(deviceState->waitTick);
+          deviceState->t += deviceProperties->dt;
+          if (deviceState->t >= deviceProperties->endTime){
+              handler_exit(0);
+          }
+
+          float &v = deviceState->v;
+
+          //##INSERT_EQUATIONS_HERE##
+
+          deviceState->waitTick=false;
+	  ]]></OnReceive>
+        </InputPin>
+
+        <OutputPin name="fire" messageTypeId="spike">
+          <OnSend><![CDATA[
+          message->timestamp = deviceState->t;
+          
+          deviceState->v=deviceProperties->rst;
+          handler_log(1, "FIRE! t=%f", deviceState->t);
+          
+          assert(!deviceState->waitTick);
+          deviceState->readyToLog=true;
+          ]]></OnSend>
+        </OutputPin>
+
+        <OutputPin name="log" messageTypeId="log" application="true">
+          <OnSend><![CDATA[
+          message->timestamp = deviceState->t;
+	  message->index = deviceProperties->index;
+          deviceState->readyToLog=false;
+          ]]></OnSend>
+        </OutputPin>
+
+        <InputPin name="input" messageTypeId="spike">
+            <Properties>
+                <Scalar type="float" name="weight" />
+            </Properties>
+            <OnReceive><![CDATA[
+            deviceState->v += edgeProperties->weight;
+            handler_log(2, "Spike recv, t_recv=%f, t_sent=%f, v=%f", deviceState->t, message->timestamp, deviceState->v);
+            ]]></OnReceive>
+        </InputPin>
+      </DeviceType>
+    </DeviceTypes>
+  </GraphType>
+</Graphs>
