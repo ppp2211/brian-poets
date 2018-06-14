@@ -16,7 +16,7 @@
 #include <sys/types.h>
 #include "hostMsg.hpp"
 #include "PtsServe.hpp"
-
+#include "fstream"
 /*
      external 
   --------------------------------------------------
@@ -76,14 +76,18 @@ int main(int ac, const char *av[])
   // create a vector of all the application input pins in the POETS XML
   std::vector<std::string> app_in_pins = pts_server.getAppInPins();
   
+  std::fstream outfile;
   while(1) {
     // try and get data from the pipe
     pts_to_extern_t inMsg;
     if(pts_server.tryRecv(&inMsg)) {
+      outfile.open("out.log", std::fstream::app);
       int p= inMsg.payload[1];
       float *pf = (float *)(&p);
       double pd = double(*pf);
       printf("%u, %f\n", inMsg.payload[0], pd);
+      outfile << inMsg.payload[0] << ", " << pd << "\n";
+      outfile.close();
       }
     }  
   return 0;
