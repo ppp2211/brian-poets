@@ -19,6 +19,7 @@ neuronDst = []
 N = 0
 endTime = 0
 connP = -1
+v_init_str = "v_init=0"
 
 with open(scriptPath, 'r') as brianSrc:
     for line in brianSrc:
@@ -65,6 +66,9 @@ with open(scriptPath, 'r') as brianSrc:
                 if lineArr[2] == "s":
                     endTime = endTime * 1000
 
+            elif (lineArr[0] == "G.v"):
+                v_init_str = "v_init=" + line.split('=')[1].replace("'","")
+                
 appBase=os.path.dirname(os.path.realpath(__file__))
 src=appBase+"/snn_ring_clock_graph_type.xml"
 (graphTypes,graphInstances)=load_graph_types_and_instances(src,src)
@@ -83,8 +87,9 @@ nodes=[None]*N
 for i in range(N):
     I = IArr[i] 
     tau = tauArr[i]
+    exec(v_init_str)
     props={
-        "I":I, "tau":tau, "thr":thr, "rst":rst, "dt":dt, "endTime":endTime, "index":i
+        "I":I, "tau":tau, "thr":thr, "rst":rst, "dt":dt, "endTime":endTime, "index":i, "v_init":v_init
     }
     nodes[i]=DeviceInstance(res, "n_{}".format(i), neuronType, props)
     res.add_device_instance(nodes[i])
