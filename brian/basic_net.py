@@ -1,9 +1,9 @@
-#!/bin/python3
+#!/usr/bin/python3
 from brian2 import *
 import matplotlib.pyplot as plt
 import time
-BrianLogger.log_level_diagnostic()
-set_device('cpp_standalone')
+#BrianLogger.log_level_diagnostic()
+#set_device('cpp_standalone')
 
 eqs = '''
 dv/dt = (I-v)/tau : 1
@@ -19,11 +19,13 @@ G.tau = [10, 100]*ms
 S = Synapses(G, G, on_pre='v_post += 0.2')
 S.connect(i=0, j=1)
 
-M = StateMonitor(G, 'v', record=True)
+#M = StateMonitor(G, 'v', record=True)
+SpM = SpikeMonitor(G)
 
-#s=time.time()
+s=time.time()
 run(200*ms)
-#e=time.time()
+e=time.time()
+print(e-s)
 '''
 plt.plot(M.t/ms, M.v[0], label='Neuron 0')
 plt.plot(M.t/ms, M.v[1], label='Neuron 1')
@@ -32,3 +34,7 @@ plt.ylabel('v')
 plt.legend();
 plt.show()
 '''
+plt.plot(SpM.t/ms, SpM.i, '.k')
+plt.xlabel('Time (ms)')
+plt.ylabel('Neuron index')
+plt.show()
