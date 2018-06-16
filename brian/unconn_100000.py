@@ -2,8 +2,10 @@
 from brian2 import *
 import matplotlib.pyplot as plt
 import time
-#BrianLogger.log_level_diagnostic()
-#set_device('cpp_standalone')
+
+BrianLogger.log_level_diagnostic()
+set_device('cpp_standalone')
+
 tau = 10*ms
 I = 2
 N = 100000

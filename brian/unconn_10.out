@@ -1,1 +1,4337 @@
-1.3527984619140625
+/home/pp3114/.local/lib/python3.5/site-packages/brian2/core/variables.py:174: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
+  return np.issubdtype(np.bool, self.dtype)
+DIAGNOSTIC Created object of class Clock with name defaultclock [brian2.core.names]
+WARNING    /home/pp3114/.local/lib/python3.5/site-packages/brian2/core/variables.py:174: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
+  return np.issubdtype(np.bool, self.dtype)
+ [py.warnings]
+DIAGNOSTIC Created clock defaultclock with dt=0.0001 [brian2.core.clocks]
+DIAGNOSTIC Created object of class NeuronGroup with name neurongroup [brian2.core.names]
+DIAGNOSTIC Created BrianObject with name neurongroup, clock=Clock(dt=100. * usecond, name='defaultclock'), when=start, order=0 [brian2.core.base]
+DIAGNOSTIC Creating NeuronGroup of size 10, equations dv/dt = (I-v)/tau : 1. [brian2.groups.neurongroup]
+WARNING    /home/pp3114/.local/lib/python3.5/site-packages/brian2/core/variables.py:174: FutureWarning: Conversion of the second argument of issubdtype from `bool` to `np.generic` is deprecated. In future, it will be treated as `np.bool_ == np.dtype(bool).type`.
+  return np.issubdtype(np.bool, self.dtype)
+ [py.warnings]
+DIAGNOSTIC Created object of class Thresholder with name neurongroup_thresholder [brian2.core.names]
+DIAGNOSTIC Created BrianObject with name neurongroup_thresholder, clock=Clock(dt=100. * usecond, name='defaultclock'), when=thresholds, order=0 [brian2.core.base]
+DIAGNOSTIC Created object of class Resetter with name neurongroup_resetter [brian2.core.names]
+DIAGNOSTIC Created BrianObject with name neurongroup_resetter, clock=Clock(dt=100. * usecond, name='defaultclock'), when=resets, order=0 [brian2.core.base]
+DIAGNOSTIC Created object of class StateUpdater with name neurongroup_stateupdater [brian2.core.names]
+DIAGNOSTIC Created BrianObject with name neurongroup_stateupdater, clock=Clock(dt=100. * usecond, name='defaultclock'), when=groups, order=0 [brian2.core.base]
+DIAGNOSTIC Creating code object (group=neurongroup, template name=group_variable_set_conditional) for abstract code:
+    Key statement:
+        v = 1.0*i/N
+    Key condition:
+        _cond = True [brian2.codegen.codeobject]
+DIAGNOSTIC neurongroup_group_variable_set_conditional_codeobject abstract code:
+    Key statement:
+        v = 1.0*i/N
+    Key condition:
+        _cond = True [brian2.devices.device]
+DIAGNOSTIC neurongroup_group_variable_set_conditional_codeobject snippet (scalar):
+    Key statement:
+        const double _lio_statement_1 = 1.0 / N;
+    Key condition: [brian2.devices.device]
+DIAGNOSTIC neurongroup_group_variable_set_conditional_codeobject snippet (vector):
+    Key statement:
+        const int32_t i = _ptr_array_neurongroup_i[_idx];
+        double v;
+        v = _lio_statement_1 * i;
+        _ptr_array_neurongroup_v[_idx] = v;
+    Key condition:
+        const char _cond = true; [brian2.devices.device]
+DIAGNOSTIC neurongroup_group_variable_set_conditional_codeobject code:
+    h_file:
+        #ifndef _INCLUDED_neurongroup_group_variable_set_conditional_codeobject
+        #define _INCLUDED_neurongroup_group_variable_set_conditional_codeobject
+        #include "objects.h"
+        void _run_neurongroup_group_variable_set_conditional_codeobject();
+        #endif
+    cpp_file:
+        #include "code_objects/neurongroup_group_variable_set_conditional_codeobject.h"
+        #include "brianlib/common_math.h"
+        #include "brianlib/stdint_compat.h"
+        #include<cmath>
+        #include<iostream>
+        #include<fstream>
+        ////// SUPPORT CODE ///////
+        namespace {
+         inline int _brian_mod(int ux, int uy)
+         {
+             const int x = (int)ux;
+             const int y = (int)uy;
+             return ((x%y)+y)%y;
+         }
+         inline long _brian_mod(int ux, long uy)
+         {
+             const long x = (long)ux;
+             const long y = (long)uy;
+             return ((x%y)+y)%y;
+         }
+         inline long long _brian_mod(int ux, long long uy)
+         {
+             const long long x = (long long)ux;
+             const long long y = (long long)uy;
+             return ((x%y)+y)%y;
+         }
+         inline float _brian_mod(int ux, float uy)
+         {
+             const float x = (float)ux;
+             const float y = (float)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline double _brian_mod(int ux, double uy)
+         {
+             const double x = (double)ux;
+             const double y = (double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(int ux, long double uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long _brian_mod(long ux, int uy)
+         {
+             const long x = (long)ux;
+             const long y = (long)uy;
+             return ((x%y)+y)%y;
+         }
+         inline long _brian_mod(long ux, long uy)
+         {
+             const long x = (long)ux;
+             const long y = (long)uy;
+             return ((x%y)+y)%y;
+         }
+         inline long long _brian_mod(long ux, long long uy)
+         {
+             const long long x = (long long)ux;
+             const long long y = (long long)uy;
+             return ((x%y)+y)%y;
+         }
+         inline float _brian_mod(long ux, float uy)
+         {
+             const float x = (float)ux;
+             const float y = (float)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline double _brian_mod(long ux, double uy)
+         {
+             const double x = (double)ux;
+             const double y = (double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(long ux, long double uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long long _brian_mod(long long ux, int uy)
+         {
+             const long long x = (long long)ux;
+             const long long y = (long long)uy;
+             return ((x%y)+y)%y;
+         }
+         inline long long _brian_mod(long long ux, long uy)
+         {
+             const long long x = (long long)ux;
+             const long long y = (long long)uy;
+             return ((x%y)+y)%y;
+         }
+         inline long long _brian_mod(long long ux, long long uy)
+         {
+             const long long x = (long long)ux;
+             const long long y = (long long)uy;
+             return ((x%y)+y)%y;
+         }
+         inline float _brian_mod(long long ux, float uy)
+         {
+             const float x = (float)ux;
+             const float y = (float)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline double _brian_mod(long long ux, double uy)
+         {
+             const double x = (double)ux;
+             const double y = (double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(long long ux, long double uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline float _brian_mod(float ux, int uy)
+         {
+             const float x = (float)ux;
+             const float y = (float)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline float _brian_mod(float ux, long uy)
+         {
+             const float x = (float)ux;
+             const float y = (float)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline float _brian_mod(float ux, long long uy)
+         {
+             const float x = (float)ux;
+             const float y = (float)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline float _brian_mod(float ux, float uy)
+         {
+             const float x = (float)ux;
+             const float y = (float)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline double _brian_mod(float ux, double uy)
+         {
+             const double x = (double)ux;
+             const double y = (double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(float ux, long double uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline double _brian_mod(double ux, int uy)
+         {
+             const double x = (double)ux;
+             const double y = (double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline double _brian_mod(double ux, long uy)
+         {
+             const double x = (double)ux;
+             const double y = (double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline double _brian_mod(double ux, long long uy)
+         {
+             const double x = (double)ux;
+             const double y = (double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline double _brian_mod(double ux, float uy)
+         {
+             const double x = (double)ux;
+             const double y = (double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline double _brian_mod(double ux, double uy)
+         {
+             const double x = (double)ux;
+             const double y = (double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(double ux, long double uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(long double ux, int uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(long double ux, long uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(long double ux, long long uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(long double ux, float uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(long double ux, double uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(long double ux, long double uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         #ifdef _MSC_VER
+         #define _brian_pow(x, y) (pow((double)(x), (y)))
+         #else
+         #define _brian_pow(x, y) (pow((x), (y)))
+         #endif
+        }
+        ////// HASH DEFINES ///////
+        void _run_neurongroup_group_variable_set_conditional_codeobject()
+        {
+        	using namespace brian;
+        	///// CONSTANTS ///////////
+        	%CONSTANTS%
+        	///// POINTERS ////////////
+         int32_t* __restrict  _ptr_array_neurongroup_i = _array_neurongroup_i;
+         double* __restrict  _ptr_array_neurongroup_v = _array_neurongroup_v;
+        	//// MAIN CODE ////////////
+        	// scalar code
+        	const int _vectorisation_idx = -1;
+         const double _lio_statement_1 = 1.0 / N;
+        	const int _N = N;
+        	for(int _idx=0; _idx<_N; _idx++)
+        	{
+        	    // vector code
+        		const int _vectorisation_idx = _idx;
+          const char _cond = true;
+        		if (_cond)
+        		{
+                    const int32_t i = _ptr_array_neurongroup_i[_idx];
+                    double v;
+                    v = _lio_statement_1 * i;
+                    _ptr_array_neurongroup_v[_idx] = v;
+                }
+        	}
+        } [brian2.devices.device]
+DIAGNOSTIC Created object of class CPPStandaloneCodeObject with name neurongroup_group_variable_set_conditional_codeobject [brian2.core.names]
+DIAGNOSTIC Created object of class SpikeMonitor with name spikemonitor [brian2.core.names]
+DIAGNOSTIC Created BrianObject with name spikemonitor, clock=Clock(dt=100. * usecond, name='defaultclock'), when=thresholds, order=1 [brian2.core.base]
+DEBUG      Updated MagicNetwork to include 5 objects with names neurongroup_resetter, neurongroup_thresholder, neurongroup_stateupdater, spikemonitor, neurongroup [brian2.core.magic.magic_objects]
+DIAGNOSTIC Setting Clock defaultclock to t=<defaultclock.t: 0. * second>, dt=0.0001 [brian2.core.clocks]
+DEBUG      Preparing network magicnetwork with 5 objects: neurongroup, neurongroup_stateupdater, neurongroup_thresholder, spikemonitor, neurongroup_resetter [brian2.core.network.before_run]
+DEBUG      Group neurongroup: using numerical integration method exact (took 0.03s) [brian2.stateupdaters.base.method_choice]
+DIAGNOSTIC Creating code object (group=neurongroup, template name=stateupdate) for abstract code:
+    _v = I - I*exp(-dt/tau) + v*exp(-dt/tau)
+    v = _v [brian2.codegen.codeobject]
+DIAGNOSTIC neurongroup_stateupdater_codeobject abstract code:
+    _v = I - I*exp(-dt/tau) + v*exp(-dt/tau)
+    v = _v [brian2.devices.device]
+DIAGNOSTIC neurongroup_stateupdater_codeobject snippet (scalar):
+    const double dt = _ptr_array_defaultclock_dt[0];
+    const double _lio_1 = I - (I * exp((- dt) / tau));
+    const double _lio_2 = exp((- dt) / tau); [brian2.devices.device]
+DIAGNOSTIC neurongroup_stateupdater_codeobject snippet (vector):
+    double v = _ptr_array_neurongroup_v[_idx];
+    const double _v = _lio_1 + (_lio_2 * v);
+    v = _v;
+    _ptr_array_neurongroup_v[_idx] = v; [brian2.devices.device]
+DIAGNOSTIC neurongroup_stateupdater_codeobject code:
+    h_file:
+        #ifndef _INCLUDED_neurongroup_stateupdater_codeobject
+        #define _INCLUDED_neurongroup_stateupdater_codeobject
+        #include "objects.h"
+        void _run_neurongroup_stateupdater_codeobject();
+        #endif
+    cpp_file:
+        #include "code_objects/neurongroup_stateupdater_codeobject.h"
+        #include "brianlib/common_math.h"
+        #include "brianlib/stdint_compat.h"
+        #include<cmath>
+        #include<ctime>
+        #include<iostream>
+        #include<fstream>
+        ////// SUPPORT CODE ///////
+        namespace {
+         inline int _brian_mod(int ux, int uy)
+         {
+             const int x = (int)ux;
+             const int y = (int)uy;
+             return ((x%y)+y)%y;
+         }
+         inline long _brian_mod(int ux, long uy)
+         {
+             const long x = (long)ux;
+             const long y = (long)uy;
+             return ((x%y)+y)%y;
+         }
+         inline long long _brian_mod(int ux, long long uy)
+         {
+             const long long x = (long long)ux;
+             const long long y = (long long)uy;
+             return ((x%y)+y)%y;
+         }
+         inline float _brian_mod(int ux, float uy)
+         {
+             const float x = (float)ux;
+             const float y = (float)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline double _brian_mod(int ux, double uy)
+         {
+             const double x = (double)ux;
+             const double y = (double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(int ux, long double uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long _brian_mod(long ux, int uy)
+         {
+             const long x = (long)ux;
+             const long y = (long)uy;
+             return ((x%y)+y)%y;
+         }
+         inline long _brian_mod(long ux, long uy)
+         {
+             const long x = (long)ux;
+             const long y = (long)uy;
+             return ((x%y)+y)%y;
+         }
+         inline long long _brian_mod(long ux, long long uy)
+         {
+             const long long x = (long long)ux;
+             const long long y = (long long)uy;
+             return ((x%y)+y)%y;
+         }
+         inline float _brian_mod(long ux, float uy)
+         {
+             const float x = (float)ux;
+             const float y = (float)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline double _brian_mod(long ux, double uy)
+         {
+             const double x = (double)ux;
+             const double y = (double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(long ux, long double uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long long _brian_mod(long long ux, int uy)
+         {
+             const long long x = (long long)ux;
+             const long long y = (long long)uy;
+             return ((x%y)+y)%y;
+         }
+         inline long long _brian_mod(long long ux, long uy)
+         {
+             const long long x = (long long)ux;
+             const long long y = (long long)uy;
+             return ((x%y)+y)%y;
+         }
+         inline long long _brian_mod(long long ux, long long uy)
+         {
+             const long long x = (long long)ux;
+             const long long y = (long long)uy;
+             return ((x%y)+y)%y;
+         }
+         inline float _brian_mod(long long ux, float uy)
+         {
+             const float x = (float)ux;
+             const float y = (float)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline double _brian_mod(long long ux, double uy)
+         {
+             const double x = (double)ux;
+             const double y = (double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(long long ux, long double uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline float _brian_mod(float ux, int uy)
+         {
+             const float x = (float)ux;
+             const float y = (float)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline float _brian_mod(float ux, long uy)
+         {
+             const float x = (float)ux;
+             const float y = (float)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline float _brian_mod(float ux, long long uy)
+         {
+             const float x = (float)ux;
+             const float y = (float)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline float _brian_mod(float ux, float uy)
+         {
+             const float x = (float)ux;
+             const float y = (float)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline double _brian_mod(float ux, double uy)
+         {
+             const double x = (double)ux;
+             const double y = (double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(float ux, long double uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline double _brian_mod(double ux, int uy)
+         {
+             const double x = (double)ux;
+             const double y = (double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline double _brian_mod(double ux, long uy)
+         {
+             const double x = (double)ux;
+             const double y = (double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline double _brian_mod(double ux, long long uy)
+         {
+             const double x = (double)ux;
+             const double y = (double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline double _brian_mod(double ux, float uy)
+         {
+             const double x = (double)ux;
+             const double y = (double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline double _brian_mod(double ux, double uy)
+         {
+             const double x = (double)ux;
+             const double y = (double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(double ux, long double uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(long double ux, int uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(long double ux, long uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(long double ux, long long uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(long double ux, float uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(long double ux, double uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(long double ux, long double uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         #ifdef _MSC_VER
+         #define _brian_pow(x, y) (pow((double)(x), (y)))
+         #else
+         #define _brian_pow(x, y) (pow((x), (y)))
+         #endif
+        }
+        ////// HASH DEFINES ///////
+        void _run_neurongroup_stateupdater_codeobject()
+        {
+        	using namespace brian;
+            const std::clock_t _start_time = std::clock();
+        	///// CONSTANTS ///////////
+        	%CONSTANTS%
+        	///// POINTERS ////////////
+         double*   _ptr_array_defaultclock_dt = _array_defaultclock_dt;
+         double* __restrict  _ptr_array_neurongroup_v = _array_neurongroup_v;
+        	//// MAIN CODE ////////////
+        	// scalar code
+        	const int _vectorisation_idx = -1;
+         const double dt = _ptr_array_defaultclock_dt[0];
+         const double _lio_1 = I - (I * exp((- dt) / tau));
+         const double _lio_2 = exp((- dt) / tau);
+        	const int _N = N;
+        	for(int _idx=0; _idx<_N; _idx++)
+        	{
+        	    // vector code
+        		const int _vectorisation_idx = _idx;
+                double v = _ptr_array_neurongroup_v[_idx];
+                const double _v = _lio_1 + (_lio_2 * v);
+                v = _v;
+                _ptr_array_neurongroup_v[_idx] = v;
+        	}
+            const double _run_time = (double)(std::clock() -_start_time)/CLOCKS_PER_SEC;
+            neurongroup_stateupdater_codeobject_profiling_info += _run_time;
+        } [brian2.devices.device]
+DIAGNOSTIC Created object of class CPPStandaloneCodeObject with name neurongroup_stateupdater_codeobject [brian2.core.names]
+DIAGNOSTIC Creating code object (group=neurongroup, template name=threshold) for abstract code:
+    _cond = v>1 [brian2.codegen.codeobject]
+DIAGNOSTIC neurongroup_thresholder_codeobject abstract code:
+    _cond = v>1 [brian2.devices.device]
+DIAGNOSTIC neurongroup_thresholder_codeobject snippet (scalar):
+     [brian2.devices.device]
+DIAGNOSTIC neurongroup_thresholder_codeobject snippet (vector):
+    const double v = _ptr_array_neurongroup_v[_idx];
+    const char _cond = v > 1; [brian2.devices.device]
+DIAGNOSTIC neurongroup_thresholder_codeobject code:
+    h_file:
+        #ifndef _INCLUDED_neurongroup_thresholder_codeobject
+        #define _INCLUDED_neurongroup_thresholder_codeobject
+        #include "objects.h"
+        void _run_neurongroup_thresholder_codeobject();
+        #endif
+    cpp_file:
+        #include "code_objects/neurongroup_thresholder_codeobject.h"
+        #include "brianlib/common_math.h"
+        #include "brianlib/stdint_compat.h"
+        #include<cmath>
+        #include<ctime>
+        #include<iostream>
+        #include<fstream>
+        ////// SUPPORT CODE ///////
+        namespace {
+         inline int _brian_mod(int ux, int uy)
+         {
+             const int x = (int)ux;
+             const int y = (int)uy;
+             return ((x%y)+y)%y;
+         }
+         inline long _brian_mod(int ux, long uy)
+         {
+             const long x = (long)ux;
+             const long y = (long)uy;
+             return ((x%y)+y)%y;
+         }
+         inline long long _brian_mod(int ux, long long uy)
+         {
+             const long long x = (long long)ux;
+             const long long y = (long long)uy;
+             return ((x%y)+y)%y;
+         }
+         inline float _brian_mod(int ux, float uy)
+         {
+             const float x = (float)ux;
+             const float y = (float)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline double _brian_mod(int ux, double uy)
+         {
+             const double x = (double)ux;
+             const double y = (double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(int ux, long double uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long _brian_mod(long ux, int uy)
+         {
+             const long x = (long)ux;
+             const long y = (long)uy;
+             return ((x%y)+y)%y;
+         }
+         inline long _brian_mod(long ux, long uy)
+         {
+             const long x = (long)ux;
+             const long y = (long)uy;
+             return ((x%y)+y)%y;
+         }
+         inline long long _brian_mod(long ux, long long uy)
+         {
+             const long long x = (long long)ux;
+             const long long y = (long long)uy;
+             return ((x%y)+y)%y;
+         }
+         inline float _brian_mod(long ux, float uy)
+         {
+             const float x = (float)ux;
+             const float y = (float)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline double _brian_mod(long ux, double uy)
+         {
+             const double x = (double)ux;
+             const double y = (double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(long ux, long double uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long long _brian_mod(long long ux, int uy)
+         {
+             const long long x = (long long)ux;
+             const long long y = (long long)uy;
+             return ((x%y)+y)%y;
+         }
+         inline long long _brian_mod(long long ux, long uy)
+         {
+             const long long x = (long long)ux;
+             const long long y = (long long)uy;
+             return ((x%y)+y)%y;
+         }
+         inline long long _brian_mod(long long ux, long long uy)
+         {
+             const long long x = (long long)ux;
+             const long long y = (long long)uy;
+             return ((x%y)+y)%y;
+         }
+         inline float _brian_mod(long long ux, float uy)
+         {
+             const float x = (float)ux;
+             const float y = (float)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline double _brian_mod(long long ux, double uy)
+         {
+             const double x = (double)ux;
+             const double y = (double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(long long ux, long double uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline float _brian_mod(float ux, int uy)
+         {
+             const float x = (float)ux;
+             const float y = (float)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline float _brian_mod(float ux, long uy)
+         {
+             const float x = (float)ux;
+             const float y = (float)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline float _brian_mod(float ux, long long uy)
+         {
+             const float x = (float)ux;
+             const float y = (float)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline float _brian_mod(float ux, float uy)
+         {
+             const float x = (float)ux;
+             const float y = (float)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline double _brian_mod(float ux, double uy)
+         {
+             const double x = (double)ux;
+             const double y = (double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(float ux, long double uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline double _brian_mod(double ux, int uy)
+         {
+             const double x = (double)ux;
+             const double y = (double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline double _brian_mod(double ux, long uy)
+         {
+             const double x = (double)ux;
+             const double y = (double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline double _brian_mod(double ux, long long uy)
+         {
+             const double x = (double)ux;
+             const double y = (double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline double _brian_mod(double ux, float uy)
+         {
+             const double x = (double)ux;
+             const double y = (double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline double _brian_mod(double ux, double uy)
+         {
+             const double x = (double)ux;
+             const double y = (double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(double ux, long double uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(long double ux, int uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(long double ux, long uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(long double ux, long long uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(long double ux, float uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(long double ux, double uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(long double ux, long double uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         #ifdef _MSC_VER
+         #define _brian_pow(x, y) (pow((double)(x), (y)))
+         #else
+         #define _brian_pow(x, y) (pow((x), (y)))
+         #endif
+        }
+        ////// HASH DEFINES ///////
+        void _run_neurongroup_thresholder_codeobject()
+        {
+        	using namespace brian;
+            const std::clock_t _start_time = std::clock();
+        	///// CONSTANTS ///////////
+        	%CONSTANTS%
+        	///// POINTERS ////////////
+         int32_t* __restrict  _ptr_array_neurongroup__spikespace = _array_neurongroup__spikespace;
+         double* __restrict  _ptr_array_neurongroup_v = _array_neurongroup_v;
+        	//// MAIN CODE ////////////
+        	// scalar code
+        	const int _vectorisation_idx = -1;
+            long _count = 0;
+            for(int _idx=0; _idx<N; _idx++)
+            {
+                const int _vectorisation_idx = _idx;
+                const double v = _ptr_array_neurongroup_v[_idx];
+                const char _cond = v > 1;
+                if(_cond) {
+                    _ptr_array_neurongroup__spikespace[_count++] = _idx;
+                }
+            }
+            _ptr_array_neurongroup__spikespace[N] = _count;
+            const double _run_time = (double)(std::clock() -_start_time)/CLOCKS_PER_SEC;
+            neurongroup_thresholder_codeobject_profiling_info += _run_time;
+        } [brian2.devices.device]
+DIAGNOSTIC Created object of class CPPStandaloneCodeObject with name neurongroup_thresholder_codeobject [brian2.core.names]
+DIAGNOSTIC Creating code object (group=spikemonitor, template name=spikemonitor) for abstract code:
+    _to_record_t = _source_t
+    _to_record_i = _source_i [brian2.codegen.codeobject]
+DIAGNOSTIC spikemonitor_codeobject abstract code:
+    _to_record_t = _source_t
+    _to_record_i = _source_i [brian2.devices.device]
+DIAGNOSTIC spikemonitor_codeobject snippet (scalar):
+     [brian2.devices.device]
+DIAGNOSTIC spikemonitor_codeobject snippet (vector):
+    const int32_t _source_i = _ptr_array_neurongroup_i[_idx];
+    const double _source_t = _ptr_array_defaultclock_t[0];
+    const double _to_record_t = _source_t;
+    const int32_t _to_record_i = _source_i; [brian2.devices.device]
+DIAGNOSTIC spikemonitor_codeobject code:
+    h_file:
+        #ifndef _INCLUDED_spikemonitor_codeobject
+        #define _INCLUDED_spikemonitor_codeobject
+        #include "objects.h"
+        void _run_spikemonitor_codeobject();
+        void _debugmsg_spikemonitor_codeobject();
+        #endif
+    main_finalise:
+        #ifdef DEBUG
+        _debugmsg_spikemonitor_codeobject();
+        #endif
+    cpp_file:
+        #include "code_objects/spikemonitor_codeobject.h"
+        #include "brianlib/common_math.h"
+        #include "brianlib/stdint_compat.h"
+        #include<cmath>
+        #include<ctime>
+        #include<iostream>
+        #include<fstream>
+        ////// SUPPORT CODE ///////
+        namespace {
+         inline int _brian_mod(int ux, int uy)
+         {
+             const int x = (int)ux;
+             const int y = (int)uy;
+             return ((x%y)+y)%y;
+         }
+         inline long _brian_mod(int ux, long uy)
+         {
+             const long x = (long)ux;
+             const long y = (long)uy;
+             return ((x%y)+y)%y;
+         }
+         inline long long _brian_mod(int ux, long long uy)
+         {
+             const long long x = (long long)ux;
+             const long long y = (long long)uy;
+             return ((x%y)+y)%y;
+         }
+         inline float _brian_mod(int ux, float uy)
+         {
+             const float x = (float)ux;
+             const float y = (float)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline double _brian_mod(int ux, double uy)
+         {
+             const double x = (double)ux;
+             const double y = (double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(int ux, long double uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long _brian_mod(long ux, int uy)
+         {
+             const long x = (long)ux;
+             const long y = (long)uy;
+             return ((x%y)+y)%y;
+         }
+         inline long _brian_mod(long ux, long uy)
+         {
+             const long x = (long)ux;
+             const long y = (long)uy;
+             return ((x%y)+y)%y;
+         }
+         inline long long _brian_mod(long ux, long long uy)
+         {
+             const long long x = (long long)ux;
+             const long long y = (long long)uy;
+             return ((x%y)+y)%y;
+         }
+         inline float _brian_mod(long ux, float uy)
+         {
+             const float x = (float)ux;
+             const float y = (float)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline double _brian_mod(long ux, double uy)
+         {
+             const double x = (double)ux;
+             const double y = (double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(long ux, long double uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long long _brian_mod(long long ux, int uy)
+         {
+             const long long x = (long long)ux;
+             const long long y = (long long)uy;
+             return ((x%y)+y)%y;
+         }
+         inline long long _brian_mod(long long ux, long uy)
+         {
+             const long long x = (long long)ux;
+             const long long y = (long long)uy;
+             return ((x%y)+y)%y;
+         }
+         inline long long _brian_mod(long long ux, long long uy)
+         {
+             const long long x = (long long)ux;
+             const long long y = (long long)uy;
+             return ((x%y)+y)%y;
+         }
+         inline float _brian_mod(long long ux, float uy)
+         {
+             const float x = (float)ux;
+             const float y = (float)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline double _brian_mod(long long ux, double uy)
+         {
+             const double x = (double)ux;
+             const double y = (double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(long long ux, long double uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline float _brian_mod(float ux, int uy)
+         {
+             const float x = (float)ux;
+             const float y = (float)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline float _brian_mod(float ux, long uy)
+         {
+             const float x = (float)ux;
+             const float y = (float)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline float _brian_mod(float ux, long long uy)
+         {
+             const float x = (float)ux;
+             const float y = (float)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline float _brian_mod(float ux, float uy)
+         {
+             const float x = (float)ux;
+             const float y = (float)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline double _brian_mod(float ux, double uy)
+         {
+             const double x = (double)ux;
+             const double y = (double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(float ux, long double uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline double _brian_mod(double ux, int uy)
+         {
+             const double x = (double)ux;
+             const double y = (double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline double _brian_mod(double ux, long uy)
+         {
+             const double x = (double)ux;
+             const double y = (double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline double _brian_mod(double ux, long long uy)
+         {
+             const double x = (double)ux;
+             const double y = (double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline double _brian_mod(double ux, float uy)
+         {
+             const double x = (double)ux;
+             const double y = (double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline double _brian_mod(double ux, double uy)
+         {
+             const double x = (double)ux;
+             const double y = (double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(double ux, long double uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(long double ux, int uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(long double ux, long uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(long double ux, long long uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(long double ux, float uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(long double ux, double uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(long double ux, long double uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         #ifdef _MSC_VER
+         #define _brian_pow(x, y) (pow((double)(x), (y)))
+         #else
+         #define _brian_pow(x, y) (pow((x), (y)))
+         #endif
+        }
+        ////// HASH DEFINES ///////
+        void _run_spikemonitor_codeobject()
+        {
+        	using namespace brian;
+            const std::clock_t _start_time = std::clock();
+        	///// CONSTANTS ///////////
+        	%CONSTANTS%
+        	///// POINTERS ////////////
+         int32_t* __restrict  _ptr_array_neurongroup__spikespace = _array_neurongroup__spikespace;
+         double* __restrict  _ptr_array_spikemonitor_t = _array_spikemonitor_t;
+         double*   _ptr_array_defaultclock_t = _array_defaultclock_t;
+         int32_t* __restrict  _ptr_array_spikemonitor__source_idx = _array_spikemonitor__source_idx;
+         int32_t* __restrict  _ptr_array_neurongroup_i = _array_neurongroup_i;
+         int32_t*   _ptr_array_spikemonitor_N = _array_spikemonitor_N;
+         int32_t* __restrict  _ptr_array_spikemonitor_i = _array_spikemonitor_i;
+         int32_t* __restrict  _ptr_array_spikemonitor_count = _array_spikemonitor_count;
+        	//// MAIN CODE ////////////
+        	int32_t _num_events = _ptr_array_neurongroup__spikespace[_num_spikespace-1];
+            if (_num_events > 0)
+            {
+                int _start_idx = _num_events;
+                int _end_idx = _num_events;
+                for(int _j=0; _j<_num_events; _j++)
+                {
+                    const int _idx = _ptr_array_neurongroup__spikespace[_j];
+                    if (_idx >= _source_start) {
+                        _start_idx = _j;
+                        break;
+                    }
+                }
+                for(int _j=_num_events-1; _j>=_start_idx; _j--)
+                {
+                    const int _idx = _ptr_array_neurongroup__spikespace[_j];
+                    if (_idx < _source_stop) {
+                        break;
+                    }
+                    _end_idx = _j;
+                }
+                _num_events = _end_idx - _start_idx;
+                if (_num_events > 0) {
+                     const int _vectorisation_idx = 1;
+                    for(int _j=_start_idx; _j<_end_idx; _j++)
+                    {
+                        const int _idx = _ptr_array_neurongroup__spikespace[_j];
+                        const int _vectorisation_idx = _idx;
+                        const int32_t _source_i = _ptr_array_neurongroup_i[_idx];
+                        const double _source_t = _ptr_array_defaultclock_t[0];
+                        const double _to_record_t = _source_t;
+                        const int32_t _to_record_i = _source_i;
+                        _dynamic_array_spikemonitor_i.push_back(_to_record_i);
+                        _dynamic_array_spikemonitor_t.push_back(_to_record_t);
+                        _ptr_array_spikemonitor_count[_idx-_source_start]++;
+                    }
+                    _ptr_array_spikemonitor_N[0] += _num_events;
+                }
+            }
+            const double _run_time = (double)(std::clock() -_start_time)/CLOCKS_PER_SEC;
+            spikemonitor_codeobject_profiling_info += _run_time;
+        }
+        void _debugmsg_spikemonitor_codeobject()
+        {
+        	using namespace brian;
+            %CONSTANTS%
+            int32_t* __restrict  _ptr_array_neurongroup__spikespace = _array_neurongroup__spikespace;
+            double* __restrict  _ptr_array_spikemonitor_t = _array_spikemonitor_t;
+            double*   _ptr_array_defaultclock_t = _array_defaultclock_t;
+            int32_t* __restrict  _ptr_array_spikemonitor__source_idx = _array_spikemonitor__source_idx;
+            int32_t* __restrict  _ptr_array_neurongroup_i = _array_neurongroup_i;
+            int32_t*   _ptr_array_spikemonitor_N = _array_spikemonitor_N;
+            int32_t* __restrict  _ptr_array_spikemonitor_i = _array_spikemonitor_i;
+            int32_t* __restrict  _ptr_array_spikemonitor_count = _array_spikemonitor_count;
+        	std::cout << "Number of spikes: " << _ptr_array_spikemonitor_N[0] << endl;
+        } [brian2.devices.device]
+DIAGNOSTIC Created object of class CPPStandaloneCodeObject with name spikemonitor_codeobject [brian2.core.names]
+DIAGNOSTIC Creating code object (group=neurongroup, template name=reset) for abstract code:
+    v = 0 [brian2.codegen.codeobject]
+DIAGNOSTIC neurongroup_resetter_codeobject abstract code:
+    v = 0 [brian2.devices.device]
+DIAGNOSTIC neurongroup_resetter_codeobject snippet (scalar):
+     [brian2.devices.device]
+DIAGNOSTIC neurongroup_resetter_codeobject snippet (vector):
+    double v;
+    v = 0;
+    _ptr_array_neurongroup_v[_idx] = v; [brian2.devices.device]
+DIAGNOSTIC neurongroup_resetter_codeobject code:
+    h_file:
+        #ifndef _INCLUDED_neurongroup_resetter_codeobject
+        #define _INCLUDED_neurongroup_resetter_codeobject
+        #include "objects.h"
+        void _run_neurongroup_resetter_codeobject();
+        #endif
+    cpp_file:
+        #include "code_objects/neurongroup_resetter_codeobject.h"
+        #include "brianlib/common_math.h"
+        #include "brianlib/stdint_compat.h"
+        #include<cmath>
+        #include<ctime>
+        #include<iostream>
+        #include<fstream>
+        ////// SUPPORT CODE ///////
+        namespace {
+         inline int _brian_mod(int ux, int uy)
+         {
+             const int x = (int)ux;
+             const int y = (int)uy;
+             return ((x%y)+y)%y;
+         }
+         inline long _brian_mod(int ux, long uy)
+         {
+             const long x = (long)ux;
+             const long y = (long)uy;
+             return ((x%y)+y)%y;
+         }
+         inline long long _brian_mod(int ux, long long uy)
+         {
+             const long long x = (long long)ux;
+             const long long y = (long long)uy;
+             return ((x%y)+y)%y;
+         }
+         inline float _brian_mod(int ux, float uy)
+         {
+             const float x = (float)ux;
+             const float y = (float)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline double _brian_mod(int ux, double uy)
+         {
+             const double x = (double)ux;
+             const double y = (double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(int ux, long double uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long _brian_mod(long ux, int uy)
+         {
+             const long x = (long)ux;
+             const long y = (long)uy;
+             return ((x%y)+y)%y;
+         }
+         inline long _brian_mod(long ux, long uy)
+         {
+             const long x = (long)ux;
+             const long y = (long)uy;
+             return ((x%y)+y)%y;
+         }
+         inline long long _brian_mod(long ux, long long uy)
+         {
+             const long long x = (long long)ux;
+             const long long y = (long long)uy;
+             return ((x%y)+y)%y;
+         }
+         inline float _brian_mod(long ux, float uy)
+         {
+             const float x = (float)ux;
+             const float y = (float)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline double _brian_mod(long ux, double uy)
+         {
+             const double x = (double)ux;
+             const double y = (double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(long ux, long double uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long long _brian_mod(long long ux, int uy)
+         {
+             const long long x = (long long)ux;
+             const long long y = (long long)uy;
+             return ((x%y)+y)%y;
+         }
+         inline long long _brian_mod(long long ux, long uy)
+         {
+             const long long x = (long long)ux;
+             const long long y = (long long)uy;
+             return ((x%y)+y)%y;
+         }
+         inline long long _brian_mod(long long ux, long long uy)
+         {
+             const long long x = (long long)ux;
+             const long long y = (long long)uy;
+             return ((x%y)+y)%y;
+         }
+         inline float _brian_mod(long long ux, float uy)
+         {
+             const float x = (float)ux;
+             const float y = (float)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline double _brian_mod(long long ux, double uy)
+         {
+             const double x = (double)ux;
+             const double y = (double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(long long ux, long double uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline float _brian_mod(float ux, int uy)
+         {
+             const float x = (float)ux;
+             const float y = (float)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline float _brian_mod(float ux, long uy)
+         {
+             const float x = (float)ux;
+             const float y = (float)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline float _brian_mod(float ux, long long uy)
+         {
+             const float x = (float)ux;
+             const float y = (float)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline float _brian_mod(float ux, float uy)
+         {
+             const float x = (float)ux;
+             const float y = (float)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline double _brian_mod(float ux, double uy)
+         {
+             const double x = (double)ux;
+             const double y = (double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(float ux, long double uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline double _brian_mod(double ux, int uy)
+         {
+             const double x = (double)ux;
+             const double y = (double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline double _brian_mod(double ux, long uy)
+         {
+             const double x = (double)ux;
+             const double y = (double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline double _brian_mod(double ux, long long uy)
+         {
+             const double x = (double)ux;
+             const double y = (double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline double _brian_mod(double ux, float uy)
+         {
+             const double x = (double)ux;
+             const double y = (double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline double _brian_mod(double ux, double uy)
+         {
+             const double x = (double)ux;
+             const double y = (double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(double ux, long double uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(long double ux, int uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(long double ux, long uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(long double ux, long long uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(long double ux, float uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(long double ux, double uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         inline long double _brian_mod(long double ux, long double uy)
+         {
+             const long double x = (long double)ux;
+             const long double y = (long double)uy;
+             return fmod(fmod(x, y)+y, y);
+         }
+         #ifdef _MSC_VER
+         #define _brian_pow(x, y) (pow((double)(x), (y)))
+         #else
+         #define _brian_pow(x, y) (pow((x), (y)))
+         #endif
+        }
+        ////// HASH DEFINES ///////
+        void _run_neurongroup_resetter_codeobject()
+        {
+        	using namespace brian;
+            const std::clock_t _start_time = std::clock();
+        	///// CONSTANTS ///////////
+        	%CONSTANTS%
+        	///// POINTERS ////////////
+         int32_t* __restrict  _ptr_array_neurongroup__spikespace = _array_neurongroup__spikespace;
+         double* __restrict  _ptr_array_neurongroup_v = _array_neurongroup_v;
+        	const int32_t *_events = _ptr_array_neurongroup__spikespace;
+        	const int32_t _num_events = _ptr_array_neurongroup__spikespace[N];
+        	//// MAIN CODE ////////////	
+        	// scalar code
+        	const int _vectorisation_idx = -1;
+        	for(int _index_events=0; _index_events<_num_events; _index_events++)
+        	{
+        	    // vector code
+        		const int _idx = _events[_index_events];
+        		const int _vectorisation_idx = _idx;
+                double v;
+                v = 0;
+                _ptr_array_neurongroup_v[_idx] = v;
+        	}
+            const double _run_time = (double)(std::clock() -_start_time)/CLOCKS_PER_SEC;
+            neurongroup_resetter_codeobject_profiling_info += _run_time;
+        } [brian2.devices.device]
+DIAGNOSTIC Created object of class CPPStandaloneCodeObject with name neurongroup_resetter_codeobject [brian2.core.names]
+DEBUG      Network magicnetwork uses 1 clocks: defaultclock (dt=100. us) [brian2.core.network.before_run]
+DIAGNOSTIC Writing C++ standalone project to directory output [brian2.devices.cpp_standalone.device]
+DIAGNOSTIC static arrays: [] [brian2.devices.cpp_standalone.device]
+DIAGNOSTIC Writing file objects.*:
+h_file:
+    #ifndef _BRIAN_OBJECTS_H
+    #define _BRIAN_OBJECTS_H
+    #include "synapses_classes.h"
+    #include "brianlib/clocks.h"
+    #include "brianlib/dynamic_array.h"
+    #include "brianlib/stdint_compat.h"
+    #include "network.h"
+    #include "randomkit.h"
+    #include<vector>
+    namespace brian {
+    // In OpenMP we need one state per thread
+    extern std::vector< rk_state* > _mersenne_twister_states;
+    //////////////// clocks ///////////////////
+    extern Clock defaultclock;
+    //////////////// networks /////////////////
+    extern Network magicnetwork;
+    //////////////// dynamic arrays ///////////
+    extern std::vector<int32_t> _dynamic_array_spikemonitor_i;
+    extern std::vector<double> _dynamic_array_spikemonitor_t;
+    //////////////// arrays ///////////////////
+    extern double *_array_defaultclock_dt;
+    extern const int _num__array_defaultclock_dt;
+    extern double *_array_defaultclock_t;
+    extern const int _num__array_defaultclock_t;
+    extern int64_t *_array_defaultclock_timestep;
+    extern const int _num__array_defaultclock_timestep;
+    extern int32_t *_array_neurongroup__spikespace;
+    extern const int _num__array_neurongroup__spikespace;
+    extern int32_t *_array_neurongroup_i;
+    extern const int _num__array_neurongroup_i;
+    extern double *_array_neurongroup_v;
+    extern const int _num__array_neurongroup_v;
+    extern int32_t *_array_spikemonitor__source_idx;
+    extern const int _num__array_spikemonitor__source_idx;
+    extern int32_t *_array_spikemonitor_count;
+    extern const int _num__array_spikemonitor_count;
+    extern int32_t *_array_spikemonitor_N;
+    extern const int _num__array_spikemonitor_N;
+    //////////////// dynamic arrays 2d /////////
+    /////////////// static arrays /////////////
+    //////////////// synapses /////////////////
+    // Profiling information for each code object
+    extern double neurongroup_group_variable_set_conditional_codeobject_profiling_info;
+    extern double neurongroup_resetter_codeobject_profiling_info;
+    extern double neurongroup_stateupdater_codeobject_profiling_info;
+    extern double neurongroup_thresholder_codeobject_profiling_info;
+    extern double spikemonitor_codeobject_profiling_info;
+    }
+    void _init_arrays();
+    void _load_arrays();
+    void _write_arrays();
+    void _dealloc_arrays();
+    #endif
+cpp_file:
+    #include "objects.h"
+    #include "synapses_classes.h"
+    #include "brianlib/clocks.h"
+    #include "brianlib/dynamic_array.h"
+    #include "brianlib/stdint_compat.h"
+    #include "network.h"
+    #include "randomkit.h"
+    #include<vector>
+    #include<iostream>
+    #include<fstream>
+    namespace brian {
+    std::vector< rk_state* > _mersenne_twister_states;
+    //////////////// networks /////////////////
+    Network magicnetwork;
+    //////////////// arrays ///////////////////
+    double * _array_defaultclock_dt;
+    const int _num__array_defaultclock_dt = 1;
+    double * _array_defaultclock_t;
+    const int _num__array_defaultclock_t = 1;
+    int64_t * _array_defaultclock_timestep;
+    const int _num__array_defaultclock_timestep = 1;
+    int32_t * _array_neurongroup__spikespace;
+    const int _num__array_neurongroup__spikespace = 11;
+    int32_t * _array_neurongroup_i;
+    const int _num__array_neurongroup_i = 10;
+    double * _array_neurongroup_v;
+    const int _num__array_neurongroup_v = 10;
+    int32_t * _array_spikemonitor__source_idx;
+    const int _num__array_spikemonitor__source_idx = 10;
+    int32_t * _array_spikemonitor_count;
+    const int _num__array_spikemonitor_count = 10;
+    int32_t * _array_spikemonitor_N;
+    const int _num__array_spikemonitor_N = 1;
+    //////////////// dynamic arrays 1d /////////
+    std::vector<int32_t> _dynamic_array_spikemonitor_i;
+    std::vector<double> _dynamic_array_spikemonitor_t;
+    //////////////// dynamic arrays 2d /////////
+    /////////////// static arrays /////////////
+    //////////////// synapses /////////////////
+    //////////////// clocks ///////////////////
+    Clock defaultclock;  // attributes will be set in run.cpp
+    // Profiling information for each code object
+    double neurongroup_group_variable_set_conditional_codeobject_profiling_info = 0.0;
+    double neurongroup_resetter_codeobject_profiling_info = 0.0;
+    double neurongroup_stateupdater_codeobject_profiling_info = 0.0;
+    double neurongroup_thresholder_codeobject_profiling_info = 0.0;
+    double spikemonitor_codeobject_profiling_info = 0.0;
+    }
+    void _init_arrays()
+    {
+    	using namespace brian;
+        // Arrays initialized to 0
+    	_array_defaultclock_dt = new double[1];
+    	for(int i=0; i<1; i++) _array_defaultclock_dt[i] = 0;
+    	_array_defaultclock_t = new double[1];
+    	for(int i=0; i<1; i++) _array_defaultclock_t[i] = 0;
+    	_array_defaultclock_timestep = new int64_t[1];
+    	for(int i=0; i<1; i++) _array_defaultclock_timestep[i] = 0;
+    	_array_neurongroup__spikespace = new int32_t[11];
+    	for(int i=0; i<11; i++) _array_neurongroup__spikespace[i] = 0;
+    	_array_neurongroup_i = new int32_t[10];
+    	for(int i=0; i<10; i++) _array_neurongroup_i[i] = 0;
+    	_array_neurongroup_v = new double[10];
+    	for(int i=0; i<10; i++) _array_neurongroup_v[i] = 0;
+    	_array_spikemonitor__source_idx = new int32_t[10];
+    	for(int i=0; i<10; i++) _array_spikemonitor__source_idx[i] = 0;
+    	_array_spikemonitor_count = new int32_t[10];
+    	for(int i=0; i<10; i++) _array_spikemonitor_count[i] = 0;
+    	_array_spikemonitor_N = new int32_t[1];
+    	for(int i=0; i<1; i++) _array_spikemonitor_N[i] = 0;
+    	// Arrays initialized to an "arange"
+    	_array_neurongroup_i = new int32_t[10];
+    	for(int i=0; i<10; i++) _array_neurongroup_i[i] = 0 + i;
+    	_array_spikemonitor__source_idx = new int32_t[10];
+    	for(int i=0; i<10; i++) _array_spikemonitor__source_idx[i] = 0 + i;
+    	// static arrays
+    	// Random number generator states
+    	for (int i=0; i<1; i++)
+    	    _mersenne_twister_states.push_back(new rk_state());
+    }
+    void _load_arrays()
+    {
+    	using namespace brian;
+    }
+    void _write_arrays()
+    {
+    	using namespace brian;
+    	ofstream outfile__array_defaultclock_dt;
+    	outfile__array_defaultclock_dt.open("results/_array_defaultclock_dt_-6226758967362329344", ios::binary | ios::out);
+    	if(outfile__array_defaultclock_dt.is_open())
+    	{
+    		outfile__array_defaultclock_dt.write(reinterpret_cast<char*>(_array_defaultclock_dt), 1*sizeof(_array_defaultclock_dt[0]));
+    		outfile__array_defaultclock_dt.close();
+    	} else
+    	{
+    		std::cout << "Error writing output file for _array_defaultclock_dt." << endl;
+    	}
+    	ofstream outfile__array_defaultclock_t;
+    	outfile__array_defaultclock_t.open("results/_array_defaultclock_t_-6260898843401864138", ios::binary | ios::out);
+    	if(outfile__array_defaultclock_t.is_open())
+    	{
+    		outfile__array_defaultclock_t.write(reinterpret_cast<char*>(_array_defaultclock_t), 1*sizeof(_array_defaultclock_t[0]));
+    		outfile__array_defaultclock_t.close();
+    	} else
+    	{
+    		std::cout << "Error writing output file for _array_defaultclock_t." << endl;
+    	}
+    	ofstream outfile__array_defaultclock_timestep;
+    	outfile__array_defaultclock_timestep.open("results/_array_defaultclock_timestep_-974683758717811169", ios::binary | ios::out);
+    	if(outfile__array_defaultclock_timestep.is_open())
+    	{
+    		outfile__array_defaultclock_timestep.write(reinterpret_cast<char*>(_array_defaultclock_timestep), 1*sizeof(_array_defaultclock_timestep[0]));
+    		outfile__array_defaultclock_timestep.close();
+    	} else
+    	{
+    		std::cout << "Error writing output file for _array_defaultclock_timestep." << endl;
+    	}
+    	ofstream outfile__array_neurongroup__spikespace;
+    	outfile__array_neurongroup__spikespace.open("results/_array_neurongroup__spikespace_-5713999557172543146", ios::binary | ios::out);
+    	if(outfile__array_neurongroup__spikespace.is_open())
+    	{
+    		outfile__array_neurongroup__spikespace.write(reinterpret_cast<char*>(_array_neurongroup__spikespace), 11*sizeof(_array_neurongroup__spikespace[0]));
+    		outfile__array_neurongroup__spikespace.close();
+    	} else
+    	{
+    		std::cout << "Error writing output file for _array_neurongroup__spikespace." << endl;
+    	}
+    	ofstream outfile__array_neurongroup_i;
+    	outfile__array_neurongroup_i.open("results/_array_neurongroup_i_-1135616428597020023", ios::binary | ios::out);
+    	if(outfile__array_neurongroup_i.is_open())
+    	{
+    		outfile__array_neurongroup_i.write(reinterpret_cast<char*>(_array_neurongroup_i), 10*sizeof(_array_neurongroup_i[0]));
+    		outfile__array_neurongroup_i.close();
+    	} else
+    	{
+    		std::cout << "Error writing output file for _array_neurongroup_i." << endl;
+    	}
+    	ofstream outfile__array_neurongroup_v;
+    	outfile__array_neurongroup_v.open("results/_array_neurongroup_v_390032788558987602", ios::binary | ios::out);
+    	if(outfile__array_neurongroup_v.is_open())
+    	{
+    		outfile__array_neurongroup_v.write(reinterpret_cast<char*>(_array_neurongroup_v), 10*sizeof(_array_neurongroup_v[0]));
+    		outfile__array_neurongroup_v.close();
+    	} else
+    	{
+    		std::cout << "Error writing output file for _array_neurongroup_v." << endl;
+    	}
+    	ofstream outfile__array_spikemonitor__source_idx;
+    	outfile__array_spikemonitor__source_idx.open("results/_array_spikemonitor__source_idx_798933922703258029", ios::binary | ios::out);
+    	if(outfile__array_spikemonitor__source_idx.is_open())
+    	{
+    		outfile__array_spikemonitor__source_idx.write(reinterpret_cast<char*>(_array_spikemonitor__source_idx), 10*sizeof(_array_spikemonitor__source_idx[0]));
+    		outfile__array_spikemonitor__source_idx.close();
+    	} else
+    	{
+    		std::cout << "Error writing output file for _array_spikemonitor__source_idx." << endl;
+    	}
+    	ofstream outfile__array_spikemonitor_count;
+    	outfile__array_spikemonitor_count.open("results/_array_spikemonitor_count_5445021923410962846", ios::binary | ios::out);
+    	if(outfile__array_spikemonitor_count.is_open())
+    	{
+    		outfile__array_spikemonitor_count.write(reinterpret_cast<char*>(_array_spikemonitor_count), 10*sizeof(_array_spikemonitor_count[0]));
+    		outfile__array_spikemonitor_count.close();
+    	} else
+    	{
+    		std::cout << "Error writing output file for _array_spikemonitor_count." << endl;
+    	}
+    	ofstream outfile__array_spikemonitor_N;
+    	outfile__array_spikemonitor_N.open("results/_array_spikemonitor_N_-4295392877886035161", ios::binary | ios::out);
+    	if(outfile__array_spikemonitor_N.is_open())
+    	{
+    		outfile__array_spikemonitor_N.write(reinterpret_cast<char*>(_array_spikemonitor_N), 1*sizeof(_array_spikemonitor_N[0]));
+    		outfile__array_spikemonitor_N.close();
+    	} else
+    	{
+    		std::cout << "Error writing output file for _array_spikemonitor_N." << endl;
+    	}
+    	ofstream outfile__dynamic_array_spikemonitor_i;
+    	outfile__dynamic_array_spikemonitor_i.open("results/_dynamic_array_spikemonitor_i_4923138591209020588", ios::binary | ios::out);
+    	if(outfile__dynamic_array_spikemonitor_i.is_open())
+    	{
+            if (! _dynamic_array_spikemonitor_i.empty() )
+            {
+    			outfile__dynamic_array_spikemonitor_i.write(reinterpret_cast<char*>(&_dynamic_array_spikemonitor_i[0]), _dynamic_array_spikemonitor_i.size()*sizeof(_dynamic_array_spikemonitor_i[0]));
+    		    outfile__dynamic_array_spikemonitor_i.close();
+    		}
+    	} else
+    	{
+    		std::cout << "Error writing output file for _dynamic_array_spikemonitor_i." << endl;
+    	}
+    	ofstream outfile__dynamic_array_spikemonitor_t;
+    	outfile__dynamic_array_spikemonitor_t.open("results/_dynamic_array_spikemonitor_t_5338339328971736938", ios::binary | ios::out);
+    	if(outfile__dynamic_array_spikemonitor_t.is_open())
+    	{
+            if (! _dynamic_array_spikemonitor_t.empty() )
+            {
+    			outfile__dynamic_array_spikemonitor_t.write(reinterpret_cast<char*>(&_dynamic_array_spikemonitor_t[0]), _dynamic_array_spikemonitor_t.size()*sizeof(_dynamic_array_spikemonitor_t[0]));
+    		    outfile__dynamic_array_spikemonitor_t.close();
+    		}
+    	} else
+    	{
+    		std::cout << "Error writing output file for _dynamic_array_spikemonitor_t." << endl;
+    	}
+    	// Write profiling info to disk
+    	ofstream outfile_profiling_info;
+    	outfile_profiling_info.open("results/profiling_info.txt", ios::out);
+    	if(outfile_profiling_info.is_open())
+    	{
+    	outfile_profiling_info << "neurongroup_group_variable_set_conditional_codeobject\t" << neurongroup_group_variable_set_conditional_codeobject_profiling_info << std::endl;
+    	outfile_profiling_info << "neurongroup_resetter_codeobject\t" << neurongroup_resetter_codeobject_profiling_info << std::endl;
+    	outfile_profiling_info << "neurongroup_stateupdater_codeobject\t" << neurongroup_stateupdater_codeobject_profiling_info << std::endl;
+    	outfile_profiling_info << "neurongroup_thresholder_codeobject\t" << neurongroup_thresholder_codeobject_profiling_info << std::endl;
+    	outfile_profiling_info << "spikemonitor_codeobject\t" << spikemonitor_codeobject_profiling_info << std::endl;
+    	outfile_profiling_info.close();
+    	} else
+    	{
+    	    std::cout << "Error writing profiling info to file." << std::endl;
+    	}
+    	// Write last run info to disk
+    	ofstream outfile_last_run_info;
+    	outfile_last_run_info.open("results/last_run_info.txt", ios::out);
+    	if(outfile_last_run_info.is_open())
+    	{
+    		outfile_last_run_info << (Network::_last_run_time) << " " << (Network::_last_run_completed_fraction) << std::endl;
+    		outfile_last_run_info.close();
+    	} else
+    	{
+    	    std::cout << "Error writing last run info to file." << std::endl;
+    	}
+    }
+    void _dealloc_arrays()
+    {
+    	using namespace brian;
+    	// static arrays
+    }
+ [brian2.devices.cpp_standalone.device]
+DIAGNOSTIC Writing file objects.cpp:
+
+#include "objects.h"
+#include "synapses_classes.h"
+#include "brianlib/clocks.h"
+#include "brianlib/dynamic_array.h"
+#include "brianlib/stdint_compat.h"
+#include "network.h"
+#include "randomkit.h"
+#include<vector>
+#include<iostream>
+#include<fstream>
+
+namespace brian {
+
+std::vector< rk_state* > _mersenne_twister_states;
+
+//////////////// networks /////////////////
+Network magicnetwork;
+
+//////////////// arrays ///////////////////
+double * _array_defaultclock_dt;
+const int _num__array_defaultclock_dt = 1;
+double * _array_defaultclock_t;
+const int _num__array_defaultclock_t = 1;
+int64_t * _array_defaultclock_timestep;
+const int _num__array_defaultclock_timestep = 1;
+int32_t * _array_neurongroup__spikespace;
+const int _num__array_neurongroup__spikespace = 11;
+int32_t * _array_neurongroup_i;
+const int _num__array_neurongroup_i = 10;
+double * _array_neurongroup_v;
+const int _num__array_neurongroup_v = 10;
+int32_t * _array_spikemonitor__source_idx;
+const int _num__array_spikemonitor__source_idx = 10;
+int32_t * _array_spikemonitor_count;
+const int _num__array_spikemonitor_count = 10;
+int32_t * _array_spikemonitor_N;
+const int _num__array_spikemonitor_N = 1;
+
+//////////////// dynamic arrays 1d /////////
+std::vector<int32_t> _dynamic_array_spikemonitor_i;
+std::vector<double> _dynamic_array_spikemonitor_t;
+
+//////////////// dynamic arrays 2d /////////
+
+/////////////// static arrays /////////////
+
+//////////////// synapses /////////////////
+
+//////////////// clocks ///////////////////
+Clock defaultclock;  // attributes will be set in run.cpp
+
+// Profiling information for each code object
+double neurongroup_group_variable_set_conditional_codeobject_profiling_info = 0.0;
+double neurongroup_resetter_codeobject_profiling_info = 0.0;
+double neurongroup_stateupdater_codeobject_profiling_info = 0.0;
+double neurongroup_thresholder_codeobject_profiling_info = 0.0;
+double spikemonitor_codeobject_profiling_info = 0.0;
+
+}
+
+void _init_arrays()
+{
+	using namespace brian;
+
+    // Arrays initialized to 0
+	_array_defaultclock_dt = new double[1];
+    
+	for(int i=0; i<1; i++) _array_defaultclock_dt[i] = 0;
+
+	_array_defaultclock_t = new double[1];
+    
+	for(int i=0; i<1; i++) _array_defaultclock_t[i] = 0;
+
+	_array_defaultclock_timestep = new int64_t[1];
+    
+	for(int i=0; i<1; i++) _array_defaultclock_timestep[i] = 0;
+
+	_array_neurongroup__spikespace = new int32_t[11];
+    
+	for(int i=0; i<11; i++) _array_neurongroup__spikespace[i] = 0;
+
+	_array_neurongroup_i = new int32_t[10];
+    
+	for(int i=0; i<10; i++) _array_neurongroup_i[i] = 0;
+
+	_array_neurongroup_v = new double[10];
+    
+	for(int i=0; i<10; i++) _array_neurongroup_v[i] = 0;
+
+	_array_spikemonitor__source_idx = new int32_t[10];
+    
+	for(int i=0; i<10; i++) _array_spikemonitor__source_idx[i] = 0;
+
+	_array_spikemonitor_count = new int32_t[10];
+    
+	for(int i=0; i<10; i++) _array_spikemonitor_count[i] = 0;
+
+	_array_spikemonitor_N = new int32_t[1];
+    
+	for(int i=0; i<1; i++) _array_spikemonitor_N[i] = 0;
+
+
+	// Arrays initialized to an "arange"
+	_array_neurongroup_i = new int32_t[10];
+    
+	for(int i=0; i<10; i++) _array_neurongroup_i[i] = 0 + i;
+
+	_array_spikemonitor__source_idx = new int32_t[10];
+    
+	for(int i=0; i<10; i++) _array_spikemonitor__source_idx[i] = 0 + i;
+
+
+	// static arrays
+
+	// Random number generator states
+	for (int i=0; i<1; i++)
+	    _mersenne_twister_states.push_back(new rk_state());
+}
+
+void _load_arrays()
+{
+	using namespace brian;
+
+}
+
+void _write_arrays()
+{
+	using namespace brian;
+
+	ofstream outfile__array_defaultclock_dt;
+	outfile__array_defaultclock_dt.open("results/_array_defaultclock_dt_-6226758967362329344", ios::binary | ios::out);
+	if(outfile__array_defaultclock_dt.is_open())
+	{
+		outfile__array_defaultclock_dt.write(reinterpret_cast<char*>(_array_defaultclock_dt), 1*sizeof(_array_defaultclock_dt[0]));
+		outfile__array_defaultclock_dt.close();
+	} else
+	{
+		std::cout << "Error writing output file for _array_defaultclock_dt." << endl;
+	}
+	ofstream outfile__array_defaultclock_t;
+	outfile__array_defaultclock_t.open("results/_array_defaultclock_t_-6260898843401864138", ios::binary | ios::out);
+	if(outfile__array_defaultclock_t.is_open())
+	{
+		outfile__array_defaultclock_t.write(reinterpret_cast<char*>(_array_defaultclock_t), 1*sizeof(_array_defaultclock_t[0]));
+		outfile__array_defaultclock_t.close();
+	} else
+	{
+		std::cout << "Error writing output file for _array_defaultclock_t." << endl;
+	}
+	ofstream outfile__array_defaultclock_timestep;
+	outfile__array_defaultclock_timestep.open("results/_array_defaultclock_timestep_-974683758717811169", ios::binary | ios::out);
+	if(outfile__array_defaultclock_timestep.is_open())
+	{
+		outfile__array_defaultclock_timestep.write(reinterpret_cast<char*>(_array_defaultclock_timestep), 1*sizeof(_array_defaultclock_timestep[0]));
+		outfile__array_defaultclock_timestep.close();
+	} else
+	{
+		std::cout << "Error writing output file for _array_defaultclock_timestep." << endl;
+	}
+	ofstream outfile__array_neurongroup__spikespace;
+	outfile__array_neurongroup__spikespace.open("results/_array_neurongroup__spikespace_-5713999557172543146", ios::binary | ios::out);
+	if(outfile__array_neurongroup__spikespace.is_open())
+	{
+		outfile__array_neurongroup__spikespace.write(reinterpret_cast<char*>(_array_neurongroup__spikespace), 11*sizeof(_array_neurongroup__spikespace[0]));
+		outfile__array_neurongroup__spikespace.close();
+	} else
+	{
+		std::cout << "Error writing output file for _array_neurongroup__spikespace." << endl;
+	}
+	ofstream outfile__array_neurongroup_i;
+	outfile__array_neurongroup_i.open("results/_array_neurongroup_i_-1135616428597020023", ios::binary | ios::out);
+	if(outfile__array_neurongroup_i.is_open())
+	{
+		outfile__array_neurongroup_i.write(reinterpret_cast<char*>(_array_neurongroup_i), 10*sizeof(_array_neurongroup_i[0]));
+		outfile__array_neurongroup_i.close();
+	} else
+	{
+		std::cout << "Error writing output file for _array_neurongroup_i." << endl;
+	}
+	ofstream outfile__array_neurongroup_v;
+	outfile__array_neurongroup_v.open("results/_array_neurongroup_v_390032788558987602", ios::binary | ios::out);
+	if(outfile__array_neurongroup_v.is_open())
+	{
+		outfile__array_neurongroup_v.write(reinterpret_cast<char*>(_array_neurongroup_v), 10*sizeof(_array_neurongroup_v[0]));
+		outfile__array_neurongroup_v.close();
+	} else
+	{
+		std::cout << "Error writing output file for _array_neurongroup_v." << endl;
+	}
+	ofstream outfile__array_spikemonitor__source_idx;
+	outfile__array_spikemonitor__source_idx.open("results/_array_spikemonitor__source_idx_798933922703258029", ios::binary | ios::out);
+	if(outfile__array_spikemonitor__source_idx.is_open())
+	{
+		outfile__array_spikemonitor__source_idx.write(reinterpret_cast<char*>(_array_spikemonitor__source_idx), 10*sizeof(_array_spikemonitor__source_idx[0]));
+		outfile__array_spikemonitor__source_idx.close();
+	} else
+	{
+		std::cout << "Error writing output file for _array_spikemonitor__source_idx." << endl;
+	}
+	ofstream outfile__array_spikemonitor_count;
+	outfile__array_spikemonitor_count.open("results/_array_spikemonitor_count_5445021923410962846", ios::binary | ios::out);
+	if(outfile__array_spikemonitor_count.is_open())
+	{
+		outfile__array_spikemonitor_count.write(reinterpret_cast<char*>(_array_spikemonitor_count), 10*sizeof(_array_spikemonitor_count[0]));
+		outfile__array_spikemonitor_count.close();
+	} else
+	{
+		std::cout << "Error writing output file for _array_spikemonitor_count." << endl;
+	}
+	ofstream outfile__array_spikemonitor_N;
+	outfile__array_spikemonitor_N.open("results/_array_spikemonitor_N_-4295392877886035161", ios::binary | ios::out);
+	if(outfile__array_spikemonitor_N.is_open())
+	{
+		outfile__array_spikemonitor_N.write(reinterpret_cast<char*>(_array_spikemonitor_N), 1*sizeof(_array_spikemonitor_N[0]));
+		outfile__array_spikemonitor_N.close();
+	} else
+	{
+		std::cout << "Error writing output file for _array_spikemonitor_N." << endl;
+	}
+
+	ofstream outfile__dynamic_array_spikemonitor_i;
+	outfile__dynamic_array_spikemonitor_i.open("results/_dynamic_array_spikemonitor_i_4923138591209020588", ios::binary | ios::out);
+	if(outfile__dynamic_array_spikemonitor_i.is_open())
+	{
+        if (! _dynamic_array_spikemonitor_i.empty() )
+        {
+			outfile__dynamic_array_spikemonitor_i.write(reinterpret_cast<char*>(&_dynamic_array_spikemonitor_i[0]), _dynamic_array_spikemonitor_i.size()*sizeof(_dynamic_array_spikemonitor_i[0]));
+		    outfile__dynamic_array_spikemonitor_i.close();
+		}
+	} else
+	{
+		std::cout << "Error writing output file for _dynamic_array_spikemonitor_i." << endl;
+	}
+	ofstream outfile__dynamic_array_spikemonitor_t;
+	outfile__dynamic_array_spikemonitor_t.open("results/_dynamic_array_spikemonitor_t_5338339328971736938", ios::binary | ios::out);
+	if(outfile__dynamic_array_spikemonitor_t.is_open())
+	{
+        if (! _dynamic_array_spikemonitor_t.empty() )
+        {
+			outfile__dynamic_array_spikemonitor_t.write(reinterpret_cast<char*>(&_dynamic_array_spikemonitor_t[0]), _dynamic_array_spikemonitor_t.size()*sizeof(_dynamic_array_spikemonitor_t[0]));
+		    outfile__dynamic_array_spikemonitor_t.close();
+		}
+	} else
+	{
+		std::cout << "Error writing output file for _dynamic_array_spikemonitor_t." << endl;
+	}
+
+
+	// Write profiling info to disk
+	ofstream outfile_profiling_info;
+	outfile_profiling_info.open("results/profiling_info.txt", ios::out);
+	if(outfile_profiling_info.is_open())
+	{
+	outfile_profiling_info << "neurongroup_group_variable_set_conditional_codeobject\t" << neurongroup_group_variable_set_conditional_codeobject_profiling_info << std::endl;
+	outfile_profiling_info << "neurongroup_resetter_codeobject\t" << neurongroup_resetter_codeobject_profiling_info << std::endl;
+	outfile_profiling_info << "neurongroup_stateupdater_codeobject\t" << neurongroup_stateupdater_codeobject_profiling_info << std::endl;
+	outfile_profiling_info << "neurongroup_thresholder_codeobject\t" << neurongroup_thresholder_codeobject_profiling_info << std::endl;
+	outfile_profiling_info << "spikemonitor_codeobject\t" << spikemonitor_codeobject_profiling_info << std::endl;
+	outfile_profiling_info.close();
+	} else
+	{
+	    std::cout << "Error writing profiling info to file." << std::endl;
+	}
+
+	// Write last run info to disk
+	ofstream outfile_last_run_info;
+	outfile_last_run_info.open("results/last_run_info.txt", ios::out);
+	if(outfile_last_run_info.is_open())
+	{
+		outfile_last_run_info << (Network::_last_run_time) << " " << (Network::_last_run_completed_fraction) << std::endl;
+		outfile_last_run_info.close();
+	} else
+	{
+	    std::cout << "Error writing last run info to file." << std::endl;
+	}
+}
+
+void _dealloc_arrays()
+{
+	using namespace brian;
+
+
+	// static arrays
+}
+
+ [brian2.devices.cpp_standalone.device]
+DIAGNOSTIC Writing file objects.h:
+
+#ifndef _BRIAN_OBJECTS_H
+#define _BRIAN_OBJECTS_H
+
+#include "synapses_classes.h"
+#include "brianlib/clocks.h"
+#include "brianlib/dynamic_array.h"
+#include "brianlib/stdint_compat.h"
+#include "network.h"
+#include "randomkit.h"
+#include<vector>
+
+
+namespace brian {
+
+// In OpenMP we need one state per thread
+extern std::vector< rk_state* > _mersenne_twister_states;
+
+//////////////// clocks ///////////////////
+extern Clock defaultclock;
+
+//////////////// networks /////////////////
+extern Network magicnetwork;
+
+//////////////// dynamic arrays ///////////
+extern std::vector<int32_t> _dynamic_array_spikemonitor_i;
+extern std::vector<double> _dynamic_array_spikemonitor_t;
+
+//////////////// arrays ///////////////////
+extern double *_array_defaultclock_dt;
+extern const int _num__array_defaultclock_dt;
+extern double *_array_defaultclock_t;
+extern const int _num__array_defaultclock_t;
+extern int64_t *_array_defaultclock_timestep;
+extern const int _num__array_defaultclock_timestep;
+extern int32_t *_array_neurongroup__spikespace;
+extern const int _num__array_neurongroup__spikespace;
+extern int32_t *_array_neurongroup_i;
+extern const int _num__array_neurongroup_i;
+extern double *_array_neurongroup_v;
+extern const int _num__array_neurongroup_v;
+extern int32_t *_array_spikemonitor__source_idx;
+extern const int _num__array_spikemonitor__source_idx;
+extern int32_t *_array_spikemonitor_count;
+extern const int _num__array_spikemonitor_count;
+extern int32_t *_array_spikemonitor_N;
+extern const int _num__array_spikemonitor_N;
+
+//////////////// dynamic arrays 2d /////////
+
+/////////////// static arrays /////////////
+
+//////////////// synapses /////////////////
+
+// Profiling information for each code object
+extern double neurongroup_group_variable_set_conditional_codeobject_profiling_info;
+extern double neurongroup_resetter_codeobject_profiling_info;
+extern double neurongroup_stateupdater_codeobject_profiling_info;
+extern double neurongroup_thresholder_codeobject_profiling_info;
+extern double spikemonitor_codeobject_profiling_info;
+
+}
+
+void _init_arrays();
+void _load_arrays();
+void _write_arrays();
+void _dealloc_arrays();
+
+#endif
+
+
+ [brian2.devices.cpp_standalone.device]
+DIAGNOSTIC Writing file main.cpp:
+#include <stdlib.h>
+#include "objects.h"
+#include <ctime>
+#include <time.h>
+
+#include "run.h"
+#include "brianlib/common_math.h"
+#include "randomkit.h"
+
+#include "code_objects/neurongroup_group_variable_set_conditional_codeobject.h"
+#include "code_objects/neurongroup_resetter_codeobject.h"
+#include "code_objects/neurongroup_stateupdater_codeobject.h"
+#include "code_objects/neurongroup_thresholder_codeobject.h"
+#include "code_objects/spikemonitor_codeobject.h"
+
+
+#include <iostream>
+#include <fstream>
+
+
+
+
+int main(int argc, char **argv)
+{
+
+	brian_start();
+
+	{
+		using namespace brian;
+
+		
+                
+        _array_defaultclock_dt[0] = 0.0001;
+        _array_defaultclock_dt[0] = 0.0001;
+        _array_defaultclock_dt[0] = 0.0001;
+        _run_neurongroup_group_variable_set_conditional_codeobject();
+        _array_defaultclock_timestep[0] = 0;
+        _array_defaultclock_t[0] = 0.0;
+        magicnetwork.clear();
+        magicnetwork.add(&defaultclock, _run_neurongroup_stateupdater_codeobject);
+        magicnetwork.add(&defaultclock, _run_neurongroup_thresholder_codeobject);
+        magicnetwork.add(&defaultclock, _run_spikemonitor_codeobject);
+        magicnetwork.add(&defaultclock, _run_neurongroup_resetter_codeobject);
+        magicnetwork.run(0.05, NULL, 10.0);
+        #ifdef DEBUG
+        _debugmsg_spikemonitor_codeobject();
+        #endif
+
+	}
+
+	brian_end();
+
+	return 0;
+} [brian2.devices.cpp_standalone.device]
+DIAGNOSTIC Writing file code_objects/neurongroup_thresholder_codeobject.cpp:
+#include "objects.h"
+#include "code_objects/neurongroup_thresholder_codeobject.h"
+#include "brianlib/common_math.h"
+#include "brianlib/stdint_compat.h"
+#include<cmath>
+#include<ctime>
+#include<iostream>
+#include<fstream>
+
+////// SUPPORT CODE ///////
+namespace {
+ 	
+ inline int _brian_mod(int ux, int uy)
+ {
+     const int x = (int)ux;
+     const int y = (int)uy;
+     return ((x%y)+y)%y;
+ }
+ inline long _brian_mod(int ux, long uy)
+ {
+     const long x = (long)ux;
+     const long y = (long)uy;
+     return ((x%y)+y)%y;
+ }
+ inline long long _brian_mod(int ux, long long uy)
+ {
+     const long long x = (long long)ux;
+     const long long y = (long long)uy;
+     return ((x%y)+y)%y;
+ }
+ inline float _brian_mod(int ux, float uy)
+ {
+     const float x = (float)ux;
+     const float y = (float)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(int ux, double uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(int ux, long double uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long _brian_mod(long ux, int uy)
+ {
+     const long x = (long)ux;
+     const long y = (long)uy;
+     return ((x%y)+y)%y;
+ }
+ inline long _brian_mod(long ux, long uy)
+ {
+     const long x = (long)ux;
+     const long y = (long)uy;
+     return ((x%y)+y)%y;
+ }
+ inline long long _brian_mod(long ux, long long uy)
+ {
+     const long long x = (long long)ux;
+     const long long y = (long long)uy;
+     return ((x%y)+y)%y;
+ }
+ inline float _brian_mod(long ux, float uy)
+ {
+     const float x = (float)ux;
+     const float y = (float)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(long ux, double uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(long ux, long double uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long long _brian_mod(long long ux, int uy)
+ {
+     const long long x = (long long)ux;
+     const long long y = (long long)uy;
+     return ((x%y)+y)%y;
+ }
+ inline long long _brian_mod(long long ux, long uy)
+ {
+     const long long x = (long long)ux;
+     const long long y = (long long)uy;
+     return ((x%y)+y)%y;
+ }
+ inline long long _brian_mod(long long ux, long long uy)
+ {
+     const long long x = (long long)ux;
+     const long long y = (long long)uy;
+     return ((x%y)+y)%y;
+ }
+ inline float _brian_mod(long long ux, float uy)
+ {
+     const float x = (float)ux;
+     const float y = (float)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(long long ux, double uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(long long ux, long double uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline float _brian_mod(float ux, int uy)
+ {
+     const float x = (float)ux;
+     const float y = (float)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline float _brian_mod(float ux, long uy)
+ {
+     const float x = (float)ux;
+     const float y = (float)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline float _brian_mod(float ux, long long uy)
+ {
+     const float x = (float)ux;
+     const float y = (float)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline float _brian_mod(float ux, float uy)
+ {
+     const float x = (float)ux;
+     const float y = (float)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(float ux, double uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(float ux, long double uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(double ux, int uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(double ux, long uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(double ux, long long uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(double ux, float uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(double ux, double uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(double ux, long double uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(long double ux, int uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(long double ux, long uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(long double ux, long long uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(long double ux, float uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(long double ux, double uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(long double ux, long double uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ #ifdef _MSC_VER
+ #define _brian_pow(x, y) (pow((double)(x), (y)))
+ #else
+ #define _brian_pow(x, y) (pow((x), (y)))
+ #endif
+
+}
+
+////// HASH DEFINES ///////
+
+
+
+void _run_neurongroup_thresholder_codeobject()
+{
+	using namespace brian;
+
+    const std::clock_t _start_time = std::clock();
+
+	///// CONSTANTS ///////////
+	const int _num_spikespace = 11;
+const int _numv = 10;
+	///// POINTERS ////////////
+ 	
+ int32_t* __restrict  _ptr_array_neurongroup__spikespace = _array_neurongroup__spikespace;
+ double* __restrict  _ptr_array_neurongroup_v = _array_neurongroup_v;
+
+
+
+	//// MAIN CODE ////////////
+	// scalar code
+	const int _vectorisation_idx = -1;
+ 	
+
+
+
+    long _count = 0;
+    for(int _idx=0; _idx<10; _idx++)
+    {
+        const int _vectorisation_idx = _idx;
+                
+        const double v = _ptr_array_neurongroup_v[_idx];
+        const char _cond = v > 1;
+
+        if(_cond) {
+            _ptr_array_neurongroup__spikespace[_count++] = _idx;
+        }
+    }
+    _ptr_array_neurongroup__spikespace[10] = _count;
+
+    const double _run_time = (double)(std::clock() -_start_time)/CLOCKS_PER_SEC;
+    neurongroup_thresholder_codeobject_profiling_info += _run_time;
+}
+
+
+ [brian2.devices.cpp_standalone.device]
+DIAGNOSTIC Writing file code_objects/neurongroup_thresholder_codeobject.h:
+#ifndef _INCLUDED_neurongroup_thresholder_codeobject
+#define _INCLUDED_neurongroup_thresholder_codeobject
+
+#include "objects.h"
+
+void _run_neurongroup_thresholder_codeobject();
+
+
+#endif
+ [brian2.devices.cpp_standalone.device]
+DIAGNOSTIC Writing file code_objects/neurongroup_stateupdater_codeobject.cpp:
+#include "objects.h"
+#include "code_objects/neurongroup_stateupdater_codeobject.h"
+#include "brianlib/common_math.h"
+#include "brianlib/stdint_compat.h"
+#include<cmath>
+#include<ctime>
+#include<iostream>
+#include<fstream>
+
+////// SUPPORT CODE ///////
+namespace {
+ 	
+ inline int _brian_mod(int ux, int uy)
+ {
+     const int x = (int)ux;
+     const int y = (int)uy;
+     return ((x%y)+y)%y;
+ }
+ inline long _brian_mod(int ux, long uy)
+ {
+     const long x = (long)ux;
+     const long y = (long)uy;
+     return ((x%y)+y)%y;
+ }
+ inline long long _brian_mod(int ux, long long uy)
+ {
+     const long long x = (long long)ux;
+     const long long y = (long long)uy;
+     return ((x%y)+y)%y;
+ }
+ inline float _brian_mod(int ux, float uy)
+ {
+     const float x = (float)ux;
+     const float y = (float)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(int ux, double uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(int ux, long double uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long _brian_mod(long ux, int uy)
+ {
+     const long x = (long)ux;
+     const long y = (long)uy;
+     return ((x%y)+y)%y;
+ }
+ inline long _brian_mod(long ux, long uy)
+ {
+     const long x = (long)ux;
+     const long y = (long)uy;
+     return ((x%y)+y)%y;
+ }
+ inline long long _brian_mod(long ux, long long uy)
+ {
+     const long long x = (long long)ux;
+     const long long y = (long long)uy;
+     return ((x%y)+y)%y;
+ }
+ inline float _brian_mod(long ux, float uy)
+ {
+     const float x = (float)ux;
+     const float y = (float)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(long ux, double uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(long ux, long double uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long long _brian_mod(long long ux, int uy)
+ {
+     const long long x = (long long)ux;
+     const long long y = (long long)uy;
+     return ((x%y)+y)%y;
+ }
+ inline long long _brian_mod(long long ux, long uy)
+ {
+     const long long x = (long long)ux;
+     const long long y = (long long)uy;
+     return ((x%y)+y)%y;
+ }
+ inline long long _brian_mod(long long ux, long long uy)
+ {
+     const long long x = (long long)ux;
+     const long long y = (long long)uy;
+     return ((x%y)+y)%y;
+ }
+ inline float _brian_mod(long long ux, float uy)
+ {
+     const float x = (float)ux;
+     const float y = (float)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(long long ux, double uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(long long ux, long double uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline float _brian_mod(float ux, int uy)
+ {
+     const float x = (float)ux;
+     const float y = (float)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline float _brian_mod(float ux, long uy)
+ {
+     const float x = (float)ux;
+     const float y = (float)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline float _brian_mod(float ux, long long uy)
+ {
+     const float x = (float)ux;
+     const float y = (float)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline float _brian_mod(float ux, float uy)
+ {
+     const float x = (float)ux;
+     const float y = (float)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(float ux, double uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(float ux, long double uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(double ux, int uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(double ux, long uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(double ux, long long uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(double ux, float uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(double ux, double uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(double ux, long double uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(long double ux, int uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(long double ux, long uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(long double ux, long long uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(long double ux, float uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(long double ux, double uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(long double ux, long double uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ #ifdef _MSC_VER
+ #define _brian_pow(x, y) (pow((double)(x), (y)))
+ #else
+ #define _brian_pow(x, y) (pow((x), (y)))
+ #endif
+
+}
+
+////// HASH DEFINES ///////
+
+
+
+void _run_neurongroup_stateupdater_codeobject()
+{
+	using namespace brian;
+
+    const std::clock_t _start_time = std::clock();
+
+	///// CONSTANTS ///////////
+	const int _numdt = 1;
+const int _numv = 10;
+	///// POINTERS ////////////
+ 	
+ double*   _ptr_array_defaultclock_dt = _array_defaultclock_dt;
+ double* __restrict  _ptr_array_neurongroup_v = _array_neurongroup_v;
+
+
+	//// MAIN CODE ////////////
+	// scalar code
+	const int _vectorisation_idx = -1;
+ 	
+ const double dt = _ptr_array_defaultclock_dt[0];
+ const double _lio_1 = 2 - (2 * exp((- dt) / 0.01));
+ const double _lio_2 = exp((- dt) / 0.01);
+
+
+	const int _N = 10;
+	
+	for(int _idx=0; _idx<_N; _idx++)
+	{
+	    // vector code
+		const int _vectorisation_idx = _idx;
+                
+        double v = _ptr_array_neurongroup_v[_idx];
+        const double _v = _lio_1 + (_lio_2 * v);
+        v = _v;
+        _ptr_array_neurongroup_v[_idx] = v;
+
+	}
+
+    const double _run_time = (double)(std::clock() -_start_time)/CLOCKS_PER_SEC;
+    neurongroup_stateupdater_codeobject_profiling_info += _run_time;
+}
+
+
+ [brian2.devices.cpp_standalone.device]
+DIAGNOSTIC Writing file code_objects/neurongroup_stateupdater_codeobject.h:
+#ifndef _INCLUDED_neurongroup_stateupdater_codeobject
+#define _INCLUDED_neurongroup_stateupdater_codeobject
+
+#include "objects.h"
+
+void _run_neurongroup_stateupdater_codeobject();
+
+
+#endif
+ [brian2.devices.cpp_standalone.device]
+DIAGNOSTIC Writing file code_objects/neurongroup_group_variable_set_conditional_codeobject.cpp:
+#include "objects.h"
+#include "code_objects/neurongroup_group_variable_set_conditional_codeobject.h"
+#include "brianlib/common_math.h"
+#include "brianlib/stdint_compat.h"
+#include<cmath>
+#include<iostream>
+#include<fstream>
+
+////// SUPPORT CODE ///////
+namespace {
+ 	
+ inline int _brian_mod(int ux, int uy)
+ {
+     const int x = (int)ux;
+     const int y = (int)uy;
+     return ((x%y)+y)%y;
+ }
+ inline long _brian_mod(int ux, long uy)
+ {
+     const long x = (long)ux;
+     const long y = (long)uy;
+     return ((x%y)+y)%y;
+ }
+ inline long long _brian_mod(int ux, long long uy)
+ {
+     const long long x = (long long)ux;
+     const long long y = (long long)uy;
+     return ((x%y)+y)%y;
+ }
+ inline float _brian_mod(int ux, float uy)
+ {
+     const float x = (float)ux;
+     const float y = (float)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(int ux, double uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(int ux, long double uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long _brian_mod(long ux, int uy)
+ {
+     const long x = (long)ux;
+     const long y = (long)uy;
+     return ((x%y)+y)%y;
+ }
+ inline long _brian_mod(long ux, long uy)
+ {
+     const long x = (long)ux;
+     const long y = (long)uy;
+     return ((x%y)+y)%y;
+ }
+ inline long long _brian_mod(long ux, long long uy)
+ {
+     const long long x = (long long)ux;
+     const long long y = (long long)uy;
+     return ((x%y)+y)%y;
+ }
+ inline float _brian_mod(long ux, float uy)
+ {
+     const float x = (float)ux;
+     const float y = (float)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(long ux, double uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(long ux, long double uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long long _brian_mod(long long ux, int uy)
+ {
+     const long long x = (long long)ux;
+     const long long y = (long long)uy;
+     return ((x%y)+y)%y;
+ }
+ inline long long _brian_mod(long long ux, long uy)
+ {
+     const long long x = (long long)ux;
+     const long long y = (long long)uy;
+     return ((x%y)+y)%y;
+ }
+ inline long long _brian_mod(long long ux, long long uy)
+ {
+     const long long x = (long long)ux;
+     const long long y = (long long)uy;
+     return ((x%y)+y)%y;
+ }
+ inline float _brian_mod(long long ux, float uy)
+ {
+     const float x = (float)ux;
+     const float y = (float)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(long long ux, double uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(long long ux, long double uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline float _brian_mod(float ux, int uy)
+ {
+     const float x = (float)ux;
+     const float y = (float)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline float _brian_mod(float ux, long uy)
+ {
+     const float x = (float)ux;
+     const float y = (float)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline float _brian_mod(float ux, long long uy)
+ {
+     const float x = (float)ux;
+     const float y = (float)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline float _brian_mod(float ux, float uy)
+ {
+     const float x = (float)ux;
+     const float y = (float)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(float ux, double uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(float ux, long double uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(double ux, int uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(double ux, long uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(double ux, long long uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(double ux, float uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(double ux, double uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(double ux, long double uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(long double ux, int uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(long double ux, long uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(long double ux, long long uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(long double ux, float uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(long double ux, double uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(long double ux, long double uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ #ifdef _MSC_VER
+ #define _brian_pow(x, y) (pow((double)(x), (y)))
+ #else
+ #define _brian_pow(x, y) (pow((x), (y)))
+ #endif
+
+}
+
+////// HASH DEFINES ///////
+
+
+
+void _run_neurongroup_group_variable_set_conditional_codeobject()
+{
+	using namespace brian;
+	///// CONSTANTS ///////////
+	const int _numi = 10;
+const int _numv = 10;
+	///// POINTERS ////////////
+ 	
+ int32_t* __restrict  _ptr_array_neurongroup_i = _array_neurongroup_i;
+ double* __restrict  _ptr_array_neurongroup_v = _array_neurongroup_v;
+
+
+	//// MAIN CODE ////////////
+	// scalar code
+	const int _vectorisation_idx = -1;
+ 	
+
+ 	
+ const double _lio_statement_1 = 1.0 / 10;
+
+
+	const int _N = 10;
+
+	
+	for(int _idx=0; _idx<_N; _idx++)
+	{
+	    // vector code
+		const int _vectorisation_idx = _idx;
+  		
+  const char _cond = true;
+
+		if (_cond)
+		{
+                        
+            const int32_t i = _ptr_array_neurongroup_i[_idx];
+            double v;
+            v = _lio_statement_1 * i;
+            _ptr_array_neurongroup_v[_idx] = v;
+
+        }
+	}
+}
+
+
+ [brian2.devices.cpp_standalone.device]
+DIAGNOSTIC Writing file code_objects/neurongroup_group_variable_set_conditional_codeobject.h:
+#ifndef _INCLUDED_neurongroup_group_variable_set_conditional_codeobject
+#define _INCLUDED_neurongroup_group_variable_set_conditional_codeobject
+
+#include "objects.h"
+
+void _run_neurongroup_group_variable_set_conditional_codeobject();
+
+
+#endif
+ [brian2.devices.cpp_standalone.device]
+DIAGNOSTIC Writing file code_objects/neurongroup_resetter_codeobject.cpp:
+#include "objects.h"
+#include "code_objects/neurongroup_resetter_codeobject.h"
+#include "brianlib/common_math.h"
+#include "brianlib/stdint_compat.h"
+#include<cmath>
+#include<ctime>
+#include<iostream>
+#include<fstream>
+
+////// SUPPORT CODE ///////
+namespace {
+ 	
+ inline int _brian_mod(int ux, int uy)
+ {
+     const int x = (int)ux;
+     const int y = (int)uy;
+     return ((x%y)+y)%y;
+ }
+ inline long _brian_mod(int ux, long uy)
+ {
+     const long x = (long)ux;
+     const long y = (long)uy;
+     return ((x%y)+y)%y;
+ }
+ inline long long _brian_mod(int ux, long long uy)
+ {
+     const long long x = (long long)ux;
+     const long long y = (long long)uy;
+     return ((x%y)+y)%y;
+ }
+ inline float _brian_mod(int ux, float uy)
+ {
+     const float x = (float)ux;
+     const float y = (float)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(int ux, double uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(int ux, long double uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long _brian_mod(long ux, int uy)
+ {
+     const long x = (long)ux;
+     const long y = (long)uy;
+     return ((x%y)+y)%y;
+ }
+ inline long _brian_mod(long ux, long uy)
+ {
+     const long x = (long)ux;
+     const long y = (long)uy;
+     return ((x%y)+y)%y;
+ }
+ inline long long _brian_mod(long ux, long long uy)
+ {
+     const long long x = (long long)ux;
+     const long long y = (long long)uy;
+     return ((x%y)+y)%y;
+ }
+ inline float _brian_mod(long ux, float uy)
+ {
+     const float x = (float)ux;
+     const float y = (float)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(long ux, double uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(long ux, long double uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long long _brian_mod(long long ux, int uy)
+ {
+     const long long x = (long long)ux;
+     const long long y = (long long)uy;
+     return ((x%y)+y)%y;
+ }
+ inline long long _brian_mod(long long ux, long uy)
+ {
+     const long long x = (long long)ux;
+     const long long y = (long long)uy;
+     return ((x%y)+y)%y;
+ }
+ inline long long _brian_mod(long long ux, long long uy)
+ {
+     const long long x = (long long)ux;
+     const long long y = (long long)uy;
+     return ((x%y)+y)%y;
+ }
+ inline float _brian_mod(long long ux, float uy)
+ {
+     const float x = (float)ux;
+     const float y = (float)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(long long ux, double uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(long long ux, long double uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline float _brian_mod(float ux, int uy)
+ {
+     const float x = (float)ux;
+     const float y = (float)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline float _brian_mod(float ux, long uy)
+ {
+     const float x = (float)ux;
+     const float y = (float)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline float _brian_mod(float ux, long long uy)
+ {
+     const float x = (float)ux;
+     const float y = (float)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline float _brian_mod(float ux, float uy)
+ {
+     const float x = (float)ux;
+     const float y = (float)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(float ux, double uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(float ux, long double uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(double ux, int uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(double ux, long uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(double ux, long long uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(double ux, float uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(double ux, double uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(double ux, long double uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(long double ux, int uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(long double ux, long uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(long double ux, long long uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(long double ux, float uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(long double ux, double uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(long double ux, long double uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ #ifdef _MSC_VER
+ #define _brian_pow(x, y) (pow((double)(x), (y)))
+ #else
+ #define _brian_pow(x, y) (pow((x), (y)))
+ #endif
+
+}
+
+////// HASH DEFINES ///////
+
+
+
+void _run_neurongroup_resetter_codeobject()
+{
+	using namespace brian;
+
+    const std::clock_t _start_time = std::clock();
+
+	///// CONSTANTS ///////////
+	const int _num_spikespace = 11;
+const int _numv = 10;
+	///// POINTERS ////////////
+ 	
+ int32_t* __restrict  _ptr_array_neurongroup__spikespace = _array_neurongroup__spikespace;
+ double* __restrict  _ptr_array_neurongroup_v = _array_neurongroup_v;
+
+
+
+	const int32_t *_events = _ptr_array_neurongroup__spikespace;
+	const int32_t _num_events = _ptr_array_neurongroup__spikespace[10];
+
+	//// MAIN CODE ////////////	
+	// scalar code
+	const int _vectorisation_idx = -1;
+ 	
+
+
+	
+	for(int _index_events=0; _index_events<_num_events; _index_events++)
+	{
+	    // vector code
+		const int _idx = _events[_index_events];
+		const int _vectorisation_idx = _idx;
+                
+        double v;
+        v = 0;
+        _ptr_array_neurongroup_v[_idx] = v;
+
+	}
+
+    const double _run_time = (double)(std::clock() -_start_time)/CLOCKS_PER_SEC;
+    neurongroup_resetter_codeobject_profiling_info += _run_time;
+}
+
+
+ [brian2.devices.cpp_standalone.device]
+DIAGNOSTIC Writing file code_objects/neurongroup_resetter_codeobject.h:
+#ifndef _INCLUDED_neurongroup_resetter_codeobject
+#define _INCLUDED_neurongroup_resetter_codeobject
+
+#include "objects.h"
+
+void _run_neurongroup_resetter_codeobject();
+
+
+#endif
+ [brian2.devices.cpp_standalone.device]
+DIAGNOSTIC Writing file code_objects/spikemonitor_codeobject.cpp:
+#include "objects.h"
+#include "code_objects/spikemonitor_codeobject.h"
+#include "brianlib/common_math.h"
+#include "brianlib/stdint_compat.h"
+#include<cmath>
+#include<ctime>
+#include<iostream>
+#include<fstream>
+
+////// SUPPORT CODE ///////
+namespace {
+ 	
+ inline int _brian_mod(int ux, int uy)
+ {
+     const int x = (int)ux;
+     const int y = (int)uy;
+     return ((x%y)+y)%y;
+ }
+ inline long _brian_mod(int ux, long uy)
+ {
+     const long x = (long)ux;
+     const long y = (long)uy;
+     return ((x%y)+y)%y;
+ }
+ inline long long _brian_mod(int ux, long long uy)
+ {
+     const long long x = (long long)ux;
+     const long long y = (long long)uy;
+     return ((x%y)+y)%y;
+ }
+ inline float _brian_mod(int ux, float uy)
+ {
+     const float x = (float)ux;
+     const float y = (float)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(int ux, double uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(int ux, long double uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long _brian_mod(long ux, int uy)
+ {
+     const long x = (long)ux;
+     const long y = (long)uy;
+     return ((x%y)+y)%y;
+ }
+ inline long _brian_mod(long ux, long uy)
+ {
+     const long x = (long)ux;
+     const long y = (long)uy;
+     return ((x%y)+y)%y;
+ }
+ inline long long _brian_mod(long ux, long long uy)
+ {
+     const long long x = (long long)ux;
+     const long long y = (long long)uy;
+     return ((x%y)+y)%y;
+ }
+ inline float _brian_mod(long ux, float uy)
+ {
+     const float x = (float)ux;
+     const float y = (float)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(long ux, double uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(long ux, long double uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long long _brian_mod(long long ux, int uy)
+ {
+     const long long x = (long long)ux;
+     const long long y = (long long)uy;
+     return ((x%y)+y)%y;
+ }
+ inline long long _brian_mod(long long ux, long uy)
+ {
+     const long long x = (long long)ux;
+     const long long y = (long long)uy;
+     return ((x%y)+y)%y;
+ }
+ inline long long _brian_mod(long long ux, long long uy)
+ {
+     const long long x = (long long)ux;
+     const long long y = (long long)uy;
+     return ((x%y)+y)%y;
+ }
+ inline float _brian_mod(long long ux, float uy)
+ {
+     const float x = (float)ux;
+     const float y = (float)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(long long ux, double uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(long long ux, long double uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline float _brian_mod(float ux, int uy)
+ {
+     const float x = (float)ux;
+     const float y = (float)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline float _brian_mod(float ux, long uy)
+ {
+     const float x = (float)ux;
+     const float y = (float)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline float _brian_mod(float ux, long long uy)
+ {
+     const float x = (float)ux;
+     const float y = (float)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline float _brian_mod(float ux, float uy)
+ {
+     const float x = (float)ux;
+     const float y = (float)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(float ux, double uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(float ux, long double uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(double ux, int uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(double ux, long uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(double ux, long long uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(double ux, float uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(double ux, double uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(double ux, long double uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(long double ux, int uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(long double ux, long uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(long double ux, long long uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(long double ux, float uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(long double ux, double uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(long double ux, long double uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ #ifdef _MSC_VER
+ #define _brian_pow(x, y) (pow((double)(x), (y)))
+ #else
+ #define _brian_pow(x, y) (pow((x), (y)))
+ #endif
+
+}
+
+////// HASH DEFINES ///////
+
+
+
+void _run_spikemonitor_codeobject()
+{
+	using namespace brian;
+
+    const std::clock_t _start_time = std::clock();
+
+	///// CONSTANTS ///////////
+	const int _num_spikespace = 11;
+double* const _array_spikemonitor_t = _dynamic_array_spikemonitor_t.empty()? 0 : &_dynamic_array_spikemonitor_t[0];
+const int _numt = _dynamic_array_spikemonitor_t.size();
+const int _num_source_t = 1;
+const int _num_source_idx = 10;
+const int _num_source_i = 10;
+const int _numN = 1;
+int32_t* const _array_spikemonitor_i = _dynamic_array_spikemonitor_i.empty()? 0 : &_dynamic_array_spikemonitor_i[0];
+const int _numi = _dynamic_array_spikemonitor_i.size();
+const int _numcount = 10;
+const int _num_clock_t = 1;
+	///// POINTERS ////////////
+ 	
+ int32_t* __restrict  _ptr_array_neurongroup__spikespace = _array_neurongroup__spikespace;
+ double* __restrict  _ptr_array_spikemonitor_t = _array_spikemonitor_t;
+ double*   _ptr_array_defaultclock_t = _array_defaultclock_t;
+ int32_t* __restrict  _ptr_array_spikemonitor__source_idx = _array_spikemonitor__source_idx;
+ int32_t* __restrict  _ptr_array_neurongroup_i = _array_neurongroup_i;
+ int32_t*   _ptr_array_spikemonitor_N = _array_spikemonitor_N;
+ int32_t* __restrict  _ptr_array_spikemonitor_i = _array_spikemonitor_i;
+ int32_t* __restrict  _ptr_array_spikemonitor_count = _array_spikemonitor_count;
+
+
+	//// MAIN CODE ////////////
+
+	int32_t _num_events = _ptr_array_neurongroup__spikespace[_num_spikespace-1];
+
+    if (_num_events > 0)
+    {
+        int _start_idx = _num_events;
+        int _end_idx = _num_events;
+        for(int _j=0; _j<_num_events; _j++)
+        {
+            const int _idx = _ptr_array_neurongroup__spikespace[_j];
+            if (_idx >= 0) {
+                _start_idx = _j;
+                break;
+            }
+        }
+        for(int _j=_num_events-1; _j>=_start_idx; _j--)
+        {
+            const int _idx = _ptr_array_neurongroup__spikespace[_j];
+            if (_idx < 10) {
+                break;
+            }
+            _end_idx = _j;
+        }
+        _num_events = _end_idx - _start_idx;
+        if (_num_events > 0) {
+             const int _vectorisation_idx = 1;
+                        
+
+            for(int _j=_start_idx; _j<_end_idx; _j++)
+            {
+                const int _idx = _ptr_array_neurongroup__spikespace[_j];
+                const int _vectorisation_idx = _idx;
+                                
+                const int32_t _source_i = _ptr_array_neurongroup_i[_idx];
+                const double _source_t = _ptr_array_defaultclock_t[0];
+                const double _to_record_t = _source_t;
+                const int32_t _to_record_i = _source_i;
+
+                _dynamic_array_spikemonitor_i.push_back(_to_record_i);
+                _dynamic_array_spikemonitor_t.push_back(_to_record_t);
+                _ptr_array_spikemonitor_count[_idx-0]++;
+            }
+            _ptr_array_spikemonitor_N[0] += _num_events;
+        }
+    }
+
+
+    const double _run_time = (double)(std::clock() -_start_time)/CLOCKS_PER_SEC;
+    spikemonitor_codeobject_profiling_info += _run_time;
+}
+
+void _debugmsg_spikemonitor_codeobject()
+{
+	using namespace brian;
+    const int _num_spikespace = 11;
+double* const _array_spikemonitor_t = _dynamic_array_spikemonitor_t.empty()? 0 : &_dynamic_array_spikemonitor_t[0];
+const int _numt = _dynamic_array_spikemonitor_t.size();
+const int _num_source_t = 1;
+const int _num_source_idx = 10;
+const int _num_source_i = 10;
+const int _numN = 1;
+int32_t* const _array_spikemonitor_i = _dynamic_array_spikemonitor_i.empty()? 0 : &_dynamic_array_spikemonitor_i[0];
+const int _numi = _dynamic_array_spikemonitor_i.size();
+const int _numcount = 10;
+const int _num_clock_t = 1;
+        
+    int32_t* __restrict  _ptr_array_neurongroup__spikespace = _array_neurongroup__spikespace;
+    double* __restrict  _ptr_array_spikemonitor_t = _array_spikemonitor_t;
+    double*   _ptr_array_defaultclock_t = _array_defaultclock_t;
+    int32_t* __restrict  _ptr_array_spikemonitor__source_idx = _array_spikemonitor__source_idx;
+    int32_t* __restrict  _ptr_array_neurongroup_i = _array_neurongroup_i;
+    int32_t*   _ptr_array_spikemonitor_N = _array_spikemonitor_N;
+    int32_t* __restrict  _ptr_array_spikemonitor_i = _array_spikemonitor_i;
+    int32_t* __restrict  _ptr_array_spikemonitor_count = _array_spikemonitor_count;
+
+	std::cout << "Number of spikes: " << _ptr_array_spikemonitor_N[0] << endl;
+}
+
+ [brian2.devices.cpp_standalone.device]
+DIAGNOSTIC Writing file code_objects/spikemonitor_codeobject.h:
+#ifndef _INCLUDED_spikemonitor_codeobject
+#define _INCLUDED_spikemonitor_codeobject
+
+#include "objects.h"
+
+void _run_spikemonitor_codeobject();
+
+void _debugmsg_spikemonitor_codeobject();
+
+#endif
+ [brian2.devices.cpp_standalone.device]
+DIAGNOSTIC Writing file network.*:
+h_file:
+    #ifndef _BRIAN_NETWORK_H
+    #define _BRIAN_NETWORK_H
+    #include<vector>
+    #include<utility>
+    #include<set>
+    #include "brianlib/clocks.h"
+    typedef void (*codeobj_func)();
+    class Network
+    {
+        std::set<Clock*> clocks, curclocks;
+        void compute_clocks();
+        Clock* next_clocks();
+    public:
+        std::vector< std::pair< Clock*, codeobj_func > > objects;
+        double t;
+        static double _last_run_time;
+        static double _last_run_completed_fraction;
+        Network();
+        void clear();
+        void add(Clock *clock, codeobj_func func);
+        void run(const double duration, void (*report_func)(const double, const double, const double, const double), const double report_period);
+    };
+    #endif
+cpp_file:
+    #include "network.h"
+    #include<stdlib.h>
+    #include<iostream>
+    #include <ctime>
+    #include<utility>
+    #define Clock_epsilon 1e-14
+    double Network::_last_run_time = 0.0;
+    double Network::_last_run_completed_fraction = 0.0;
+    Network::Network()
+    {
+        t = 0.0;
+    }
+    void Network::clear()
+    {
+        objects.clear();
+    }
+    void Network::add(Clock* clock, codeobj_func func)
+    {
+    #if defined(_MSC_VER) && (_MSC_VER>=1700)
+        objects.push_back(std::make_pair(std::move(clock), std::move(func)));
+    #else
+        objects.push_back(std::make_pair(clock, func));
+    #endif
+    }
+    void Network::run(const double duration, void (*report_func)(const double, const double, const double, const double), const double report_period)
+    {
+        std::clock_t start, current;
+        const double t_start = t;
+        const double t_end = t + duration;
+        double next_report_time = report_period;
+        // compute the set of clocks
+        compute_clocks();
+        // set interval for all clocks
+        for(std::set<Clock*>::iterator i=clocks.begin(); i!=clocks.end(); i++)
+            (*i)->set_interval(t, t_end);
+        start = std::clock();
+        if (report_func)
+        {
+            report_func(0.0, 0.0, t_start, duration);
+        }
+        Clock* clock = next_clocks();
+        double elapsed_realtime;
+        bool did_break_early = false;
+        while(clock && clock->running())
+        {
+            t = clock->t[0];
+            for(int i=0; i<objects.size(); i++)
+            {
+                if (report_func)
+                {
+                    current = std::clock();
+                    const double elapsed = ((double)(current - start) / CLOCKS_PER_SEC);
+                    if (elapsed > next_report_time)
+                    {
+                        report_func(elapsed, (clock->t[0]-t_start)/duration, t_start, duration);
+                        next_report_time += report_period;
+                    }
+                }
+                Clock *obj_clock = objects[i].first;
+                // Only execute the object if it uses the right clock for this step
+                if (curclocks.find(obj_clock) != curclocks.end())
+                {
+                    codeobj_func func = objects[i].second;
+                    if (func)  // code objects can be NULL in cases where we store just the clock
+                        func();
+                }
+            }
+            for(std::set<Clock*>::iterator i=curclocks.begin(); i!=curclocks.end(); i++)
+                (*i)->tick();
+            clock = next_clocks();
+            current = std::clock();
+            elapsed_realtime = (double)(current - start)/(1 * CLOCKS_PER_SEC);
+        }
+        if(!did_break_early) t = t_end;
+        _last_run_time = elapsed_realtime;
+        if(duration>0)
+        {
+            _last_run_completed_fraction = (t-t_start)/duration;
+        } else {
+            _last_run_completed_fraction = 1.0;
+        }
+        if (report_func)
+        {
+            report_func(elapsed_realtime, 1.0, t_start, duration);
+        }
+    }
+    void Network::compute_clocks()
+    {
+        clocks.clear();
+        for(int i=0; i<objects.size(); i++)
+        {
+            Clock *clock = objects[i].first;
+            clocks.insert(clock);
+        }
+    }
+    Clock* Network::next_clocks()
+    {
+        // find minclock, clock with smallest t value
+        Clock *minclock = *clocks.begin();
+        if (!minclock) // empty list of clocks
+            return NULL;
+        for(std::set<Clock*>::iterator i=clocks.begin(); i!=clocks.end(); i++)
+        {
+            Clock *clock = *i;
+            if(clock->t[0]<minclock->t[0])
+                minclock = clock;
+        }
+        // find set of equal clocks
+        curclocks.clear();
+        double t = minclock->t[0];
+        for(std::set<Clock*>::iterator i=clocks.begin(); i!=clocks.end(); i++)
+        {
+            Clock *clock = *i;
+            double s = clock->t[0];
+            if(s==t || fabs(s-t)<=Clock_epsilon)
+                curclocks.insert(clock);
+        }
+        return minclock;
+    }
+ [brian2.devices.cpp_standalone.device]
+DIAGNOSTIC Writing file network.cpp:
+
+#include "network.h"
+#include<stdlib.h>
+#include<iostream>
+#include <ctime>
+#include<utility>
+
+
+#define Clock_epsilon 1e-14
+
+double Network::_last_run_time = 0.0;
+double Network::_last_run_completed_fraction = 0.0;
+
+Network::Network()
+{
+    t = 0.0;
+}
+
+void Network::clear()
+{
+    objects.clear();
+}
+
+void Network::add(Clock* clock, codeobj_func func)
+{
+#if defined(_MSC_VER) && (_MSC_VER>=1700)
+    objects.push_back(std::make_pair(std::move(clock), std::move(func)));
+#else
+    objects.push_back(std::make_pair(clock, func));
+#endif
+}
+
+void Network::run(const double duration, void (*report_func)(const double, const double, const double, const double), const double report_period)
+{
+    std::clock_t start, current;
+    const double t_start = t;
+    const double t_end = t + duration;
+    double next_report_time = report_period;
+    // compute the set of clocks
+    compute_clocks();
+    // set interval for all clocks
+
+    for(std::set<Clock*>::iterator i=clocks.begin(); i!=clocks.end(); i++)
+        (*i)->set_interval(t, t_end);
+
+    start = std::clock();
+    if (report_func)
+    {
+        report_func(0.0, 0.0, t_start, duration);
+    }
+
+    Clock* clock = next_clocks();
+    double elapsed_realtime;
+    bool did_break_early = false;
+
+    while(clock && clock->running())
+    {
+        t = clock->t[0];
+
+        for(int i=0; i<objects.size(); i++)
+        {
+            if (report_func)
+            {
+                current = std::clock();
+                const double elapsed = ((double)(current - start) / CLOCKS_PER_SEC);
+                if (elapsed > next_report_time)
+                {
+                    report_func(elapsed, (clock->t[0]-t_start)/duration, t_start, duration);
+                    next_report_time += report_period;
+                }
+            }
+            Clock *obj_clock = objects[i].first;
+            // Only execute the object if it uses the right clock for this step
+            if (curclocks.find(obj_clock) != curclocks.end())
+            {
+                codeobj_func func = objects[i].second;
+                if (func)  // code objects can be NULL in cases where we store just the clock
+                    func();
+            }
+        }
+        for(std::set<Clock*>::iterator i=curclocks.begin(); i!=curclocks.end(); i++)
+            (*i)->tick();
+        clock = next_clocks();
+
+        current = std::clock();
+        elapsed_realtime = (double)(current - start)/(1 * CLOCKS_PER_SEC);
+
+
+    }
+
+    if(!did_break_early) t = t_end;
+
+    _last_run_time = elapsed_realtime;
+    if(duration>0)
+    {
+        _last_run_completed_fraction = (t-t_start)/duration;
+    } else {
+        _last_run_completed_fraction = 1.0;
+    }
+    if (report_func)
+    {
+        report_func(elapsed_realtime, 1.0, t_start, duration);
+    }
+}
+
+void Network::compute_clocks()
+{
+    clocks.clear();
+    for(int i=0; i<objects.size(); i++)
+    {
+        Clock *clock = objects[i].first;
+        clocks.insert(clock);
+    }
+}
+
+Clock* Network::next_clocks()
+{
+    // find minclock, clock with smallest t value
+    Clock *minclock = *clocks.begin();
+    if (!minclock) // empty list of clocks
+        return NULL;
+
+    for(std::set<Clock*>::iterator i=clocks.begin(); i!=clocks.end(); i++)
+    {
+        Clock *clock = *i;
+        if(clock->t[0]<minclock->t[0])
+            minclock = clock;
+    }
+    // find set of equal clocks
+    curclocks.clear();
+
+    double t = minclock->t[0];
+    for(std::set<Clock*>::iterator i=clocks.begin(); i!=clocks.end(); i++)
+    {
+        Clock *clock = *i;
+        double s = clock->t[0];
+        if(s==t || fabs(s-t)<=Clock_epsilon)
+            curclocks.insert(clock);
+    }
+    return minclock;
+}
+
+ [brian2.devices.cpp_standalone.device]
+DIAGNOSTIC Writing file network.h:
+
+#ifndef _BRIAN_NETWORK_H
+#define _BRIAN_NETWORK_H
+
+#include<vector>
+#include<utility>
+#include<set>
+#include "brianlib/clocks.h"
+
+typedef void (*codeobj_func)();
+
+class Network
+{
+    std::set<Clock*> clocks, curclocks;
+    void compute_clocks();
+    Clock* next_clocks();
+public:
+    std::vector< std::pair< Clock*, codeobj_func > > objects;
+    double t;
+    static double _last_run_time;
+    static double _last_run_completed_fraction;
+
+    Network();
+    void clear();
+    void add(Clock *clock, codeobj_func func);
+    void run(const double duration, void (*report_func)(const double, const double, const double, const double), const double report_period);
+};
+
+#endif
+
+ [brian2.devices.cpp_standalone.device]
+DIAGNOSTIC Writing file synapses_classes.*:
+h_file:
+    #ifndef _BRIAN_SYNAPSES_H
+    #define _BRIAN_SYNAPSES_H
+    #include<vector>
+    #include<algorithm>
+    #include "brianlib/spikequeue.h"
+    template<class scalar> class SynapticPathway;
+    template <class scalar>
+    class SynapticPathway
+    {
+    public:
+    	int Nsource, Ntarget, _nb_threads;
+    	std::vector<scalar> &delay;
+    	std::vector<int> &sources;
+    	std::vector<int> all_peek;
+    	std::vector< CSpikeQueue<scalar> * > queue;
+    	SynapticPathway(std::vector<scalar>& _delay, std::vector<int> &_sources,
+    					int _spikes_start, int _spikes_stop)
+    		: delay(_delay), sources(_sources)
+    	{
+    	   _nb_threads = 1;
+    	   for (int _idx=0; _idx < _nb_threads; _idx++)
+    	       queue.push_back(new CSpikeQueue<scalar>(_spikes_start, _spikes_stop));
+        };
+    	~SynapticPathway()
+    	{
+    		for (int _idx=0; _idx < _nb_threads; _idx++)
+    			delete(queue[_idx]);
+    	}
+    	void push(int *spikes, int nspikes)
+        {
+        	queue[0]->push(spikes, nspikes);
+        }
+    	void advance()
+        {
+        	queue[0]->advance();
+        }
+    	vector<int32_t>* peek()
+        {
+    		for(int _thread=0; _thread < 1; _thread++)
+    		{
+    			{
+        			if (_thread == 0)
+    					all_peek.clear();
+    				all_peek.insert(all_peek.end(), queue[_thread]->peek()->begin(), queue[_thread]->peek()->end());
+        		}
+        	}
+        	return &all_peek;
+        }
+        void prepare(int n_source, int n_target, scalar *real_delays, int n_delays,
+                     int *sources, int n_synapses, double _dt)
+        {
+            Nsource = n_source;
+            Ntarget = n_target;
+        	{
+                int length;
+                if (0 == _nb_threads - 1) 
+                    length = n_synapses - (int)0*(n_synapses/_nb_threads);
+                else
+                    length = (int) n_synapses/_nb_threads;
+                int padding  = 0*(n_synapses/_nb_threads);
+                queue[0]->openmp_padding = padding;
+                if (n_delays > 1)
+        		    queue[0]->prepare(&real_delays[padding], length, &sources[padding], length, _dt);
+        		else if (n_delays == 1)
+        		    queue[0]->prepare(&real_delays[0], 1, &sources[padding], length, _dt);
+        		else  // no synapses
+        		    queue[0]->prepare(NULL, 0, &sources[padding], length, _dt);
+        	}
+        }
+    };
+    #endif
+cpp_file:
+
+ [brian2.devices.cpp_standalone.device]
+DIAGNOSTIC Writing file synapses_classes.cpp:
+ [brian2.devices.cpp_standalone.device]
+DIAGNOSTIC Writing file synapses_classes.h:
+
+#ifndef _BRIAN_SYNAPSES_H
+#define _BRIAN_SYNAPSES_H
+
+#include<vector>
+#include<algorithm>
+
+
+#include "brianlib/spikequeue.h"
+
+template<class scalar> class SynapticPathway;
+
+template <class scalar>
+class SynapticPathway
+{
+public:
+	int Nsource, Ntarget, _nb_threads;
+	std::vector<scalar> &delay;
+	std::vector<int> &sources;
+	std::vector<int> all_peek;
+	std::vector< CSpikeQueue<scalar> * > queue;
+	SynapticPathway(std::vector<scalar>& _delay, std::vector<int> &_sources,
+					int _spikes_start, int _spikes_stop)
+		: delay(_delay), sources(_sources)
+	{
+	   _nb_threads = 1;
+
+	   for (int _idx=0; _idx < _nb_threads; _idx++)
+	       queue.push_back(new CSpikeQueue<scalar>(_spikes_start, _spikes_stop));
+    };
+
+	~SynapticPathway()
+	{
+		for (int _idx=0; _idx < _nb_threads; _idx++)
+			delete(queue[_idx]);
+	}
+
+	void push(int *spikes, int nspikes)
+    {
+    	queue[0]->push(spikes, nspikes);
+    }
+
+	void advance()
+    {
+    	queue[0]->advance();
+    }
+
+	vector<int32_t>* peek()
+    {
+    	
+		for(int _thread=0; _thread < 1; _thread++)
+		{
+			
+			{
+    			if (_thread == 0)
+					all_peek.clear();
+				all_peek.insert(all_peek.end(), queue[_thread]->peek()->begin(), queue[_thread]->peek()->end());
+    		}
+    	}
+   
+    	return &all_peek;
+    }
+
+    void prepare(int n_source, int n_target, scalar *real_delays, int n_delays,
+                 int *sources, int n_synapses, double _dt)
+    {
+        Nsource = n_source;
+        Ntarget = n_target;
+    	
+    	{
+            int length;
+            if (0 == _nb_threads - 1) 
+                length = n_synapses - (int)0*(n_synapses/_nb_threads);
+            else
+                length = (int) n_synapses/_nb_threads;
+
+            int padding  = 0*(n_synapses/_nb_threads);
+
+            queue[0]->openmp_padding = padding;
+            if (n_delays > 1)
+    		    queue[0]->prepare(&real_delays[padding], length, &sources[padding], length, _dt);
+    		else if (n_delays == 1)
+    		    queue[0]->prepare(&real_delays[0], 1, &sources[padding], length, _dt);
+    		else  // no synapses
+    		    queue[0]->prepare(NULL, 0, &sources[padding], length, _dt);
+    	}
+    }
+
+};
+
+#endif
+
+ [brian2.devices.cpp_standalone.device]
+DIAGNOSTIC Writing file run.*:
+h_file:
+    void brian_start();
+    void brian_end();
+cpp_file:
+    #include<stdlib.h>
+    #include "objects.h"
+    #include<ctime>
+    #include "randomkit.h"
+    #include "code_objects/neurongroup_group_variable_set_conditional_codeobject.h"
+    #include "code_objects/neurongroup_resetter_codeobject.h"
+    #include "code_objects/neurongroup_stateupdater_codeobject.h"
+    #include "code_objects/neurongroup_thresholder_codeobject.h"
+    #include "code_objects/spikemonitor_codeobject.h"
+    void brian_start()
+    {
+    	_init_arrays();
+    	_load_arrays();
+    	// Initialize clocks (link timestep and dt to the respective arrays)
+        brian::defaultclock.timestep = brian::_array_defaultclock_timestep;
+        brian::defaultclock.dt = brian::_array_defaultclock_dt;
+        brian::defaultclock.t = brian::_array_defaultclock_t;
+        for (int i=0; i<1; i++)
+    	    rk_randomseed(brian::_mersenne_twister_states[i]);  // Note that this seed can be potentially replaced in main.cpp
+    }
+    void brian_end()
+    {
+    	_write_arrays();
+    	_dealloc_arrays();
+    }
+ [brian2.devices.cpp_standalone.device]
+DIAGNOSTIC Writing file run.cpp:
+#include<stdlib.h>
+#include "objects.h"
+#include<ctime>
+#include "randomkit.h"
+
+#include "code_objects/neurongroup_group_variable_set_conditional_codeobject.h"
+#include "code_objects/neurongroup_resetter_codeobject.h"
+#include "code_objects/neurongroup_stateupdater_codeobject.h"
+#include "code_objects/neurongroup_thresholder_codeobject.h"
+#include "code_objects/spikemonitor_codeobject.h"
+
+
+void brian_start()
+{
+	_init_arrays();
+	_load_arrays();
+	// Initialize clocks (link timestep and dt to the respective arrays)
+    brian::defaultclock.timestep = brian::_array_defaultclock_timestep;
+    brian::defaultclock.dt = brian::_array_defaultclock_dt;
+    brian::defaultclock.t = brian::_array_defaultclock_t;
+    for (int i=0; i<1; i++)
+	    rk_randomseed(brian::_mersenne_twister_states[i]);  // Note that this seed can be potentially replaced in main.cpp
+}
+
+void brian_end()
+{
+	_write_arrays();
+	_dealloc_arrays();
+}
+
+
+ [brian2.devices.cpp_standalone.device]
+DIAGNOSTIC Writing file run.h:
+
+void brian_start();
+void brian_end();
+
+
+ [brian2.devices.cpp_standalone.device]
+DIAGNOSTIC Writing file makefile:
+PROGRAM = main
+
+SRCS = objects.cpp main.cpp code_objects/neurongroup_thresholder_codeobject.cpp code_objects/neurongroup_stateupdater_codeobject.cpp code_objects/neurongroup_group_variable_set_conditional_codeobject.cpp code_objects/neurongroup_resetter_codeobject.cpp code_objects/spikemonitor_codeobject.cpp network.cpp synapses_classes.cpp run.cpp brianlib/randomkit/randomkit.c
+H_SRCS = objects.h code_objects/neurongroup_thresholder_codeobject.h code_objects/neurongroup_stateupdater_codeobject.h code_objects/neurongroup_group_variable_set_conditional_codeobject.h code_objects/neurongroup_resetter_codeobject.h code_objects/spikemonitor_codeobject.h network.h synapses_classes.h run.h brianlib/clocks.h brianlib/common_math.h brianlib/dynamic_array.h
+OBJS = ${SRCS:.cpp=.o}
+OBJS := ${OBJS:.c=.o}
+CC = @g++
+OPTIMISATIONS = -Ibrianlib/randomkit -I/usr/include -w -O3 -ffast-math -fno-finite-math-only -march=native
+CFLAGS = -c -Wno-write-strings $(OPTIMISATIONS) -I.  
+LFLAGS =  -Lbrianlib/randomkit -L/usr/lib -Wl,--enable-new-dtags,-R/usr/lib 
+DEPS = make.deps
+
+all: $(PROGRAM)
+
+.PHONY: all clean
+
+$(PROGRAM): $(OBJS) $(DEPS) makefile
+	$(CC) $(OBJS) -o $(PROGRAM) $(LFLAGS)
+
+clean:
+	rm $(OBJS) $(PROGRAM) $(DEPS)
+
+make.deps: $(SRCS) $(H_SRCS)
+	$(CC) $(CFLAGS) -MM $(SRCS) > make.deps
+	
+ifneq ($(wildcard $(DEPS)), )
+include $(DEPS)
+endif
+
+%.o : %.cpp makefile
+	$(CC) $(CFLAGS) $< -o $@ [brian2.devices.cpp_standalone.device]
+1.4880218505859375
