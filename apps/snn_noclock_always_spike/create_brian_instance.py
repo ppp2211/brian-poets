@@ -88,9 +88,9 @@ dt = 0.125
 
 nodes=[None]*N
 for i in range(N):
-    if IArr is not empty:
+    if not IArr:
         I = IArr[i]
-    if tauArr is not empty:
+    if not tauArr:
         tau = tauArr[i]
     exec(v_init_str)
     props={
