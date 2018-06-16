@@ -6,13 +6,13 @@ import time
 #set_device('cpp_standalone')
 
 N = 10000
-tau = 10*ms
-I = 2
 eqs = '''
 dv/dt = (I-v)/tau : 1
 '''
 G = NeuronGroup(N, eqs, threshold='v>1', reset='v = 0', method='exact')
 G.v = '1.0*i/N'
+G.tau = 10*ms
+G.I = 2
 
 # Comment these two lines out to see what happens without Synapses
 # S = Synapses(G, G, on_pre='v_post += 0.2')
