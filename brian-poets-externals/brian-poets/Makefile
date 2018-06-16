@@ -12,9 +12,9 @@ REMOTE_MESSAGE_TYPES=$(REMOTE_DIR)/snnMessageTypes.csv
 REMOTE_PIN_ADDRS=$(REMOTE_DIR)/snnAppPinAddrMap.csv
 
 # local section
-LOCAL_SOCKET=ping.sock
-LOCAL_MESSAGE_TYPES=pingMessageTypes.csv
-LOCAL_APP_PIN_ADDRS=pingAppPinAddrs.csv
+LOCAL_SOCKET=snn.sock
+LOCAL_MESSAGE_TYPES=snnMessageTypes.csv
+LOCAL_APP_PIN_ADDRS=snnAppPinAddrMap.csv
 #-----------------------------------------------------------
 
 REMOTE_FULL=$(REMOTE_USER)@$(REMOTE_SERVER)
