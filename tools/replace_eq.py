@@ -19,6 +19,10 @@ with open(sys.argv[3], 'r') as brianLog:
 			break
 		elif "_lio_1" in line:
 			eq += purge(line)
+		elif "_lio_2" in line:
+			eq += purge(line)
+		elif "_lio_3" in line:
+			eq += purge(line)
 		
 
 print(eq)
