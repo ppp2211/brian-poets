@@ -53,7 +53,11 @@ with open(scriptPath, 'r') as brianSrc:
                     endTime = endTime * 1000
             elif (lineArr[0] == "G.v"):
                 v_init_str = "v_init=" + line.split('=')[1].replace("'","")
-
+            elif (lineArr[0] == "I"):
+                I = eval(line.split('=')[1])
+            elif (lineArr[0] == "tau"):
+                tau = eval(line.split('=')[1])
+                
 graphType=graphTypes["snn_always_spike"]
 neuronType=graphType.device_types["neuron"]
 clockType=graphType.device_types["clock"]
@@ -70,8 +74,10 @@ dt = 0.125
 
 nodes=[None]*N
 for i in range(N):
-    I = IArr[i] 
-    tau = tauArr[i]
+    if IArr is not empty:
+        I = IArr[i]
+    if tauArr is not empty:
+        tau = tauArr[i]
     exec(v_init_str)
     props={
         "I":I, "tau":tau, "thr":thr, "rst":rst, "dt":dt, "endTime":endTime, "index":i, "v_init":v_init
