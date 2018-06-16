@@ -70,7 +70,7 @@ with open(scriptPath, 'r') as brianSrc:
             elif (lineArr[0] == "I"):
                 I = eval(line.split('=')[1])
             elif (lineArr[0] == "tau"):
-                tau = eval(line.split('=')[1])
+                tau = eval(line.split('=')[1].replace("*ms",""))
                     
 
 appBase=os.path.dirname(os.path.realpath(__file__))
