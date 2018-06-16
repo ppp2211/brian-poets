@@ -57,6 +57,9 @@ with open(scriptPath, 'r') as brianSrc:
                 I = eval(line.split('=')[1])
             elif (lineArr[0] == "tau"):
                 tau = eval(line.split('=')[1].replace("*ms",""))
+appBase=os.path.dirname(os.path.realpath(__file__))
+src=appBase+"/snn_always_spike_graph_type.xml"
+(graphTypes,graphInstances)=load_graph_types_and_instances(src,src)
                 
 graphType=graphTypes["snn_always_spike"]
 neuronType=graphType.device_types["neuron"]
