@@ -13,7 +13,9 @@ parser.add_argument('--output', default="graph.dot")
 args=parser.parse_args()    
  
 n0 = []
+n0_t = []
 n1 = []
+n1_t = []
        
 def write_graph(dst, src):
     def out(string):
@@ -31,18 +33,21 @@ def write_graph(dst, src):
                 if e.S.get("v") is not None:
                     n0.append(e.S.get("v"))
                 else: n0.append(0)
+                n0_t.append(e.S.get("t"))
             elif e.dev == "n_1" and e.pin == "tock":
                 if e.S.get("v") is not None:
                     n1.append(e.S.get("v"))
                 else: n1.append(0)
+                n1_t.append(e.S.get("t"))
+
     sink=LogSink()
     
     parseEvents(src,sink)
     
     for i in n1:
         print(i)
-    plt.plot(n0)
-    plt.plot(n1)
+    plt.plot(n0_t, n0)
+    plt.plot(n1_t, n1)
     plt.show()
 dst=sys.stdout
 if args.output!="-":
