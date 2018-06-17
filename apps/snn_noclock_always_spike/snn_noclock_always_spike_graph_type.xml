@@ -38,6 +38,12 @@
            <Scalar type="float" name="timestamp" />
        </Message>
     </MessageType>
+      <MessageType id="log">
+        <Message>
+           <Scalar type="int32_t" name="index" />
+           <Scalar type="float" name="timestamp" />
+       </Message>
+    </MessageType>
 
     </MessageTypes>
 
@@ -80,6 +86,7 @@
         <State>
           <Scalar type="float" name="v" />
           <Scalar type="float" name="t" />
+	  <Scalar type="uint8_t" name="readyToLog" />
         </State>
 
 
@@ -94,10 +101,21 @@
 
         <ReadyToSend><![CDATA[
         // no checks - just fire
-        *readyToSend = OUTPUT_FLAG_fire;
+        *readyToSend = 0;
+	if(deviceState->readyToLog){
+            *readyToSend |= OUTPUT_FLAG_log;
+        } else {
+	    *readyToSend |= OUTPUT_FLAG_fire;
+	}
         ]]></ReadyToSend>
 
-
+	<OutputPin name="log" messageTypeId="log" application="true">
+	<OnSend><![CDATA[
+	message->timestamp = deviceState->t;
+	message->index = deviceProperties->index;
+	deviceState->readyToLog=false;
+	]]></OnSend>
+	</OutputPin>
         <OutputPin name="fire" messageTypeId="spike">
           <OnSend><![CDATA[
           float &t=deviceState->t;
@@ -111,6 +129,7 @@
               message->fired = true;          
               deviceState->v=deviceProperties->rst;
               handler_log(1, "FIRE! t=%f", deviceState->t);
+	      deviceState->readyToLog=true; 
           } else {
               message->fired = false;
               handler_log(3, "Fire: t=%f, v=%f", deviceState->t, deviceState->v);

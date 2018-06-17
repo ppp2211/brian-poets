@@ -24,20 +24,12 @@ v_init_str = "v_init=0"
 with open(scriptPath, 'r') as brianSrc:
     for line in brianSrc:
         lineArr = re.split('[\[\]\(\)=<>,*]', line.strip().replace(' ',''))
-        #print(lineArr)
         if (lineArr[0] == "N"):
             N = int(lineArr[1])
         elif (len(lineArr) > 1):
             if (lineArr[1] == "NeuronGroup"):
                 thr = float(lineArr[6].strip("'")) #todo process this
                 rst = float(lineArr[9].strip("'"))
-
-            elif (lineArr[0] == "tau"):
-                for i in range(0, N):
-                    tauArr.append(float(lineArr[1]))
-            elif (lineArr[0] == "I"):
-                for i in range(0, N):
-                    IArr.append(float(lineArr[1]))  
 
             elif (lineArr[0] == "G.tau"):
                 for i in range(0, N):
@@ -90,9 +82,9 @@ dt = 0.125
 
 nodes=[None]*N
 for i in range(N):
-    if not IArr:
+    if IArr:
         I = IArr[i]
-    if not tauArr:
+    if tauArr:
         tau = tauArr[i]
     exec(v_init_str)
     props={

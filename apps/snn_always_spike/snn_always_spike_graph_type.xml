@@ -91,6 +91,7 @@
 	  <Scalar name="thr" type="float" />
 	  <Scalar name="rst" type="float" />
 	  <Scalar name="dt" type="float" />
+          <Scalar name="endTime" type="float" />
           <Scalar name="v_init" type="float" />
 	  <Scalar name="index" type="uint32_t" />
 	</Properties>
@@ -111,7 +112,7 @@
           deviceState->waitTick=false;
           deviceState->sentSpike=true; //don't fire in round 1
 
-          handler_log(3, "INIT v=%f v_init=%f, deviceState->v, deviceProperties->v_init);
+          handler_log(3, "INIT v=%f v_init=%f", deviceState->v, deviceProperties->v_init);
 
           ]]>
           </OnReceive>
@@ -119,7 +120,7 @@
 
         <ReadyToSend><![CDATA[
         *readyToSend=0;
-	if(!deviceState->waitTick && deviceState->sentSpike && deviceState->readyToLog){
+	if(deviceState->readyToLog){
             *readyToSend |= OUTPUT_FLAG_log;
 	}else if(!deviceState->waitTick && deviceState->sentSpike){
 	    *readyToSend |= OUTPUT_FLAG_tock;

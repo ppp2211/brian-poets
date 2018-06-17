@@ -18,6 +18,7 @@ neuronSrc = []
 neuronDst = []
 N = 0
 endTime = 0
+connP = -1
 v_init_str = "v_init=0"
 
 with open(scriptPath, 'r') as brianSrc:
@@ -36,17 +37,20 @@ with open(scriptPath, 'r') as brianSrc:
                 for i in range(0, N):
                     IArr.append(float(lineArr[2+i]))    
             elif (lineArr[1] == "Synapses"):
-                 weight = float(lineArr[6].strip("'"))
+                weight = float(lineArr[6].strip("'"))
             elif (lineArr[0] == "S.connect"):
-                ij = 0 
-                for i in range (2, len(lineArr)):
-                     if lineArr[i] is "j":
-                         ij = 1
-                     elif lineArr[i] is not '':
-                         if not ij:
-                             neuronSrc.append(int(lineArr[i]))
-                         else:
-                             neuronDst.append(int(lineArr[i]))
+                if (lineArr[1] == "condition"):
+                    connP = float(lineArr[5])
+                else:
+                    ij = 0 
+                    for i in range (2, len(lineArr)):
+                         if lineArr[i] is "j":
+                             ij = 1
+                         elif lineArr[i] is not '':
+                             if not ij:
+                                 neuronSrc.append(int(lineArr[i]))
+                             else:
+                                 neuronDst.append(int(lineArr[i]))
             elif (lineArr[0] == "run"):
                 endTime = lineArr[1]
                 if lineArr[2] == "s":
@@ -57,6 +61,7 @@ with open(scriptPath, 'r') as brianSrc:
                 I = eval(line.split('=')[1])
             elif (lineArr[0] == "tau"):
                 tau = eval(line.split('=')[1].replace("*ms",""))
+
 appBase=os.path.dirname(os.path.realpath(__file__))
 src=appBase+"/snn_always_spike_graph_type.xml"
 (graphTypes,graphInstances)=load_graph_types_and_instances(src,src)
@@ -77,9 +82,9 @@ dt = 0.125
 
 nodes=[None]*N
 for i in range(N):
-    if not IArr:
+    if IArr:
         I = IArr[i]
-    if not tauArr:
+    if tauArr:
         tau = tauArr[i]
     exec(v_init_str)
     props={
@@ -91,9 +96,18 @@ for i in range(N):
     res.add_edge_instance(EdgeInstance(res,nodes[i],"tick",clock,"tick",None))
     res.add_edge_instance(EdgeInstance(res,clock,"tock",nodes[i],"tock",None))
 
-for src in neuronSrc:
-    for dst in neuronDst:
-        ei=EdgeInstance(res, nodes[dst], "input", nodes[src], "fire", {"weight":weight} )
-        res.add_edge_instance(ei)
+if connP == -1:
+    for src in neuronSrc:
+        for dst in neuronDst:
+            ei=EdgeInstance(res, nodes[dst], "input", nodes[src], "fire", {"weight":weight} )
+            res.add_edge_instance(ei)
+elif (connP > 0.0):
+    for i in range(N):
+        for j in range(N):
+            x = random.uniform(0, 1)
+            if (i != j) and (x <= connP):
+                ei=EdgeInstance(res, nodes[i], "input", nodes[j], "fire", {"weight":weight} )
+                res.add_edge_instance(ei)
+            
 
 save_graph(res,sys.stdout)
