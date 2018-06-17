@@ -52,7 +52,7 @@ with open(scriptPath, 'r') as brianSrc:
                              else:
                                  neuronDst.append(int(lineArr[i]))
             elif (lineArr[0] == "run"):
-                endTime = lineArr[1]
+                endTime = float(lineArr[1])
                 if lineArr[2] == "s":
                     endTime = endTime * 1000
             elif (lineArr[0] == "G.v"):
