@@ -7,7 +7,7 @@ WARNING    /home/pp3114/.local/lib/python3.5/site-packages/brian2/core/variables
 DIAGNOSTIC Created clock defaultclock with dt=0.0001 [brian2.core.clocks]
 DIAGNOSTIC Created object of class NeuronGroup with name neurongroup [brian2.core.names]
 DIAGNOSTIC Created BrianObject with name neurongroup, clock=Clock(dt=100. * usecond, name='defaultclock'), when=start, order=0 [brian2.core.base]
-DIAGNOSTIC Creating NeuronGroup of size 100, equations dv/dt = (I-v)/tau : 1. [brian2.groups.neurongroup]
+DIAGNOSTIC Creating NeuronGroup of size 10, equations dv/dt = (I-v)/tau : 1. [brian2.groups.neurongroup]
 WARNING    /home/pp3114/.local/lib/python3.5/site-packages/brian2/core/variables.py:174: FutureWarning: Conversion of the second argument of issubdtype from `bool` to `np.generic` is deprecated. In future, it will be treated as `np.bool_ == np.dtype(bool).type`.
   return np.issubdtype(np.bool, self.dtype)
  [py.warnings]
@@ -18,28 +18,27 @@ DIAGNOSTIC Created BrianObject with name neurongroup_resetter, clock=Clock(dt=10
 DIAGNOSTIC Created object of class StateUpdater with name neurongroup_stateupdater [brian2.core.names]
 DIAGNOSTIC Created BrianObject with name neurongroup_stateupdater, clock=Clock(dt=100. * usecond, name='defaultclock'), when=groups, order=0 [brian2.core.base]
 DIAGNOSTIC Creating code object (group=neurongroup, template name=group_variable_set_conditional) for abstract code:
-    Key condition:
-        _cond = True
     Key statement:
-        v = 1.0*i/N [brian2.codegen.codeobject]
+        v = 1.0*i/N
+    Key condition:
+        _cond = True [brian2.codegen.codeobject]
 DIAGNOSTIC neurongroup_group_variable_set_conditional_codeobject abstract code:
-    Key condition:
-        _cond = True
     Key statement:
-        v = 1.0*i/N [brian2.devices.device]
+        v = 1.0*i/N
+    Key condition:
+        _cond = True [brian2.devices.device]
 DIAGNOSTIC neurongroup_group_variable_set_conditional_codeobject snippet (scalar):
-    Key condition:
-        
     Key statement:
-        const double _lio_statement_1 = 1.0 / N; [brian2.devices.device]
+        const double _lio_statement_1 = 1.0 / N;
+    Key condition: [brian2.devices.device]
 DIAGNOSTIC neurongroup_group_variable_set_conditional_codeobject snippet (vector):
-    Key condition:
-        const char _cond = true;
     Key statement:
         const int32_t i = _ptr_array_neurongroup_i[_idx];
         double v;
         v = _lio_statement_1 * i;
-        _ptr_array_neurongroup_v[_idx] = v; [brian2.devices.device]
+        _ptr_array_neurongroup_v[_idx] = v;
+    Key condition:
+        const char _cond = true; [brian2.devices.device]
 DIAGNOSTIC neurongroup_group_variable_set_conditional_codeobject code:
     h_file:
         #ifndef _INCLUDED_neurongroup_group_variable_set_conditional_codeobject
@@ -285,8 +284,8 @@ DIAGNOSTIC neurongroup_group_variable_set_conditional_codeobject code:
         	///// CONSTANTS ///////////
         	%CONSTANTS%
         	///// POINTERS ////////////
-         double* __restrict  _ptr_array_neurongroup_v = _array_neurongroup_v;
          int32_t* __restrict  _ptr_array_neurongroup_i = _array_neurongroup_i;
+         double* __restrict  _ptr_array_neurongroup_v = _array_neurongroup_v;
         	//// MAIN CODE ////////////
         	// scalar code
         	const int _vectorisation_idx = -1;
@@ -317,14 +316,14 @@ DIAGNOSTIC Creating code object (group=synapses, template name=synapses_create_g
         _pre_idx = _raw_pre_idx 
         _j = _k
         
-    Key setup_iterator:
-        _iter_low = 0
-        _iter_high = N_post
-        _iter_step = 1
-        
     Key create_cond:
         _post_idx = _raw_post_idx 
         _cond = i != _k
+        
+    Key setup_iterator:
+        _iter_high = N_post
+        _iter_step = 1
+        _iter_low = 0
         
     Key update_post:
         _post_idx = _raw_post_idx 
@@ -334,14 +333,14 @@ DIAGNOSTIC synapses_synapses_create_generator_codeobject abstract code:
         _pre_idx = _raw_pre_idx 
         _j = _k
         
-    Key setup_iterator:
-        _iter_low = 0
-        _iter_high = N_post
-        _iter_step = 1
-        
     Key create_cond:
         _post_idx = _raw_post_idx 
         _cond = i != _k
+        
+    Key setup_iterator:
+        _iter_high = N_post
+        _iter_step = 1
+        _iter_low = 0
         
     Key update_post:
         _post_idx = _raw_post_idx 
@@ -349,23 +348,23 @@ DIAGNOSTIC synapses_synapses_create_generator_codeobject abstract code:
 DIAGNOSTIC synapses_synapses_create_generator_codeobject snippet (scalar):
     Key create_j:
         
-    Key setup_iterator:
-        
     Key create_cond:
+        
+    Key setup_iterator:
         
     Key update_post: [brian2.devices.device]
 DIAGNOSTIC synapses_synapses_create_generator_codeobject snippet (vector):
     Key create_j:
         const int32_t _pre_idx = _raw_pre_idx;
         const int32_t _j = _k;
-    Key setup_iterator:
-        const int32_t _iter_low = 0;
-        const int32_t _iter_high = N_post;
-        const int32_t _iter_step = 1;
     Key create_cond:
         const int32_t _post_idx = _raw_post_idx;
         const int32_t i = _i;
         const char _cond = i != _k;
+    Key setup_iterator:
+        const int32_t _iter_high = N_post;
+        const int32_t _iter_step = 1;
+        const int32_t _iter_low = 0;
     Key update_post:
         const int32_t _post_idx = _raw_post_idx;
         const int32_t _n = 1; [brian2.devices.device]
@@ -621,11 +620,11 @@ DIAGNOSTIC synapses_synapses_create_generator_codeobject code:
         	///// CONSTANTS ///////////
         	%CONSTANTS%
         	///// POINTERS ////////////
-         int32_t* __restrict  _ptr_array_synapses_N_outgoing = _array_synapses_N_outgoing;
-         int32_t*   _ptr_array_synapses_N = _array_synapses_N;
-         int32_t* __restrict  _ptr_array_synapses__synaptic_pre = _array_synapses__synaptic_pre;
-         int32_t* __restrict  _ptr_array_synapses_N_incoming = _array_synapses_N_incoming;
          int32_t* __restrict  _ptr_array_synapses__synaptic_post = _array_synapses__synaptic_post;
+         int32_t* __restrict  _ptr_array_synapses_N_incoming = _array_synapses_N_incoming;
+         int32_t*   _ptr_array_synapses_N = _array_synapses_N;
+         int32_t* __restrict  _ptr_array_synapses_N_outgoing = _array_synapses_N_outgoing;
+         int32_t* __restrict  _ptr_array_synapses__synaptic_pre = _array_synapses__synaptic_pre;
             #include<iostream>
             const int _N_pre = N_pre;
             const int _N_post = N_post;
@@ -656,9 +655,9 @@ DIAGNOSTIC synapses_synapses_create_generator_codeobject code:
                 long _uiter_high;
                 long _uiter_step;
                 {
-                    const int32_t _iter_low = 0;
                     const int32_t _iter_high = N_post;
                     const int32_t _iter_step = 1;
+                    const int32_t _iter_low = 0;
                     _uiter_low = _iter_low;
                     _uiter_high = _iter_high;
                     _uiter_step = _iter_step;
@@ -713,7 +712,7 @@ DIAGNOSTIC synapses_synapses_create_generator_codeobject code:
 DIAGNOSTIC Created object of class CPPStandaloneCodeObject with name synapses_synapses_create_generator_codeobject [brian2.core.names]
 DIAGNOSTIC Created object of class SpikeMonitor with name spikemonitor [brian2.core.names]
 DIAGNOSTIC Created BrianObject with name spikemonitor, clock=Clock(dt=100. * usecond, name='defaultclock'), when=thresholds, order=1 [brian2.core.base]
-DEBUG      Updated MagicNetwork to include 7 objects with names neurongroup_thresholder, neurongroup_stateupdater, synapses, synapses_pre, neurongroup_resetter, neurongroup, spikemonitor [brian2.core.magic.magic_objects]
+DEBUG      Updated MagicNetwork to include 7 objects with names synapses, neurongroup, neurongroup_stateupdater, neurongroup_thresholder, neurongroup_resetter, spikemonitor, synapses_pre [brian2.core.magic.magic_objects]
 DIAGNOSTIC Setting Clock defaultclock to t=<defaultclock.t: 0. * second>, dt=0.0001 [brian2.core.clocks]
 DEBUG      Preparing network magicnetwork with 7 objects: neurongroup, synapses, neurongroup_stateupdater, neurongroup_thresholder, spikemonitor, synapses_pre, neurongroup_resetter [brian2.core.network.before_run]
 DEBUG      Group neurongroup: using numerical integration method exact (took 0.03s) [brian2.stateupdaters.base.method_choice]
@@ -979,8 +978,8 @@ DIAGNOSTIC neurongroup_stateupdater_codeobject code:
         	///// CONSTANTS ///////////
         	%CONSTANTS%
         	///// POINTERS ////////////
-         double* __restrict  _ptr_array_neurongroup_v = _array_neurongroup_v;
          double*   _ptr_array_defaultclock_dt = _array_defaultclock_dt;
+         double* __restrict  _ptr_array_neurongroup_v = _array_neurongroup_v;
         	//// MAIN CODE ////////////
         	// scalar code
         	const int _vectorisation_idx = -1;
@@ -1257,8 +1256,8 @@ DIAGNOSTIC neurongroup_thresholder_codeobject code:
         	///// CONSTANTS ///////////
         	%CONSTANTS%
         	///// POINTERS ////////////
-         double* __restrict  _ptr_array_neurongroup_v = _array_neurongroup_v;
          int32_t* __restrict  _ptr_array_neurongroup__spikespace = _array_neurongroup__spikespace;
+         double* __restrict  _ptr_array_neurongroup_v = _array_neurongroup_v;
         	//// MAIN CODE ////////////
         	// scalar code
         	const int _vectorisation_idx = -1;
@@ -1278,18 +1277,18 @@ DIAGNOSTIC neurongroup_thresholder_codeobject code:
         } [brian2.devices.device]
 DIAGNOSTIC Created object of class CPPStandaloneCodeObject with name neurongroup_thresholder_codeobject [brian2.core.names]
 DIAGNOSTIC Creating code object (group=spikemonitor, template name=spikemonitor) for abstract code:
-    _to_record_t = _source_t
-    _to_record_i = _source_i [brian2.codegen.codeobject]
+    _to_record_i = _source_i
+    _to_record_t = _source_t [brian2.codegen.codeobject]
 DIAGNOSTIC spikemonitor_codeobject abstract code:
-    _to_record_t = _source_t
-    _to_record_i = _source_i [brian2.devices.device]
+    _to_record_i = _source_i
+    _to_record_t = _source_t [brian2.devices.device]
 DIAGNOSTIC spikemonitor_codeobject snippet (scalar):
      [brian2.devices.device]
 DIAGNOSTIC spikemonitor_codeobject snippet (vector):
-    const double _source_t = _ptr_array_defaultclock_t[0];
     const int32_t _source_i = _ptr_array_neurongroup_i[_idx];
-    const double _to_record_t = _source_t;
-    const int32_t _to_record_i = _source_i; [brian2.devices.device]
+    const double _source_t = _ptr_array_defaultclock_t[0];
+    const int32_t _to_record_i = _source_i;
+    const double _to_record_t = _source_t; [brian2.devices.device]
 DIAGNOSTIC spikemonitor_codeobject code:
     h_file:
         #ifndef _INCLUDED_spikemonitor_codeobject
@@ -1297,10 +1296,6 @@ DIAGNOSTIC spikemonitor_codeobject code:
         #include "objects.h"
         void _run_spikemonitor_codeobject();
         void _debugmsg_spikemonitor_codeobject();
-        #endif
-    main_finalise:
-        #ifdef DEBUG
-        _debugmsg_spikemonitor_codeobject();
         #endif
     cpp_file:
         #include "code_objects/spikemonitor_codeobject.h"
@@ -1542,14 +1537,14 @@ DIAGNOSTIC spikemonitor_codeobject code:
         	///// CONSTANTS ///////////
         	%CONSTANTS%
         	///// POINTERS ////////////
-         double*   _ptr_array_defaultclock_t = _array_defaultclock_t;
+         int32_t* __restrict  _ptr_array_spikemonitor__source_idx = _array_spikemonitor__source_idx;
          int32_t* __restrict  _ptr_array_neurongroup_i = _array_neurongroup_i;
+         double* __restrict  _ptr_array_spikemonitor_t = _array_spikemonitor_t;
+         int32_t* __restrict  _ptr_array_spikemonitor_i = _array_spikemonitor_i;
+         double*   _ptr_array_defaultclock_t = _array_defaultclock_t;
+         int32_t* __restrict  _ptr_array_spikemonitor_count = _array_spikemonitor_count;
          int32_t* __restrict  _ptr_array_neurongroup__spikespace = _array_neurongroup__spikespace;
          int32_t*   _ptr_array_spikemonitor_N = _array_spikemonitor_N;
-         int32_t* __restrict  _ptr_array_spikemonitor__source_idx = _array_spikemonitor__source_idx;
-         double* __restrict  _ptr_array_spikemonitor_t = _array_spikemonitor_t;
-         int32_t* __restrict  _ptr_array_spikemonitor_count = _array_spikemonitor_count;
-         int32_t* __restrict  _ptr_array_spikemonitor_i = _array_spikemonitor_i;
         	//// MAIN CODE ////////////
         	int32_t _num_events = _ptr_array_neurongroup__spikespace[_num_spikespace-1];
             if (_num_events > 0)
@@ -1579,10 +1574,10 @@ DIAGNOSTIC spikemonitor_codeobject code:
                     {
                         const int _idx = _ptr_array_neurongroup__spikespace[_j];
                         const int _vectorisation_idx = _idx;
-                        const double _source_t = _ptr_array_defaultclock_t[0];
                         const int32_t _source_i = _ptr_array_neurongroup_i[_idx];
-                        const double _to_record_t = _source_t;
+                        const double _source_t = _ptr_array_defaultclock_t[0];
                         const int32_t _to_record_i = _source_i;
+                        const double _to_record_t = _source_t;
                         _dynamic_array_spikemonitor_i.push_back(_to_record_i);
                         _dynamic_array_spikemonitor_t.push_back(_to_record_t);
                         _ptr_array_spikemonitor_count[_idx-_source_start]++;
@@ -1597,16 +1592,20 @@ DIAGNOSTIC spikemonitor_codeobject code:
         {
         	using namespace brian;
             %CONSTANTS%
-            double*   _ptr_array_defaultclock_t = _array_defaultclock_t;
+            int32_t* __restrict  _ptr_array_spikemonitor__source_idx = _array_spikemonitor__source_idx;
             int32_t* __restrict  _ptr_array_neurongroup_i = _array_neurongroup_i;
+            double* __restrict  _ptr_array_spikemonitor_t = _array_spikemonitor_t;
+            int32_t* __restrict  _ptr_array_spikemonitor_i = _array_spikemonitor_i;
+            double*   _ptr_array_defaultclock_t = _array_defaultclock_t;
+            int32_t* __restrict  _ptr_array_spikemonitor_count = _array_spikemonitor_count;
             int32_t* __restrict  _ptr_array_neurongroup__spikespace = _array_neurongroup__spikespace;
             int32_t*   _ptr_array_spikemonitor_N = _array_spikemonitor_N;
-            int32_t* __restrict  _ptr_array_spikemonitor__source_idx = _array_spikemonitor__source_idx;
-            double* __restrict  _ptr_array_spikemonitor_t = _array_spikemonitor_t;
-            int32_t* __restrict  _ptr_array_spikemonitor_count = _array_spikemonitor_count;
-            int32_t* __restrict  _ptr_array_spikemonitor_i = _array_spikemonitor_i;
         	std::cout << "Number of spikes: " << _ptr_array_spikemonitor_N[0] << endl;
-        } [brian2.devices.device]
+        }
+    main_finalise:
+        #ifdef DEBUG
+        _debugmsg_spikemonitor_codeobject();
+        #endif [brian2.devices.device]
 DIAGNOSTIC Created object of class CPPStandaloneCodeObject with name spikemonitor_codeobject [brian2.core.names]
 DIAGNOSTIC Creating code object (group=synapses_pre, template name=synapses_initialise_queue) for abstract code:
      [brian2.codegen.codeobject]
@@ -1639,22 +1638,22 @@ DIAGNOSTIC synapses_pre_initialise_queue code:
         } [brian2.devices.device]
 DIAGNOSTIC Created object of class CPPStandaloneCodeObject with name synapses_pre_initialise_queue [brian2.core.names]
 DIAGNOSTIC Creating code object (group=synapses, template name=synapses) for abstract code:
-    v_post += 0.01
+    v_post += 0.1
     lastupdate = t [brian2.codegen.codeobject]
 DIAGNOSTIC synapses_pre_codeobject abstract code:
-    v_post += 0.01
+    v_post += 0.1
     lastupdate = t [brian2.devices.device]
 DIAGNOSTIC synapses_pre_codeobject snippet (scalar):
      [brian2.devices.device]
 DIAGNOSTIC synapses_pre_codeobject snippet (vector):
     const int32_t _postsynaptic_idx = _ptr_array_synapses__synaptic_post[_idx];
-    const double t = _ptr_array_defaultclock_t[0];
     double v_post = _ptr_array_neurongroup_v[_postsynaptic_idx];
+    const double t = _ptr_array_defaultclock_t[0];
     double lastupdate;
-    v_post += 0.01;
+    v_post += 0.1;
     lastupdate = t;
-    _ptr_array_neurongroup_v[_postsynaptic_idx] = v_post;
-    _ptr_array_synapses_lastupdate[_idx] = lastupdate; [brian2.devices.device]
+    _ptr_array_synapses_lastupdate[_idx] = lastupdate;
+    _ptr_array_neurongroup_v[_postsynaptic_idx] = v_post; [brian2.devices.device]
 DIAGNOSTIC synapses_pre_codeobject code:
     h_file:
         #ifndef _INCLUDED_synapses_pre_codeobject
@@ -1662,10 +1661,6 @@ DIAGNOSTIC synapses_pre_codeobject code:
         #include "objects.h"
         void _run_synapses_pre_codeobject();
         void _debugmsg_synapses_pre_codeobject();
-        #endif
-    main_finalise:
-        #ifdef DEBUG
-        _debugmsg_synapses_pre_codeobject();
         #endif
     cpp_file:
         #include "code_objects/synapses_pre_codeobject.h"
@@ -1909,11 +1904,11 @@ DIAGNOSTIC synapses_pre_codeobject code:
         	///// CONSTANTS ///////////
         	%CONSTANTS%
         	///// POINTERS ////////////
-         int32_t* __restrict  _ptr_array_synapses__synaptic_post = _array_synapses__synaptic_post;
-         int32_t* __restrict  _ptr_array_synapses__synaptic_pre = _array_synapses__synaptic_pre;
-         double*   _ptr_array_defaultclock_t = _array_defaultclock_t;
-         double* __restrict  _ptr_array_neurongroup_v = _array_neurongroup_v;
          double* __restrict  _ptr_array_synapses_lastupdate = _array_synapses_lastupdate;
+         int32_t* __restrict  _ptr_array_synapses__synaptic_pre = _array_synapses__synaptic_pre;
+         int32_t* __restrict  _ptr_array_synapses__synaptic_post = _array_synapses__synaptic_post;
+         double* __restrict  _ptr_array_neurongroup_v = _array_neurongroup_v;
+         double*   _ptr_array_defaultclock_t = _array_defaultclock_t;
         	// This is only needed for the _debugmsg function below	
         	// scalar code
         	const int _vectorisation_idx = -1;
@@ -1928,13 +1923,13 @@ DIAGNOSTIC synapses_pre_codeobject code:
         			const int _idx = (*_spiking_synapses)[_spiking_synapse_idx];
         			const int _vectorisation_idx = _idx;
            const int32_t _postsynaptic_idx = _ptr_array_synapses__synaptic_post[_idx];
-           const double t = _ptr_array_defaultclock_t[0];
            double v_post = _ptr_array_neurongroup_v[_postsynaptic_idx];
+           const double t = _ptr_array_defaultclock_t[0];
            double lastupdate;
-           v_post += 0.01;
+           v_post += 0.1;
            lastupdate = t;
-           _ptr_array_neurongroup_v[_postsynaptic_idx] = v_post;
            _ptr_array_synapses_lastupdate[_idx] = lastupdate;
+           _ptr_array_neurongroup_v[_postsynaptic_idx] = v_post;
         		}
         	}
             }
@@ -1945,7 +1940,11 @@ DIAGNOSTIC synapses_pre_codeobject code:
         {
         	using namespace brian;
         	std::cout << "Number of synapses: " << _dynamic_array_synapses__synaptic_pre.size() << endl;
-        } [brian2.devices.device]
+        }
+    main_finalise:
+        #ifdef DEBUG
+        _debugmsg_synapses_pre_codeobject();
+        #endif [brian2.devices.device]
 DIAGNOSTIC Created object of class CPPStandaloneCodeObject with name synapses_pre_codeobject [brian2.core.names]
 DIAGNOSTIC Creating code object (group=synapses_pre, template name=synapses_push_spikes) for abstract code:
      [brian2.codegen.codeobject]
@@ -2245,8 +2244,8 @@ DIAGNOSTIC neurongroup_resetter_codeobject code:
         	///// CONSTANTS ///////////
         	%CONSTANTS%
         	///// POINTERS ////////////
-         double* __restrict  _ptr_array_neurongroup_v = _array_neurongroup_v;
          int32_t* __restrict  _ptr_array_neurongroup__spikespace = _array_neurongroup__spikespace;
+         double* __restrict  _ptr_array_neurongroup_v = _array_neurongroup_v;
         	const int32_t *_events = _ptr_array_neurongroup__spikespace;
         	const int32_t _num_events = _ptr_array_neurongroup__spikespace[N];
         	//// MAIN CODE ////////////	
@@ -2364,15 +2363,15 @@ cpp_file:
     int64_t * _array_defaultclock_timestep;
     const int _num__array_defaultclock_timestep = 1;
     int32_t * _array_neurongroup__spikespace;
-    const int _num__array_neurongroup__spikespace = 101;
+    const int _num__array_neurongroup__spikespace = 11;
     int32_t * _array_neurongroup_i;
-    const int _num__array_neurongroup_i = 100;
+    const int _num__array_neurongroup_i = 10;
     double * _array_neurongroup_v;
-    const int _num__array_neurongroup_v = 100;
+    const int _num__array_neurongroup_v = 10;
     int32_t * _array_spikemonitor__source_idx;
-    const int _num__array_spikemonitor__source_idx = 100;
+    const int _num__array_spikemonitor__source_idx = 10;
     int32_t * _array_spikemonitor_count;
-    const int _num__array_spikemonitor_count = 100;
+    const int _num__array_spikemonitor_count = 10;
     int32_t * _array_spikemonitor_N;
     const int _num__array_spikemonitor_N = 1;
     int32_t * _array_synapses_N;
@@ -2393,7 +2392,7 @@ cpp_file:
     SynapticPathway<double> synapses_pre(
     		_dynamic_array_synapses_delay,
     		_dynamic_array_synapses__synaptic_pre,
-    		0, 100);
+    		0, 10);
     //////////////// clocks ///////////////////
     Clock defaultclock;  // attributes will be set in run.cpp
     // Profiling information for each code object
@@ -2417,25 +2416,25 @@ cpp_file:
     	for(int i=0; i<1; i++) _array_defaultclock_t[i] = 0;
     	_array_defaultclock_timestep = new int64_t[1];
     	for(int i=0; i<1; i++) _array_defaultclock_timestep[i] = 0;
-    	_array_neurongroup__spikespace = new int32_t[101];
-    	for(int i=0; i<101; i++) _array_neurongroup__spikespace[i] = 0;
-    	_array_neurongroup_i = new int32_t[100];
-    	for(int i=0; i<100; i++) _array_neurongroup_i[i] = 0;
-    	_array_neurongroup_v = new double[100];
-    	for(int i=0; i<100; i++) _array_neurongroup_v[i] = 0;
-    	_array_spikemonitor__source_idx = new int32_t[100];
-    	for(int i=0; i<100; i++) _array_spikemonitor__source_idx[i] = 0;
-    	_array_spikemonitor_count = new int32_t[100];
-    	for(int i=0; i<100; i++) _array_spikemonitor_count[i] = 0;
+    	_array_neurongroup__spikespace = new int32_t[11];
+    	for(int i=0; i<11; i++) _array_neurongroup__spikespace[i] = 0;
+    	_array_neurongroup_i = new int32_t[10];
+    	for(int i=0; i<10; i++) _array_neurongroup_i[i] = 0;
+    	_array_neurongroup_v = new double[10];
+    	for(int i=0; i<10; i++) _array_neurongroup_v[i] = 0;
+    	_array_spikemonitor__source_idx = new int32_t[10];
+    	for(int i=0; i<10; i++) _array_spikemonitor__source_idx[i] = 0;
+    	_array_spikemonitor_count = new int32_t[10];
+    	for(int i=0; i<10; i++) _array_spikemonitor_count[i] = 0;
     	_array_spikemonitor_N = new int32_t[1];
     	for(int i=0; i<1; i++) _array_spikemonitor_N[i] = 0;
     	_array_synapses_N = new int32_t[1];
     	for(int i=0; i<1; i++) _array_synapses_N[i] = 0;
     	// Arrays initialized to an "arange"
-    	_array_neurongroup_i = new int32_t[100];
-    	for(int i=0; i<100; i++) _array_neurongroup_i[i] = 0 + i;
-    	_array_spikemonitor__source_idx = new int32_t[100];
-    	for(int i=0; i<100; i++) _array_spikemonitor__source_idx[i] = 0 + i;
+    	_array_neurongroup_i = new int32_t[10];
+    	for(int i=0; i<10; i++) _array_neurongroup_i[i] = 0 + i;
+    	_array_spikemonitor__source_idx = new int32_t[10];
+    	for(int i=0; i<10; i++) _array_spikemonitor__source_idx[i] = 0 + i;
     	// static arrays
     	// Random number generator states
     	for (int i=0; i<1; i++)
@@ -2449,7 +2448,7 @@ cpp_file:
     {
     	using namespace brian;
     	ofstream outfile__array_defaultclock_dt;
-    	outfile__array_defaultclock_dt.open("results/_array_defaultclock_dt_-5408584499937923413", ios::binary | ios::out);
+    	outfile__array_defaultclock_dt.open("results/_array_defaultclock_dt_-6623227097977636384", ios::binary | ios::out);
     	if(outfile__array_defaultclock_dt.is_open())
     	{
     		outfile__array_defaultclock_dt.write(reinterpret_cast<char*>(_array_defaultclock_dt), 1*sizeof(_array_defaultclock_dt[0]));
@@ -2459,7 +2458,7 @@ cpp_file:
     		std::cout << "Error writing output file for _array_defaultclock_dt." << endl;
     	}
     	ofstream outfile__array_defaultclock_t;
-    	outfile__array_defaultclock_t.open("results/_array_defaultclock_t_7872549775156286211", ios::binary | ios::out);
+    	outfile__array_defaultclock_t.open("results/_array_defaultclock_t_754089454961437660", ios::binary | ios::out);
     	if(outfile__array_defaultclock_t.is_open())
     	{
     		outfile__array_defaultclock_t.write(reinterpret_cast<char*>(_array_defaultclock_t), 1*sizeof(_array_defaultclock_t[0]));
@@ -2469,7 +2468,7 @@ cpp_file:
     		std::cout << "Error writing output file for _array_defaultclock_t." << endl;
     	}
     	ofstream outfile__array_defaultclock_timestep;
-    	outfile__array_defaultclock_timestep.open("results/_array_defaultclock_timestep_631071227308762244", ios::binary | ios::out);
+    	outfile__array_defaultclock_timestep.open("results/_array_defaultclock_timestep_5030979964072922726", ios::binary | ios::out);
     	if(outfile__array_defaultclock_timestep.is_open())
     	{
     		outfile__array_defaultclock_timestep.write(reinterpret_cast<char*>(_array_defaultclock_timestep), 1*sizeof(_array_defaultclock_timestep[0]));
@@ -2479,57 +2478,57 @@ cpp_file:
     		std::cout << "Error writing output file for _array_defaultclock_timestep." << endl;
     	}
     	ofstream outfile__array_neurongroup__spikespace;
-    	outfile__array_neurongroup__spikespace.open("results/_array_neurongroup__spikespace_740375797340960402", ios::binary | ios::out);
+    	outfile__array_neurongroup__spikespace.open("results/_array_neurongroup__spikespace_7985798023592118689", ios::binary | ios::out);
     	if(outfile__array_neurongroup__spikespace.is_open())
     	{
-    		outfile__array_neurongroup__spikespace.write(reinterpret_cast<char*>(_array_neurongroup__spikespace), 101*sizeof(_array_neurongroup__spikespace[0]));
+    		outfile__array_neurongroup__spikespace.write(reinterpret_cast<char*>(_array_neurongroup__spikespace), 11*sizeof(_array_neurongroup__spikespace[0]));
     		outfile__array_neurongroup__spikespace.close();
     	} else
     	{
     		std::cout << "Error writing output file for _array_neurongroup__spikespace." << endl;
     	}
     	ofstream outfile__array_neurongroup_i;
-    	outfile__array_neurongroup_i.open("results/_array_neurongroup_i_6055945039601933138", ios::binary | ios::out);
+    	outfile__array_neurongroup_i.open("results/_array_neurongroup_i_-8045255433367501680", ios::binary | ios::out);
     	if(outfile__array_neurongroup_i.is_open())
     	{
-    		outfile__array_neurongroup_i.write(reinterpret_cast<char*>(_array_neurongroup_i), 100*sizeof(_array_neurongroup_i[0]));
+    		outfile__array_neurongroup_i.write(reinterpret_cast<char*>(_array_neurongroup_i), 10*sizeof(_array_neurongroup_i[0]));
     		outfile__array_neurongroup_i.close();
     	} else
     	{
     		std::cout << "Error writing output file for _array_neurongroup_i." << endl;
     	}
     	ofstream outfile__array_neurongroup_v;
-    	outfile__array_neurongroup_v.open("results/_array_neurongroup_v_7891661006412239380", ios::binary | ios::out);
+    	outfile__array_neurongroup_v.open("results/_array_neurongroup_v_-4998991995471964550", ios::binary | ios::out);
     	if(outfile__array_neurongroup_v.is_open())
     	{
-    		outfile__array_neurongroup_v.write(reinterpret_cast<char*>(_array_neurongroup_v), 100*sizeof(_array_neurongroup_v[0]));
+    		outfile__array_neurongroup_v.write(reinterpret_cast<char*>(_array_neurongroup_v), 10*sizeof(_array_neurongroup_v[0]));
     		outfile__array_neurongroup_v.close();
     	} else
     	{
     		std::cout << "Error writing output file for _array_neurongroup_v." << endl;
     	}
     	ofstream outfile__array_spikemonitor__source_idx;
-    	outfile__array_spikemonitor__source_idx.open("results/_array_spikemonitor__source_idx_5922515649374167772", ios::binary | ios::out);
+    	outfile__array_spikemonitor__source_idx.open("results/_array_spikemonitor__source_idx_2359275215145165413", ios::binary | ios::out);
     	if(outfile__array_spikemonitor__source_idx.is_open())
     	{
-    		outfile__array_spikemonitor__source_idx.write(reinterpret_cast<char*>(_array_spikemonitor__source_idx), 100*sizeof(_array_spikemonitor__source_idx[0]));
+    		outfile__array_spikemonitor__source_idx.write(reinterpret_cast<char*>(_array_spikemonitor__source_idx), 10*sizeof(_array_spikemonitor__source_idx[0]));
     		outfile__array_spikemonitor__source_idx.close();
     	} else
     	{
     		std::cout << "Error writing output file for _array_spikemonitor__source_idx." << endl;
     	}
     	ofstream outfile__array_spikemonitor_count;
-    	outfile__array_spikemonitor_count.open("results/_array_spikemonitor_count_-2588969514638382299", ios::binary | ios::out);
+    	outfile__array_spikemonitor_count.open("results/_array_spikemonitor_count_-6015820085468205157", ios::binary | ios::out);
     	if(outfile__array_spikemonitor_count.is_open())
     	{
-    		outfile__array_spikemonitor_count.write(reinterpret_cast<char*>(_array_spikemonitor_count), 100*sizeof(_array_spikemonitor_count[0]));
+    		outfile__array_spikemonitor_count.write(reinterpret_cast<char*>(_array_spikemonitor_count), 10*sizeof(_array_spikemonitor_count[0]));
     		outfile__array_spikemonitor_count.close();
     	} else
     	{
     		std::cout << "Error writing output file for _array_spikemonitor_count." << endl;
     	}
     	ofstream outfile__array_spikemonitor_N;
-    	outfile__array_spikemonitor_N.open("results/_array_spikemonitor_N_-18149718359536990", ios::binary | ios::out);
+    	outfile__array_spikemonitor_N.open("results/_array_spikemonitor_N_2370809477039746014", ios::binary | ios::out);
     	if(outfile__array_spikemonitor_N.is_open())
     	{
     		outfile__array_spikemonitor_N.write(reinterpret_cast<char*>(_array_spikemonitor_N), 1*sizeof(_array_spikemonitor_N[0]));
@@ -2539,7 +2538,7 @@ cpp_file:
     		std::cout << "Error writing output file for _array_spikemonitor_N." << endl;
     	}
     	ofstream outfile__array_synapses_N;
-    	outfile__array_synapses_N.open("results/_array_synapses_N_7827433773589862533", ios::binary | ios::out);
+    	outfile__array_synapses_N.open("results/_array_synapses_N_-8945809757154267712", ios::binary | ios::out);
     	if(outfile__array_synapses_N.is_open())
     	{
     		outfile__array_synapses_N.write(reinterpret_cast<char*>(_array_synapses_N), 1*sizeof(_array_synapses_N[0]));
@@ -2549,7 +2548,7 @@ cpp_file:
     		std::cout << "Error writing output file for _array_synapses_N." << endl;
     	}
     	ofstream outfile__dynamic_array_spikemonitor_i;
-    	outfile__dynamic_array_spikemonitor_i.open("results/_dynamic_array_spikemonitor_i_2052341141066951601", ios::binary | ios::out);
+    	outfile__dynamic_array_spikemonitor_i.open("results/_dynamic_array_spikemonitor_i_-7439896218851159402", ios::binary | ios::out);
     	if(outfile__dynamic_array_spikemonitor_i.is_open())
     	{
             if (! _dynamic_array_spikemonitor_i.empty() )
@@ -2562,7 +2561,7 @@ cpp_file:
     		std::cout << "Error writing output file for _dynamic_array_spikemonitor_i." << endl;
     	}
     	ofstream outfile__dynamic_array_spikemonitor_t;
-    	outfile__dynamic_array_spikemonitor_t.open("results/_dynamic_array_spikemonitor_t_-2587582641990284681", ios::binary | ios::out);
+    	outfile__dynamic_array_spikemonitor_t.open("results/_dynamic_array_spikemonitor_t_4293736807573784137", ios::binary | ios::out);
     	if(outfile__dynamic_array_spikemonitor_t.is_open())
     	{
             if (! _dynamic_array_spikemonitor_t.empty() )
@@ -2575,7 +2574,7 @@ cpp_file:
     		std::cout << "Error writing output file for _dynamic_array_spikemonitor_t." << endl;
     	}
     	ofstream outfile__dynamic_array_synapses__synaptic_post;
-    	outfile__dynamic_array_synapses__synaptic_post.open("results/_dynamic_array_synapses__synaptic_post_-2408267615282334168", ios::binary | ios::out);
+    	outfile__dynamic_array_synapses__synaptic_post.open("results/_dynamic_array_synapses__synaptic_post_-5570918585196315931", ios::binary | ios::out);
     	if(outfile__dynamic_array_synapses__synaptic_post.is_open())
     	{
             if (! _dynamic_array_synapses__synaptic_post.empty() )
@@ -2588,7 +2587,7 @@ cpp_file:
     		std::cout << "Error writing output file for _dynamic_array_synapses__synaptic_post." << endl;
     	}
     	ofstream outfile__dynamic_array_synapses__synaptic_pre;
-    	outfile__dynamic_array_synapses__synaptic_pre.open("results/_dynamic_array_synapses__synaptic_pre_7235735616424383034", ios::binary | ios::out);
+    	outfile__dynamic_array_synapses__synaptic_pre.open("results/_dynamic_array_synapses__synaptic_pre_3004746524775541620", ios::binary | ios::out);
     	if(outfile__dynamic_array_synapses__synaptic_pre.is_open())
     	{
             if (! _dynamic_array_synapses__synaptic_pre.empty() )
@@ -2601,7 +2600,7 @@ cpp_file:
     		std::cout << "Error writing output file for _dynamic_array_synapses__synaptic_pre." << endl;
     	}
     	ofstream outfile__dynamic_array_synapses_delay;
-    	outfile__dynamic_array_synapses_delay.open("results/_dynamic_array_synapses_delay_6452910025800138878", ios::binary | ios::out);
+    	outfile__dynamic_array_synapses_delay.open("results/_dynamic_array_synapses_delay_5016962466508062880", ios::binary | ios::out);
     	if(outfile__dynamic_array_synapses_delay.is_open())
     	{
             if (! _dynamic_array_synapses_delay.empty() )
@@ -2614,7 +2613,7 @@ cpp_file:
     		std::cout << "Error writing output file for _dynamic_array_synapses_delay." << endl;
     	}
     	ofstream outfile__dynamic_array_synapses_lastupdate;
-    	outfile__dynamic_array_synapses_lastupdate.open("results/_dynamic_array_synapses_lastupdate_-2607505854967402109", ios::binary | ios::out);
+    	outfile__dynamic_array_synapses_lastupdate.open("results/_dynamic_array_synapses_lastupdate_5150012566274056237", ios::binary | ios::out);
     	if(outfile__dynamic_array_synapses_lastupdate.is_open())
     	{
             if (! _dynamic_array_synapses_lastupdate.empty() )
@@ -2627,7 +2626,7 @@ cpp_file:
     		std::cout << "Error writing output file for _dynamic_array_synapses_lastupdate." << endl;
     	}
     	ofstream outfile__dynamic_array_synapses_N_incoming;
-    	outfile__dynamic_array_synapses_N_incoming.open("results/_dynamic_array_synapses_N_incoming_-5754332187257509621", ios::binary | ios::out);
+    	outfile__dynamic_array_synapses_N_incoming.open("results/_dynamic_array_synapses_N_incoming_8590873374124325356", ios::binary | ios::out);
     	if(outfile__dynamic_array_synapses_N_incoming.is_open())
     	{
             if (! _dynamic_array_synapses_N_incoming.empty() )
@@ -2640,7 +2639,7 @@ cpp_file:
     		std::cout << "Error writing output file for _dynamic_array_synapses_N_incoming." << endl;
     	}
     	ofstream outfile__dynamic_array_synapses_N_outgoing;
-    	outfile__dynamic_array_synapses_N_outgoing.open("results/_dynamic_array_synapses_N_outgoing_-4018325690029630941", ios::binary | ios::out);
+    	outfile__dynamic_array_synapses_N_outgoing.open("results/_dynamic_array_synapses_N_outgoing_5562809936008471523", ios::binary | ios::out);
     	if(outfile__dynamic_array_synapses_N_outgoing.is_open())
     	{
             if (! _dynamic_array_synapses_N_outgoing.empty() )
@@ -2717,15 +2716,15 @@ const int _num__array_defaultclock_t = 1;
 int64_t * _array_defaultclock_timestep;
 const int _num__array_defaultclock_timestep = 1;
 int32_t * _array_neurongroup__spikespace;
-const int _num__array_neurongroup__spikespace = 101;
+const int _num__array_neurongroup__spikespace = 11;
 int32_t * _array_neurongroup_i;
-const int _num__array_neurongroup_i = 100;
+const int _num__array_neurongroup_i = 10;
 double * _array_neurongroup_v;
-const int _num__array_neurongroup_v = 100;
+const int _num__array_neurongroup_v = 10;
 int32_t * _array_spikemonitor__source_idx;
-const int _num__array_spikemonitor__source_idx = 100;
+const int _num__array_spikemonitor__source_idx = 10;
 int32_t * _array_spikemonitor_count;
-const int _num__array_spikemonitor_count = 100;
+const int _num__array_spikemonitor_count = 10;
 int32_t * _array_spikemonitor_N;
 const int _num__array_spikemonitor_N = 1;
 int32_t * _array_synapses_N;
@@ -2750,7 +2749,7 @@ std::vector<int32_t> _dynamic_array_synapses_N_outgoing;
 SynapticPathway<double> synapses_pre(
 		_dynamic_array_synapses_delay,
 		_dynamic_array_synapses__synaptic_pre,
-		0, 100);
+		0, 10);
 
 //////////////// clocks ///////////////////
 Clock defaultclock;  // attributes will be set in run.cpp
@@ -2785,25 +2784,25 @@ void _init_arrays()
     
 	for(int i=0; i<1; i++) _array_defaultclock_timestep[i] = 0;
 
-	_array_neurongroup__spikespace = new int32_t[101];
+	_array_neurongroup__spikespace = new int32_t[11];
     
-	for(int i=0; i<101; i++) _array_neurongroup__spikespace[i] = 0;
+	for(int i=0; i<11; i++) _array_neurongroup__spikespace[i] = 0;
 
-	_array_neurongroup_i = new int32_t[100];
+	_array_neurongroup_i = new int32_t[10];
     
-	for(int i=0; i<100; i++) _array_neurongroup_i[i] = 0;
+	for(int i=0; i<10; i++) _array_neurongroup_i[i] = 0;
 
-	_array_neurongroup_v = new double[100];
+	_array_neurongroup_v = new double[10];
     
-	for(int i=0; i<100; i++) _array_neurongroup_v[i] = 0;
+	for(int i=0; i<10; i++) _array_neurongroup_v[i] = 0;
 
-	_array_spikemonitor__source_idx = new int32_t[100];
+	_array_spikemonitor__source_idx = new int32_t[10];
     
-	for(int i=0; i<100; i++) _array_spikemonitor__source_idx[i] = 0;
+	for(int i=0; i<10; i++) _array_spikemonitor__source_idx[i] = 0;
 
-	_array_spikemonitor_count = new int32_t[100];
+	_array_spikemonitor_count = new int32_t[10];
     
-	for(int i=0; i<100; i++) _array_spikemonitor_count[i] = 0;
+	for(int i=0; i<10; i++) _array_spikemonitor_count[i] = 0;
 
 	_array_spikemonitor_N = new int32_t[1];
     
@@ -2815,13 +2814,13 @@ void _init_arrays()
 
 
 	// Arrays initialized to an "arange"
-	_array_neurongroup_i = new int32_t[100];
+	_array_neurongroup_i = new int32_t[10];
     
-	for(int i=0; i<100; i++) _array_neurongroup_i[i] = 0 + i;
+	for(int i=0; i<10; i++) _array_neurongroup_i[i] = 0 + i;
 
-	_array_spikemonitor__source_idx = new int32_t[100];
+	_array_spikemonitor__source_idx = new int32_t[10];
     
-	for(int i=0; i<100; i++) _array_spikemonitor__source_idx[i] = 0 + i;
+	for(int i=0; i<10; i++) _array_spikemonitor__source_idx[i] = 0 + i;
 
 
 	// static arrays
@@ -2842,7 +2841,7 @@ void _write_arrays()
 	using namespace brian;
 
 	ofstream outfile__array_defaultclock_dt;
-	outfile__array_defaultclock_dt.open("results/_array_defaultclock_dt_-5408584499937923413", ios::binary | ios::out);
+	outfile__array_defaultclock_dt.open("results/_array_defaultclock_dt_-6623227097977636384", ios::binary | ios::out);
 	if(outfile__array_defaultclock_dt.is_open())
 	{
 		outfile__array_defaultclock_dt.write(reinterpret_cast<char*>(_array_defaultclock_dt), 1*sizeof(_array_defaultclock_dt[0]));
@@ -2852,7 +2851,7 @@ void _write_arrays()
 		std::cout << "Error writing output file for _array_defaultclock_dt." << endl;
 	}
 	ofstream outfile__array_defaultclock_t;
-	outfile__array_defaultclock_t.open("results/_array_defaultclock_t_7872549775156286211", ios::binary | ios::out);
+	outfile__array_defaultclock_t.open("results/_array_defaultclock_t_754089454961437660", ios::binary | ios::out);
 	if(outfile__array_defaultclock_t.is_open())
 	{
 		outfile__array_defaultclock_t.write(reinterpret_cast<char*>(_array_defaultclock_t), 1*sizeof(_array_defaultclock_t[0]));
@@ -2862,7 +2861,7 @@ void _write_arrays()
 		std::cout << "Error writing output file for _array_defaultclock_t." << endl;
 	}
 	ofstream outfile__array_defaultclock_timestep;
-	outfile__array_defaultclock_timestep.open("results/_array_defaultclock_timestep_631071227308762244", ios::binary | ios::out);
+	outfile__array_defaultclock_timestep.open("results/_array_defaultclock_timestep_5030979964072922726", ios::binary | ios::out);
 	if(outfile__array_defaultclock_timestep.is_open())
 	{
 		outfile__array_defaultclock_timestep.write(reinterpret_cast<char*>(_array_defaultclock_timestep), 1*sizeof(_array_defaultclock_timestep[0]));
@@ -2872,57 +2871,57 @@ void _write_arrays()
 		std::cout << "Error writing output file for _array_defaultclock_timestep." << endl;
 	}
 	ofstream outfile__array_neurongroup__spikespace;
-	outfile__array_neurongroup__spikespace.open("results/_array_neurongroup__spikespace_740375797340960402", ios::binary | ios::out);
+	outfile__array_neurongroup__spikespace.open("results/_array_neurongroup__spikespace_7985798023592118689", ios::binary | ios::out);
 	if(outfile__array_neurongroup__spikespace.is_open())
 	{
-		outfile__array_neurongroup__spikespace.write(reinterpret_cast<char*>(_array_neurongroup__spikespace), 101*sizeof(_array_neurongroup__spikespace[0]));
+		outfile__array_neurongroup__spikespace.write(reinterpret_cast<char*>(_array_neurongroup__spikespace), 11*sizeof(_array_neurongroup__spikespace[0]));
 		outfile__array_neurongroup__spikespace.close();
 	} else
 	{
 		std::cout << "Error writing output file for _array_neurongroup__spikespace." << endl;
 	}
 	ofstream outfile__array_neurongroup_i;
-	outfile__array_neurongroup_i.open("results/_array_neurongroup_i_6055945039601933138", ios::binary | ios::out);
+	outfile__array_neurongroup_i.open("results/_array_neurongroup_i_-8045255433367501680", ios::binary | ios::out);
 	if(outfile__array_neurongroup_i.is_open())
 	{
-		outfile__array_neurongroup_i.write(reinterpret_cast<char*>(_array_neurongroup_i), 100*sizeof(_array_neurongroup_i[0]));
+		outfile__array_neurongroup_i.write(reinterpret_cast<char*>(_array_neurongroup_i), 10*sizeof(_array_neurongroup_i[0]));
 		outfile__array_neurongroup_i.close();
 	} else
 	{
 		std::cout << "Error writing output file for _array_neurongroup_i." << endl;
 	}
 	ofstream outfile__array_neurongroup_v;
-	outfile__array_neurongroup_v.open("results/_array_neurongroup_v_7891661006412239380", ios::binary | ios::out);
+	outfile__array_neurongroup_v.open("results/_array_neurongroup_v_-4998991995471964550", ios::binary | ios::out);
 	if(outfile__array_neurongroup_v.is_open())
 	{
-		outfile__array_neurongroup_v.write(reinterpret_cast<char*>(_array_neurongroup_v), 100*sizeof(_array_neurongroup_v[0]));
+		outfile__array_neurongroup_v.write(reinterpret_cast<char*>(_array_neurongroup_v), 10*sizeof(_array_neurongroup_v[0]));
 		outfile__array_neurongroup_v.close();
 	} else
 	{
 		std::cout << "Error writing output file for _array_neurongroup_v." << endl;
 	}
 	ofstream outfile__array_spikemonitor__source_idx;
-	outfile__array_spikemonitor__source_idx.open("results/_array_spikemonitor__source_idx_5922515649374167772", ios::binary | ios::out);
+	outfile__array_spikemonitor__source_idx.open("results/_array_spikemonitor__source_idx_2359275215145165413", ios::binary | ios::out);
 	if(outfile__array_spikemonitor__source_idx.is_open())
 	{
-		outfile__array_spikemonitor__source_idx.write(reinterpret_cast<char*>(_array_spikemonitor__source_idx), 100*sizeof(_array_spikemonitor__source_idx[0]));
+		outfile__array_spikemonitor__source_idx.write(reinterpret_cast<char*>(_array_spikemonitor__source_idx), 10*sizeof(_array_spikemonitor__source_idx[0]));
 		outfile__array_spikemonitor__source_idx.close();
 	} else
 	{
 		std::cout << "Error writing output file for _array_spikemonitor__source_idx." << endl;
 	}
 	ofstream outfile__array_spikemonitor_count;
-	outfile__array_spikemonitor_count.open("results/_array_spikemonitor_count_-2588969514638382299", ios::binary | ios::out);
+	outfile__array_spikemonitor_count.open("results/_array_spikemonitor_count_-6015820085468205157", ios::binary | ios::out);
 	if(outfile__array_spikemonitor_count.is_open())
 	{
-		outfile__array_spikemonitor_count.write(reinterpret_cast<char*>(_array_spikemonitor_count), 100*sizeof(_array_spikemonitor_count[0]));
+		outfile__array_spikemonitor_count.write(reinterpret_cast<char*>(_array_spikemonitor_count), 10*sizeof(_array_spikemonitor_count[0]));
 		outfile__array_spikemonitor_count.close();
 	} else
 	{
 		std::cout << "Error writing output file for _array_spikemonitor_count." << endl;
 	}
 	ofstream outfile__array_spikemonitor_N;
-	outfile__array_spikemonitor_N.open("results/_array_spikemonitor_N_-18149718359536990", ios::binary | ios::out);
+	outfile__array_spikemonitor_N.open("results/_array_spikemonitor_N_2370809477039746014", ios::binary | ios::out);
 	if(outfile__array_spikemonitor_N.is_open())
 	{
 		outfile__array_spikemonitor_N.write(reinterpret_cast<char*>(_array_spikemonitor_N), 1*sizeof(_array_spikemonitor_N[0]));
@@ -2932,7 +2931,7 @@ void _write_arrays()
 		std::cout << "Error writing output file for _array_spikemonitor_N." << endl;
 	}
 	ofstream outfile__array_synapses_N;
-	outfile__array_synapses_N.open("results/_array_synapses_N_7827433773589862533", ios::binary | ios::out);
+	outfile__array_synapses_N.open("results/_array_synapses_N_-8945809757154267712", ios::binary | ios::out);
 	if(outfile__array_synapses_N.is_open())
 	{
 		outfile__array_synapses_N.write(reinterpret_cast<char*>(_array_synapses_N), 1*sizeof(_array_synapses_N[0]));
@@ -2943,7 +2942,7 @@ void _write_arrays()
 	}
 
 	ofstream outfile__dynamic_array_spikemonitor_i;
-	outfile__dynamic_array_spikemonitor_i.open("results/_dynamic_array_spikemonitor_i_2052341141066951601", ios::binary | ios::out);
+	outfile__dynamic_array_spikemonitor_i.open("results/_dynamic_array_spikemonitor_i_-7439896218851159402", ios::binary | ios::out);
 	if(outfile__dynamic_array_spikemonitor_i.is_open())
 	{
         if (! _dynamic_array_spikemonitor_i.empty() )
@@ -2956,7 +2955,7 @@ void _write_arrays()
 		std::cout << "Error writing output file for _dynamic_array_spikemonitor_i." << endl;
 	}
 	ofstream outfile__dynamic_array_spikemonitor_t;
-	outfile__dynamic_array_spikemonitor_t.open("results/_dynamic_array_spikemonitor_t_-2587582641990284681", ios::binary | ios::out);
+	outfile__dynamic_array_spikemonitor_t.open("results/_dynamic_array_spikemonitor_t_4293736807573784137", ios::binary | ios::out);
 	if(outfile__dynamic_array_spikemonitor_t.is_open())
 	{
         if (! _dynamic_array_spikemonitor_t.empty() )
@@ -2969,7 +2968,7 @@ void _write_arrays()
 		std::cout << "Error writing output file for _dynamic_array_spikemonitor_t." << endl;
 	}
 	ofstream outfile__dynamic_array_synapses__synaptic_post;
-	outfile__dynamic_array_synapses__synaptic_post.open("results/_dynamic_array_synapses__synaptic_post_-2408267615282334168", ios::binary | ios::out);
+	outfile__dynamic_array_synapses__synaptic_post.open("results/_dynamic_array_synapses__synaptic_post_-5570918585196315931", ios::binary | ios::out);
 	if(outfile__dynamic_array_synapses__synaptic_post.is_open())
 	{
         if (! _dynamic_array_synapses__synaptic_post.empty() )
@@ -2982,7 +2981,7 @@ void _write_arrays()
 		std::cout << "Error writing output file for _dynamic_array_synapses__synaptic_post." << endl;
 	}
 	ofstream outfile__dynamic_array_synapses__synaptic_pre;
-	outfile__dynamic_array_synapses__synaptic_pre.open("results/_dynamic_array_synapses__synaptic_pre_7235735616424383034", ios::binary | ios::out);
+	outfile__dynamic_array_synapses__synaptic_pre.open("results/_dynamic_array_synapses__synaptic_pre_3004746524775541620", ios::binary | ios::out);
 	if(outfile__dynamic_array_synapses__synaptic_pre.is_open())
 	{
         if (! _dynamic_array_synapses__synaptic_pre.empty() )
@@ -2995,7 +2994,7 @@ void _write_arrays()
 		std::cout << "Error writing output file for _dynamic_array_synapses__synaptic_pre." << endl;
 	}
 	ofstream outfile__dynamic_array_synapses_delay;
-	outfile__dynamic_array_synapses_delay.open("results/_dynamic_array_synapses_delay_6452910025800138878", ios::binary | ios::out);
+	outfile__dynamic_array_synapses_delay.open("results/_dynamic_array_synapses_delay_5016962466508062880", ios::binary | ios::out);
 	if(outfile__dynamic_array_synapses_delay.is_open())
 	{
         if (! _dynamic_array_synapses_delay.empty() )
@@ -3008,7 +3007,7 @@ void _write_arrays()
 		std::cout << "Error writing output file for _dynamic_array_synapses_delay." << endl;
 	}
 	ofstream outfile__dynamic_array_synapses_lastupdate;
-	outfile__dynamic_array_synapses_lastupdate.open("results/_dynamic_array_synapses_lastupdate_-2607505854967402109", ios::binary | ios::out);
+	outfile__dynamic_array_synapses_lastupdate.open("results/_dynamic_array_synapses_lastupdate_5150012566274056237", ios::binary | ios::out);
 	if(outfile__dynamic_array_synapses_lastupdate.is_open())
 	{
         if (! _dynamic_array_synapses_lastupdate.empty() )
@@ -3021,7 +3020,7 @@ void _write_arrays()
 		std::cout << "Error writing output file for _dynamic_array_synapses_lastupdate." << endl;
 	}
 	ofstream outfile__dynamic_array_synapses_N_incoming;
-	outfile__dynamic_array_synapses_N_incoming.open("results/_dynamic_array_synapses_N_incoming_-5754332187257509621", ios::binary | ios::out);
+	outfile__dynamic_array_synapses_N_incoming.open("results/_dynamic_array_synapses_N_incoming_8590873374124325356", ios::binary | ios::out);
 	if(outfile__dynamic_array_synapses_N_incoming.is_open())
 	{
         if (! _dynamic_array_synapses_N_incoming.empty() )
@@ -3034,7 +3033,7 @@ void _write_arrays()
 		std::cout << "Error writing output file for _dynamic_array_synapses_N_incoming." << endl;
 	}
 	ofstream outfile__dynamic_array_synapses_N_outgoing;
-	outfile__dynamic_array_synapses_N_outgoing.open("results/_dynamic_array_synapses_N_outgoing_-4018325690029630941", ios::binary | ios::out);
+	outfile__dynamic_array_synapses_N_outgoing.open("results/_dynamic_array_synapses_N_outgoing_5562809936008471523", ios::binary | ios::out);
 	if(outfile__dynamic_array_synapses_N_outgoing.is_open())
 	{
         if (! _dynamic_array_synapses_N_outgoing.empty() )
@@ -3244,31 +3243,411 @@ int main(int argc, char **argv)
 
 	return 0;
 } [brian2.devices.cpp_standalone.device]
-DIAGNOSTIC Writing file code_objects/synapses_pre_initialise_queue.cpp:
+DIAGNOSTIC Writing file code_objects/spikemonitor_codeobject.cpp:
 #include "objects.h"
-#include "code_objects/synapses_pre_initialise_queue.h"
-void _run_synapses_pre_initialise_queue() {
-	using namespace brian;
+#include "code_objects/spikemonitor_codeobject.h"
+#include "brianlib/common_math.h"
+#include "brianlib/stdint_compat.h"
+#include<cmath>
+#include<ctime>
+#include<iostream>
+#include<fstream>
+
+////// SUPPORT CODE ///////
+namespace {
  	
- double*   _ptr_array_defaultclock_dt = _array_defaultclock_dt;
+ inline int _brian_mod(int ux, int uy)
+ {
+     const int x = (int)ux;
+     const int y = (int)uy;
+     return ((x%y)+y)%y;
+ }
+ inline long _brian_mod(int ux, long uy)
+ {
+     const long x = (long)ux;
+     const long y = (long)uy;
+     return ((x%y)+y)%y;
+ }
+ inline long long _brian_mod(int ux, long long uy)
+ {
+     const long long x = (long long)ux;
+     const long long y = (long long)uy;
+     return ((x%y)+y)%y;
+ }
+ inline float _brian_mod(int ux, float uy)
+ {
+     const float x = (float)ux;
+     const float y = (float)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(int ux, double uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(int ux, long double uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long _brian_mod(long ux, int uy)
+ {
+     const long x = (long)ux;
+     const long y = (long)uy;
+     return ((x%y)+y)%y;
+ }
+ inline long _brian_mod(long ux, long uy)
+ {
+     const long x = (long)ux;
+     const long y = (long)uy;
+     return ((x%y)+y)%y;
+ }
+ inline long long _brian_mod(long ux, long long uy)
+ {
+     const long long x = (long long)ux;
+     const long long y = (long long)uy;
+     return ((x%y)+y)%y;
+ }
+ inline float _brian_mod(long ux, float uy)
+ {
+     const float x = (float)ux;
+     const float y = (float)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(long ux, double uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(long ux, long double uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long long _brian_mod(long long ux, int uy)
+ {
+     const long long x = (long long)ux;
+     const long long y = (long long)uy;
+     return ((x%y)+y)%y;
+ }
+ inline long long _brian_mod(long long ux, long uy)
+ {
+     const long long x = (long long)ux;
+     const long long y = (long long)uy;
+     return ((x%y)+y)%y;
+ }
+ inline long long _brian_mod(long long ux, long long uy)
+ {
+     const long long x = (long long)ux;
+     const long long y = (long long)uy;
+     return ((x%y)+y)%y;
+ }
+ inline float _brian_mod(long long ux, float uy)
+ {
+     const float x = (float)ux;
+     const float y = (float)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(long long ux, double uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(long long ux, long double uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline float _brian_mod(float ux, int uy)
+ {
+     const float x = (float)ux;
+     const float y = (float)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline float _brian_mod(float ux, long uy)
+ {
+     const float x = (float)ux;
+     const float y = (float)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline float _brian_mod(float ux, long long uy)
+ {
+     const float x = (float)ux;
+     const float y = (float)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline float _brian_mod(float ux, float uy)
+ {
+     const float x = (float)ux;
+     const float y = (float)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(float ux, double uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(float ux, long double uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(double ux, int uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(double ux, long uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(double ux, long long uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(double ux, float uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline double _brian_mod(double ux, double uy)
+ {
+     const double x = (double)ux;
+     const double y = (double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(double ux, long double uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(long double ux, int uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(long double ux, long uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(long double ux, long long uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(long double ux, float uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(long double ux, double uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ inline long double _brian_mod(long double ux, long double uy)
+ {
+     const long double x = (long double)ux;
+     const long double y = (long double)uy;
+     return fmod(fmod(x, y)+y, y);
+ }
+ #ifdef _MSC_VER
+ #define _brian_pow(x, y) (pow((double)(x), (y)))
+ #else
+ #define _brian_pow(x, y) (pow((x), (y)))
+ #endif
+
+}
+
+////// HASH DEFINES ///////
 
 
-    double* real_delays = synapses_pre.delay.empty() ? 0 : &(synapses_pre.delay[0]);
-    int32_t* sources = synapses_pre.sources.empty() ? 0 : &(synapses_pre.sources[0]);
-    const unsigned int n_delays = synapses_pre.delay.size();
-    const unsigned int n_synapses = synapses_pre.sources.size();
-    synapses_pre.prepare(100,
-                        100,
-                        real_delays, n_delays, sources,
-                        n_synapses,
-                        _ptr_array_defaultclock_dt[0]);
+
+void _run_spikemonitor_codeobject()
+{
+	using namespace brian;
+
+    const std::clock_t _start_time = std::clock();
+
+	///// CONSTANTS ///////////
+	const int _num_source_idx = 10;
+const int _num_source_i = 10;
+double* const _array_spikemonitor_t = _dynamic_array_spikemonitor_t.empty()? 0 : &_dynamic_array_spikemonitor_t[0];
+const int _numt = _dynamic_array_spikemonitor_t.size();
+int32_t* const _array_spikemonitor_i = _dynamic_array_spikemonitor_i.empty()? 0 : &_dynamic_array_spikemonitor_i[0];
+const int _numi = _dynamic_array_spikemonitor_i.size();
+const int _num_source_t = 1;
+const int _numcount = 10;
+const int _num_spikespace = 11;
+const int _num_clock_t = 1;
+const int _numN = 1;
+	///// POINTERS ////////////
+ 	
+ int32_t* __restrict  _ptr_array_spikemonitor__source_idx = _array_spikemonitor__source_idx;
+ int32_t* __restrict  _ptr_array_neurongroup_i = _array_neurongroup_i;
+ double* __restrict  _ptr_array_spikemonitor_t = _array_spikemonitor_t;
+ int32_t* __restrict  _ptr_array_spikemonitor_i = _array_spikemonitor_i;
+ double*   _ptr_array_defaultclock_t = _array_defaultclock_t;
+ int32_t* __restrict  _ptr_array_spikemonitor_count = _array_spikemonitor_count;
+ int32_t* __restrict  _ptr_array_neurongroup__spikespace = _array_neurongroup__spikespace;
+ int32_t*   _ptr_array_spikemonitor_N = _array_spikemonitor_N;
+
+
+	//// MAIN CODE ////////////
+
+	int32_t _num_events = _ptr_array_neurongroup__spikespace[_num_spikespace-1];
+
+    if (_num_events > 0)
+    {
+        int _start_idx = _num_events;
+        int _end_idx = _num_events;
+        for(int _j=0; _j<_num_events; _j++)
+        {
+            const int _idx = _ptr_array_neurongroup__spikespace[_j];
+            if (_idx >= 0) {
+                _start_idx = _j;
+                break;
+            }
+        }
+        for(int _j=_num_events-1; _j>=_start_idx; _j--)
+        {
+            const int _idx = _ptr_array_neurongroup__spikespace[_j];
+            if (_idx < 10) {
+                break;
+            }
+            _end_idx = _j;
+        }
+        _num_events = _end_idx - _start_idx;
+        if (_num_events > 0) {
+             const int _vectorisation_idx = 1;
+                        
+
+            for(int _j=_start_idx; _j<_end_idx; _j++)
+            {
+                const int _idx = _ptr_array_neurongroup__spikespace[_j];
+                const int _vectorisation_idx = _idx;
+                                
+                const int32_t _source_i = _ptr_array_neurongroup_i[_idx];
+                const double _source_t = _ptr_array_defaultclock_t[0];
+                const int32_t _to_record_i = _source_i;
+                const double _to_record_t = _source_t;
+
+                _dynamic_array_spikemonitor_i.push_back(_to_record_i);
+                _dynamic_array_spikemonitor_t.push_back(_to_record_t);
+                _ptr_array_spikemonitor_count[_idx-0]++;
+            }
+            _ptr_array_spikemonitor_N[0] += _num_events;
+        }
+    }
+
+
+    const double _run_time = (double)(std::clock() -_start_time)/CLOCKS_PER_SEC;
+    spikemonitor_codeobject_profiling_info += _run_time;
+}
+
+void _debugmsg_spikemonitor_codeobject()
+{
+	using namespace brian;
+    const int _num_source_idx = 10;
+const int _num_source_i = 10;
+double* const _array_spikemonitor_t = _dynamic_array_spikemonitor_t.empty()? 0 : &_dynamic_array_spikemonitor_t[0];
+const int _numt = _dynamic_array_spikemonitor_t.size();
+int32_t* const _array_spikemonitor_i = _dynamic_array_spikemonitor_i.empty()? 0 : &_dynamic_array_spikemonitor_i[0];
+const int _numi = _dynamic_array_spikemonitor_i.size();
+const int _num_source_t = 1;
+const int _numcount = 10;
+const int _num_spikespace = 11;
+const int _num_clock_t = 1;
+const int _numN = 1;
+        
+    int32_t* __restrict  _ptr_array_spikemonitor__source_idx = _array_spikemonitor__source_idx;
+    int32_t* __restrict  _ptr_array_neurongroup_i = _array_neurongroup_i;
+    double* __restrict  _ptr_array_spikemonitor_t = _array_spikemonitor_t;
+    int32_t* __restrict  _ptr_array_spikemonitor_i = _array_spikemonitor_i;
+    double*   _ptr_array_defaultclock_t = _array_defaultclock_t;
+    int32_t* __restrict  _ptr_array_spikemonitor_count = _array_spikemonitor_count;
+    int32_t* __restrict  _ptr_array_neurongroup__spikespace = _array_neurongroup__spikespace;
+    int32_t*   _ptr_array_spikemonitor_N = _array_spikemonitor_N;
+
+	std::cout << "Number of spikes: " << _ptr_array_spikemonitor_N[0] << endl;
+}
+
+ [brian2.devices.cpp_standalone.device]
+DIAGNOSTIC Writing file code_objects/spikemonitor_codeobject.h:
+#ifndef _INCLUDED_spikemonitor_codeobject
+#define _INCLUDED_spikemonitor_codeobject
+
+#include "objects.h"
+
+void _run_spikemonitor_codeobject();
+
+void _debugmsg_spikemonitor_codeobject();
+
+#endif
+ [brian2.devices.cpp_standalone.device]
+DIAGNOSTIC Writing file code_objects/synapses_pre_push_spikes.cpp:
+#include "objects.h"
+#include "code_objects/synapses_pre_push_spikes.h"
+#include "brianlib/common_math.h"
+#include "brianlib/stdint_compat.h"
+#include<cmath>
+#include<ctime>
+
+void _run_synapses_pre_push_spikes()
+{
+    using namespace brian;
+
+    const std::clock_t _start_time = std::clock();
+
+    ///// CONSTANTS ///////////
+    const int _num_spikespace = 11;
+    ///// POINTERS ////////////
+        
+    int32_t* __restrict  _ptr_array_neurongroup__spikespace = _array_neurongroup__spikespace;
+
+
+    //// MAIN CODE ////////////
+    // we do advance at the beginning rather than at the end because it saves us making
+    // a copy of the current spiking synapses
+    
+    {
+        synapses_pre.advance();
+        synapses_pre.push(_ptr_array_neurongroup__spikespace, _ptr_array_neurongroup__spikespace[_num_spikespace-1]);
+    }
+
+    // Profiling
+    const double _run_time = (double)(std::clock() -_start_time)/CLOCKS_PER_SEC;
+    synapses_pre_push_spikes_profiling_info += _run_time;
 }
  [brian2.devices.cpp_standalone.device]
-DIAGNOSTIC Writing file code_objects/synapses_pre_initialise_queue.h:
-#ifndef _INCLUDED_synapses_pre_initialise_queue
-#define _INCLUDED_synapses_pre_initialise_queue
+DIAGNOSTIC Writing file code_objects/synapses_pre_push_spikes.h:
+#ifndef _INCLUDED_synapses_pre_push_spikes
+#define _INCLUDED_synapses_pre_push_spikes
 
-void _run_synapses_pre_initialise_queue();
+#include "objects.h"
+
+void _run_synapses_pre_push_spikes();
 
 #endif
  [brian2.devices.cpp_standalone.device]
@@ -3516,12 +3895,12 @@ void _run_neurongroup_group_variable_set_conditional_codeobject()
 {
 	using namespace brian;
 	///// CONSTANTS ///////////
-	const int _numv = 100;
-const int _numi = 100;
+	const int _numi = 10;
+const int _numv = 10;
 	///// POINTERS ////////////
  	
- double* __restrict  _ptr_array_neurongroup_v = _array_neurongroup_v;
  int32_t* __restrict  _ptr_array_neurongroup_i = _array_neurongroup_i;
+ double* __restrict  _ptr_array_neurongroup_v = _array_neurongroup_v;
 
 
 	//// MAIN CODE ////////////
@@ -3530,10 +3909,10 @@ const int _numi = 100;
  	
 
  	
- const double _lio_statement_1 = 1.0 / 100;
+ const double _lio_statement_1 = 1.0 / 10;
 
 
-	const int _N = 100;
+	const int _N = 10;
 
 	
 	for(int _idx=0; _idx<_N; _idx++)
@@ -3568,299 +3947,31 @@ void _run_neurongroup_group_variable_set_conditional_codeobject();
 
 #endif
  [brian2.devices.cpp_standalone.device]
-DIAGNOSTIC Writing file code_objects/neurongroup_stateupdater_codeobject.cpp:
+DIAGNOSTIC Writing file code_objects/synapses_pre_initialise_queue.cpp:
 #include "objects.h"
-#include "code_objects/neurongroup_stateupdater_codeobject.h"
-#include "brianlib/common_math.h"
-#include "brianlib/stdint_compat.h"
-#include<cmath>
-#include<ctime>
-#include<iostream>
-#include<fstream>
-
-////// SUPPORT CODE ///////
-namespace {
- 	
- inline int _brian_mod(int ux, int uy)
- {
-     const int x = (int)ux;
-     const int y = (int)uy;
-     return ((x%y)+y)%y;
- }
- inline long _brian_mod(int ux, long uy)
- {
-     const long x = (long)ux;
-     const long y = (long)uy;
-     return ((x%y)+y)%y;
- }
- inline long long _brian_mod(int ux, long long uy)
- {
-     const long long x = (long long)ux;
-     const long long y = (long long)uy;
-     return ((x%y)+y)%y;
- }
- inline float _brian_mod(int ux, float uy)
- {
-     const float x = (float)ux;
-     const float y = (float)uy;
-     return fmod(fmod(x, y)+y, y);
- }
- inline double _brian_mod(int ux, double uy)
- {
-     const double x = (double)ux;
-     const double y = (double)uy;
-     return fmod(fmod(x, y)+y, y);
- }
- inline long double _brian_mod(int ux, long double uy)
- {
-     const long double x = (long double)ux;
-     const long double y = (long double)uy;
-     return fmod(fmod(x, y)+y, y);
- }
- inline long _brian_mod(long ux, int uy)
- {
-     const long x = (long)ux;
-     const long y = (long)uy;
-     return ((x%y)+y)%y;
- }
- inline long _brian_mod(long ux, long uy)
- {
-     const long x = (long)ux;
-     const long y = (long)uy;
-     return ((x%y)+y)%y;
- }
- inline long long _brian_mod(long ux, long long uy)
- {
-     const long long x = (long long)ux;
-     const long long y = (long long)uy;
-     return ((x%y)+y)%y;
- }
- inline float _brian_mod(long ux, float uy)
- {
-     const float x = (float)ux;
-     const float y = (float)uy;
-     return fmod(fmod(x, y)+y, y);
- }
- inline double _brian_mod(long ux, double uy)
- {
-     const double x = (double)ux;
-     const double y = (double)uy;
-     return fmod(fmod(x, y)+y, y);
- }
- inline long double _brian_mod(long ux, long double uy)
- {
-     const long double x = (long double)ux;
-     const long double y = (long double)uy;
-     return fmod(fmod(x, y)+y, y);
- }
- inline long long _brian_mod(long long ux, int uy)
- {
-     const long long x = (long long)ux;
-     const long long y = (long long)uy;
-     return ((x%y)+y)%y;
- }
- inline long long _brian_mod(long long ux, long uy)
- {
-     const long long x = (long long)ux;
-     const long long y = (long long)uy;
-     return ((x%y)+y)%y;
- }
- inline long long _brian_mod(long long ux, long long uy)
- {
-     const long long x = (long long)ux;
-     const long long y = (long long)uy;
-     return ((x%y)+y)%y;
- }
- inline float _brian_mod(long long ux, float uy)
- {
-     const float x = (float)ux;
-     const float y = (float)uy;
-     return fmod(fmod(x, y)+y, y);
- }
- inline double _brian_mod(long long ux, double uy)
- {
-     const double x = (double)ux;
-     const double y = (double)uy;
-     return fmod(fmod(x, y)+y, y);
- }
- inline long double _brian_mod(long long ux, long double uy)
- {
-     const long double x = (long double)ux;
-     const long double y = (long double)uy;
-     return fmod(fmod(x, y)+y, y);
- }
- inline float _brian_mod(float ux, int uy)
- {
-     const float x = (float)ux;
-     const float y = (float)uy;
-     return fmod(fmod(x, y)+y, y);
- }
- inline float _brian_mod(float ux, long uy)
- {
-     const float x = (float)ux;
-     const float y = (float)uy;
-     return fmod(fmod(x, y)+y, y);
- }
- inline float _brian_mod(float ux, long long uy)
- {
-     const float x = (float)ux;
-     const float y = (float)uy;
-     return fmod(fmod(x, y)+y, y);
- }
- inline float _brian_mod(float ux, float uy)
- {
-     const float x = (float)ux;
-     const float y = (float)uy;
-     return fmod(fmod(x, y)+y, y);
- }
- inline double _brian_mod(float ux, double uy)
- {
-     const double x = (double)ux;
-     const double y = (double)uy;
-     return fmod(fmod(x, y)+y, y);
- }
- inline long double _brian_mod(float ux, long double uy)
- {
-     const long double x = (long double)ux;
-     const long double y = (long double)uy;
-     return fmod(fmod(x, y)+y, y);
- }
- inline double _brian_mod(double ux, int uy)
- {
-     const double x = (double)ux;
-     const double y = (double)uy;
-     return fmod(fmod(x, y)+y, y);
- }
- inline double _brian_mod(double ux, long uy)
- {
-     const double x = (double)ux;
-     const double y = (double)uy;
-     return fmod(fmod(x, y)+y, y);
- }
- inline double _brian_mod(double ux, long long uy)
- {
-     const double x = (double)ux;
-     const double y = (double)uy;
-     return fmod(fmod(x, y)+y, y);
- }
- inline double _brian_mod(double ux, float uy)
- {
-     const double x = (double)ux;
-     const double y = (double)uy;
-     return fmod(fmod(x, y)+y, y);
- }
- inline double _brian_mod(double ux, double uy)
- {
-     const double x = (double)ux;
-     const double y = (double)uy;
-     return fmod(fmod(x, y)+y, y);
- }
- inline long double _brian_mod(double ux, long double uy)
- {
-     const long double x = (long double)ux;
-     const long double y = (long double)uy;
-     return fmod(fmod(x, y)+y, y);
- }
- inline long double _brian_mod(long double ux, int uy)
- {
-     const long double x = (long double)ux;
-     const long double y = (long double)uy;
-     return fmod(fmod(x, y)+y, y);
- }
- inline long double _brian_mod(long double ux, long uy)
- {
-     const long double x = (long double)ux;
-     const long double y = (long double)uy;
-     return fmod(fmod(x, y)+y, y);
- }
- inline long double _brian_mod(long double ux, long long uy)
- {
-     const long double x = (long double)ux;
-     const long double y = (long double)uy;
-     return fmod(fmod(x, y)+y, y);
- }
- inline long double _brian_mod(long double ux, float uy)
- {
-     const long double x = (long double)ux;
-     const long double y = (long double)uy;
-     return fmod(fmod(x, y)+y, y);
- }
- inline long double _brian_mod(long double ux, double uy)
- {
-     const long double x = (long double)ux;
-     const long double y = (long double)uy;
-     return fmod(fmod(x, y)+y, y);
- }
- inline long double _brian_mod(long double ux, long double uy)
- {
-     const long double x = (long double)ux;
-     const long double y = (long double)uy;
-     return fmod(fmod(x, y)+y, y);
- }
- #ifdef _MSC_VER
- #define _brian_pow(x, y) (pow((double)(x), (y)))
- #else
- #define _brian_pow(x, y) (pow((x), (y)))
- #endif
-
-}
-
-////// HASH DEFINES ///////
-
-
-
-void _run_neurongroup_stateupdater_codeobject()
-{
+#include "code_objects/synapses_pre_initialise_queue.h"
+void _run_synapses_pre_initialise_queue() {
 	using namespace brian;
-
-    const std::clock_t _start_time = std::clock();
-
-	///// CONSTANTS ///////////
-	const int _numv = 100;
-const int _numdt = 1;
-	///// POINTERS ////////////
  	
- double* __restrict  _ptr_array_neurongroup_v = _array_neurongroup_v;
  double*   _ptr_array_defaultclock_dt = _array_defaultclock_dt;
 
 
-	//// MAIN CODE ////////////
-	// scalar code
-	const int _vectorisation_idx = -1;
- 	
- const double dt = _ptr_array_defaultclock_dt[0];
- const double _lio_1 = 2 - (2 * exp((- dt) / 0.01));
- const double _lio_2 = exp((- dt) / 0.01);
-
-
-	const int _N = 100;
-	
-	for(int _idx=0; _idx<_N; _idx++)
-	{
-	    // vector code
-		const int _vectorisation_idx = _idx;
-                
-        double v = _ptr_array_neurongroup_v[_idx];
-        const double _v = _lio_1 + (_lio_2 * v);
-        v = _v;
-        _ptr_array_neurongroup_v[_idx] = v;
-
-	}
-
-    const double _run_time = (double)(std::clock() -_start_time)/CLOCKS_PER_SEC;
-    neurongroup_stateupdater_codeobject_profiling_info += _run_time;
+    double* real_delays = synapses_pre.delay.empty() ? 0 : &(synapses_pre.delay[0]);
+    int32_t* sources = synapses_pre.sources.empty() ? 0 : &(synapses_pre.sources[0]);
+    const unsigned int n_delays = synapses_pre.delay.size();
+    const unsigned int n_synapses = synapses_pre.sources.size();
+    synapses_pre.prepare(10,
+                        10,
+                        real_delays, n_delays, sources,
+                        n_synapses,
+                        _ptr_array_defaultclock_dt[0]);
 }
-
-
  [brian2.devices.cpp_standalone.device]
-DIAGNOSTIC Writing file code_objects/neurongroup_stateupdater_codeobject.h:
-#ifndef _INCLUDED_neurongroup_stateupdater_codeobject
-#define _INCLUDED_neurongroup_stateupdater_codeobject
+DIAGNOSTIC Writing file code_objects/synapses_pre_initialise_queue.h:
+#ifndef _INCLUDED_synapses_pre_initialise_queue
+#define _INCLUDED_synapses_pre_initialise_queue
 
-#include "objects.h"
-
-void _run_neurongroup_stateupdater_codeobject();
-
+void _run_synapses_pre_initialise_queue();
 
 #endif
  [brian2.devices.cpp_standalone.device]
@@ -4112,12 +4223,12 @@ void _run_neurongroup_thresholder_codeobject()
     const std::clock_t _start_time = std::clock();
 
 	///// CONSTANTS ///////////
-	const int _numv = 100;
-const int _num_spikespace = 101;
+	const int _num_spikespace = 11;
+const int _numv = 10;
 	///// POINTERS ////////////
  	
- double* __restrict  _ptr_array_neurongroup_v = _array_neurongroup_v;
  int32_t* __restrict  _ptr_array_neurongroup__spikespace = _array_neurongroup__spikespace;
+ double* __restrict  _ptr_array_neurongroup_v = _array_neurongroup_v;
 
 
 
@@ -4129,7 +4240,7 @@ const int _num_spikespace = 101;
 
 
     long _count = 0;
-    for(int _idx=0; _idx<100; _idx++)
+    for(int _idx=0; _idx<10; _idx++)
     {
         const int _vectorisation_idx = _idx;
                 
@@ -4140,7 +4251,7 @@ const int _num_spikespace = 101;
             _ptr_array_neurongroup__spikespace[_count++] = _idx;
         }
     }
-    _ptr_array_neurongroup__spikespace[100] = _count;
+    _ptr_array_neurongroup__spikespace[10] = _count;
 
     const double _run_time = (double)(std::clock() -_start_time)/CLOCKS_PER_SEC;
     neurongroup_thresholder_codeobject_profiling_info += _run_time;
@@ -4159,60 +4270,17 @@ void _run_neurongroup_thresholder_codeobject();
 
 #endif
  [brian2.devices.cpp_standalone.device]
-DIAGNOSTIC Writing file code_objects/synapses_pre_push_spikes.cpp:
+DIAGNOSTIC Writing file code_objects/synapses_pre_codeobject.cpp:
 #include "objects.h"
-#include "code_objects/synapses_pre_push_spikes.h"
-#include "brianlib/common_math.h"
-#include "brianlib/stdint_compat.h"
-#include<cmath>
-#include<ctime>
-
-void _run_synapses_pre_push_spikes()
-{
-    using namespace brian;
-
-    const std::clock_t _start_time = std::clock();
-
-    ///// CONSTANTS ///////////
-    const int _num_spikespace = 101;
-    ///// POINTERS ////////////
-        
-    int32_t* __restrict  _ptr_array_neurongroup__spikespace = _array_neurongroup__spikespace;
-
-
-    //// MAIN CODE ////////////
-    // we do advance at the beginning rather than at the end because it saves us making
-    // a copy of the current spiking synapses
-    
-    {
-        synapses_pre.advance();
-        synapses_pre.push(_ptr_array_neurongroup__spikespace, _ptr_array_neurongroup__spikespace[_num_spikespace-1]);
-    }
-
-    // Profiling
-    const double _run_time = (double)(std::clock() -_start_time)/CLOCKS_PER_SEC;
-    synapses_pre_push_spikes_profiling_info += _run_time;
-}
- [brian2.devices.cpp_standalone.device]
-DIAGNOSTIC Writing file code_objects/synapses_pre_push_spikes.h:
-#ifndef _INCLUDED_synapses_pre_push_spikes
-#define _INCLUDED_synapses_pre_push_spikes
-
-#include "objects.h"
-
-void _run_synapses_pre_push_spikes();
-
-#endif
- [brian2.devices.cpp_standalone.device]
-DIAGNOSTIC Writing file code_objects/neurongroup_resetter_codeobject.cpp:
-#include "objects.h"
-#include "code_objects/neurongroup_resetter_codeobject.h"
+#include "code_objects/synapses_pre_codeobject.h"
 #include "brianlib/common_math.h"
 #include "brianlib/stdint_compat.h"
 #include<cmath>
 #include<ctime>
 #include<iostream>
 #include<fstream>
+#include "brianlib/stdint_compat.h"
+#include "synapses_classes.h"
 
 ////// SUPPORT CODE ///////
 namespace {
@@ -4445,64 +4513,92 @@ namespace {
 
 
 
-void _run_neurongroup_resetter_codeobject()
+void _run_synapses_pre_codeobject()
 {
 	using namespace brian;
 
     const std::clock_t _start_time = std::clock();
 
 	///// CONSTANTS ///////////
-	const int _numv = 100;
-const int _num_spikespace = 101;
+	double* const _array_synapses_lastupdate = _dynamic_array_synapses_lastupdate.empty()? 0 : &_dynamic_array_synapses_lastupdate[0];
+const int _numlastupdate = _dynamic_array_synapses_lastupdate.size();
+int32_t* const _array_synapses__synaptic_pre = _dynamic_array_synapses__synaptic_pre.empty()? 0 : &_dynamic_array_synapses__synaptic_pre[0];
+const int _num_synaptic_pre = _dynamic_array_synapses__synaptic_pre.size();
+int32_t* const _array_synapses__synaptic_post = _dynamic_array_synapses__synaptic_post.empty()? 0 : &_dynamic_array_synapses__synaptic_post[0];
+const int _num_postsynaptic_idx = _dynamic_array_synapses__synaptic_post.size();
+const int _numv_post = 10;
+const int _numt = 1;
 	///// POINTERS ////////////
  	
+ double* __restrict  _ptr_array_synapses_lastupdate = _array_synapses_lastupdate;
+ int32_t* __restrict  _ptr_array_synapses__synaptic_pre = _array_synapses__synaptic_pre;
+ int32_t* __restrict  _ptr_array_synapses__synaptic_post = _array_synapses__synaptic_post;
  double* __restrict  _ptr_array_neurongroup_v = _array_neurongroup_v;
- int32_t* __restrict  _ptr_array_neurongroup__spikespace = _array_neurongroup__spikespace;
+ double*   _ptr_array_defaultclock_t = _array_defaultclock_t;
 
 
 
-	const int32_t *_events = _ptr_array_neurongroup__spikespace;
-	const int32_t _num_events = _ptr_array_neurongroup__spikespace[100];
+	// This is only needed for the _debugmsg function below	
+	
 
-	//// MAIN CODE ////////////	
 	// scalar code
 	const int _vectorisation_idx = -1;
  	
 
 
 	
-	for(int _index_events=0; _index_events<_num_events; _index_events++)
 	{
-	    // vector code
-		const int _idx = _events[_index_events];
-		const int _vectorisation_idx = _idx;
-                
-        double v;
-        v = 0;
-        _ptr_array_neurongroup_v[_idx] = v;
+	std::vector<int> *_spiking_synapses = synapses_pre.peek();
+	const unsigned int _num_spiking_synapses = _spiking_synapses->size();
 
+	
+	{
+		for(unsigned int _spiking_synapse_idx=0;
+			_spiking_synapse_idx<_num_spiking_synapses;
+			_spiking_synapse_idx++)
+		{
+			const int _idx = (*_spiking_synapses)[_spiking_synapse_idx];
+			const int _vectorisation_idx = _idx;
+   			
+   const int32_t _postsynaptic_idx = _ptr_array_synapses__synaptic_post[_idx];
+   double v_post = _ptr_array_neurongroup_v[_postsynaptic_idx];
+   const double t = _ptr_array_defaultclock_t[0];
+   double lastupdate;
+   v_post += 0.1;
+   lastupdate = t;
+   _ptr_array_synapses_lastupdate[_idx] = lastupdate;
+   _ptr_array_neurongroup_v[_postsynaptic_idx] = v_post;
+
+		}
 	}
+    }
 
     const double _run_time = (double)(std::clock() -_start_time)/CLOCKS_PER_SEC;
-    neurongroup_resetter_codeobject_profiling_info += _run_time;
+    synapses_pre_codeobject_profiling_info += _run_time;
 }
 
+void _debugmsg_synapses_pre_codeobject()
+{
+	using namespace brian;
+	std::cout << "Number of synapses: " << _dynamic_array_synapses__synaptic_pre.size() << endl;
+}
 
  [brian2.devices.cpp_standalone.device]
-DIAGNOSTIC Writing file code_objects/neurongroup_resetter_codeobject.h:
-#ifndef _INCLUDED_neurongroup_resetter_codeobject
-#define _INCLUDED_neurongroup_resetter_codeobject
+DIAGNOSTIC Writing file code_objects/synapses_pre_codeobject.h:
+#ifndef _INCLUDED_synapses_pre_codeobject
+#define _INCLUDED_synapses_pre_codeobject
 
 #include "objects.h"
 
-void _run_neurongroup_resetter_codeobject();
+void _run_synapses_pre_codeobject();
 
+void _debugmsg_synapses_pre_codeobject();
 
 #endif
  [brian2.devices.cpp_standalone.device]
-DIAGNOSTIC Writing file code_objects/spikemonitor_codeobject.cpp:
+DIAGNOSTIC Writing file code_objects/neurongroup_stateupdater_codeobject.cpp:
 #include "objects.h"
-#include "code_objects/spikemonitor_codeobject.h"
+#include "code_objects/neurongroup_stateupdater_codeobject.h"
 #include "brianlib/common_math.h"
 #include "brianlib/stdint_compat.h"
 #include<cmath>
@@ -4741,125 +4837,58 @@ namespace {
 
 
 
-void _run_spikemonitor_codeobject()
+void _run_neurongroup_stateupdater_codeobject()
 {
 	using namespace brian;
 
     const std::clock_t _start_time = std::clock();
 
 	///// CONSTANTS ///////////
-	const int _num_source_t = 1;
-const int _num_source_i = 100;
-const int _num_spikespace = 101;
-const int _numN = 1;
-const int _num_source_idx = 100;
-double* const _array_spikemonitor_t = _dynamic_array_spikemonitor_t.empty()? 0 : &_dynamic_array_spikemonitor_t[0];
-const int _numt = _dynamic_array_spikemonitor_t.size();
-const int _numcount = 100;
-const int _num_clock_t = 1;
-int32_t* const _array_spikemonitor_i = _dynamic_array_spikemonitor_i.empty()? 0 : &_dynamic_array_spikemonitor_i[0];
-const int _numi = _dynamic_array_spikemonitor_i.size();
+	const int _numdt = 1;
+const int _numv = 10;
 	///// POINTERS ////////////
  	
- double*   _ptr_array_defaultclock_t = _array_defaultclock_t;
- int32_t* __restrict  _ptr_array_neurongroup_i = _array_neurongroup_i;
- int32_t* __restrict  _ptr_array_neurongroup__spikespace = _array_neurongroup__spikespace;
- int32_t*   _ptr_array_spikemonitor_N = _array_spikemonitor_N;
- int32_t* __restrict  _ptr_array_spikemonitor__source_idx = _array_spikemonitor__source_idx;
- double* __restrict  _ptr_array_spikemonitor_t = _array_spikemonitor_t;
- int32_t* __restrict  _ptr_array_spikemonitor_count = _array_spikemonitor_count;
- int32_t* __restrict  _ptr_array_spikemonitor_i = _array_spikemonitor_i;
+ double*   _ptr_array_defaultclock_dt = _array_defaultclock_dt;
+ double* __restrict  _ptr_array_neurongroup_v = _array_neurongroup_v;
 
 
 	//// MAIN CODE ////////////
+	// scalar code
+	const int _vectorisation_idx = -1;
+ 	
+ const double dt = _ptr_array_defaultclock_dt[0];
+ const double _lio_1 = 2 - (2 * exp((- dt) / 0.01));
+ const double _lio_2 = exp((- dt) / 0.01);
 
-	int32_t _num_events = _ptr_array_neurongroup__spikespace[_num_spikespace-1];
 
-    if (_num_events > 0)
-    {
-        int _start_idx = _num_events;
-        int _end_idx = _num_events;
-        for(int _j=0; _j<_num_events; _j++)
-        {
-            const int _idx = _ptr_array_neurongroup__spikespace[_j];
-            if (_idx >= 0) {
-                _start_idx = _j;
-                break;
-            }
-        }
-        for(int _j=_num_events-1; _j>=_start_idx; _j--)
-        {
-            const int _idx = _ptr_array_neurongroup__spikespace[_j];
-            if (_idx < 100) {
-                break;
-            }
-            _end_idx = _j;
-        }
-        _num_events = _end_idx - _start_idx;
-        if (_num_events > 0) {
-             const int _vectorisation_idx = 1;
-                        
+	const int _N = 10;
+	
+	for(int _idx=0; _idx<_N; _idx++)
+	{
+	    // vector code
+		const int _vectorisation_idx = _idx;
+                
+        double v = _ptr_array_neurongroup_v[_idx];
+        const double _v = _lio_1 + (_lio_2 * v);
+        v = _v;
+        _ptr_array_neurongroup_v[_idx] = v;
 
-            for(int _j=_start_idx; _j<_end_idx; _j++)
-            {
-                const int _idx = _ptr_array_neurongroup__spikespace[_j];
-                const int _vectorisation_idx = _idx;
-                                
-                const double _source_t = _ptr_array_defaultclock_t[0];
-                const int32_t _source_i = _ptr_array_neurongroup_i[_idx];
-                const double _to_record_t = _source_t;
-                const int32_t _to_record_i = _source_i;
-
-                _dynamic_array_spikemonitor_i.push_back(_to_record_i);
-                _dynamic_array_spikemonitor_t.push_back(_to_record_t);
-                _ptr_array_spikemonitor_count[_idx-0]++;
-            }
-            _ptr_array_spikemonitor_N[0] += _num_events;
-        }
-    }
-
+	}
 
     const double _run_time = (double)(std::clock() -_start_time)/CLOCKS_PER_SEC;
-    spikemonitor_codeobject_profiling_info += _run_time;
+    neurongroup_stateupdater_codeobject_profiling_info += _run_time;
 }
 
-void _debugmsg_spikemonitor_codeobject()
-{
-	using namespace brian;
-    const int _num_source_t = 1;
-const int _num_source_i = 100;
-const int _num_spikespace = 101;
-const int _numN = 1;
-const int _num_source_idx = 100;
-double* const _array_spikemonitor_t = _dynamic_array_spikemonitor_t.empty()? 0 : &_dynamic_array_spikemonitor_t[0];
-const int _numt = _dynamic_array_spikemonitor_t.size();
-const int _numcount = 100;
-const int _num_clock_t = 1;
-int32_t* const _array_spikemonitor_i = _dynamic_array_spikemonitor_i.empty()? 0 : &_dynamic_array_spikemonitor_i[0];
-const int _numi = _dynamic_array_spikemonitor_i.size();
-        
-    double*   _ptr_array_defaultclock_t = _array_defaultclock_t;
-    int32_t* __restrict  _ptr_array_neurongroup_i = _array_neurongroup_i;
-    int32_t* __restrict  _ptr_array_neurongroup__spikespace = _array_neurongroup__spikespace;
-    int32_t*   _ptr_array_spikemonitor_N = _array_spikemonitor_N;
-    int32_t* __restrict  _ptr_array_spikemonitor__source_idx = _array_spikemonitor__source_idx;
-    double* __restrict  _ptr_array_spikemonitor_t = _array_spikemonitor_t;
-    int32_t* __restrict  _ptr_array_spikemonitor_count = _array_spikemonitor_count;
-    int32_t* __restrict  _ptr_array_spikemonitor_i = _array_spikemonitor_i;
-
-	std::cout << "Number of spikes: " << _ptr_array_spikemonitor_N[0] << endl;
-}
 
  [brian2.devices.cpp_standalone.device]
-DIAGNOSTIC Writing file code_objects/spikemonitor_codeobject.h:
-#ifndef _INCLUDED_spikemonitor_codeobject
-#define _INCLUDED_spikemonitor_codeobject
+DIAGNOSTIC Writing file code_objects/neurongroup_stateupdater_codeobject.h:
+#ifndef _INCLUDED_neurongroup_stateupdater_codeobject
+#define _INCLUDED_neurongroup_stateupdater_codeobject
 
 #include "objects.h"
 
-void _run_spikemonitor_codeobject();
+void _run_neurongroup_stateupdater_codeobject();
 
-void _debugmsg_spikemonitor_codeobject();
 
 #endif
  [brian2.devices.cpp_standalone.device]
@@ -5116,29 +5145,29 @@ void _run_synapses_synapses_create_generator_codeobject()
     const std::clock_t _start_time = std::clock();
 
 	///// CONSTANTS ///////////
-	int32_t* const _array_synapses_N_outgoing = _dynamic_array_synapses_N_outgoing.empty()? 0 : &_dynamic_array_synapses_N_outgoing[0];
-const int _numN_outgoing = _dynamic_array_synapses_N_outgoing.size();
-const int _numN = 1;
-int32_t* const _array_synapses__synaptic_pre = _dynamic_array_synapses__synaptic_pre.empty()? 0 : &_dynamic_array_synapses__synaptic_pre[0];
-const int _num_synaptic_pre = _dynamic_array_synapses__synaptic_pre.size();
+	int32_t* const _array_synapses__synaptic_post = _dynamic_array_synapses__synaptic_post.empty()? 0 : &_dynamic_array_synapses__synaptic_post[0];
+const int _num_synaptic_post = _dynamic_array_synapses__synaptic_post.size();
 int32_t* const _array_synapses_N_incoming = _dynamic_array_synapses_N_incoming.empty()? 0 : &_dynamic_array_synapses_N_incoming[0];
 const int _numN_incoming = _dynamic_array_synapses_N_incoming.size();
-int32_t* const _array_synapses__synaptic_post = _dynamic_array_synapses__synaptic_post.empty()? 0 : &_dynamic_array_synapses__synaptic_post[0];
-const int _num_synaptic_post = _dynamic_array_synapses__synaptic_post.size();
+const int _numN = 1;
+int32_t* const _array_synapses_N_outgoing = _dynamic_array_synapses_N_outgoing.empty()? 0 : &_dynamic_array_synapses_N_outgoing[0];
+const int _numN_outgoing = _dynamic_array_synapses_N_outgoing.size();
+int32_t* const _array_synapses__synaptic_pre = _dynamic_array_synapses__synaptic_pre.empty()? 0 : &_dynamic_array_synapses__synaptic_pre[0];
+const int _num_synaptic_pre = _dynamic_array_synapses__synaptic_pre.size();
 	///// POINTERS ////////////
  	
- int32_t* __restrict  _ptr_array_synapses_N_outgoing = _array_synapses_N_outgoing;
- int32_t*   _ptr_array_synapses_N = _array_synapses_N;
- int32_t* __restrict  _ptr_array_synapses__synaptic_pre = _array_synapses__synaptic_pre;
- int32_t* __restrict  _ptr_array_synapses_N_incoming = _array_synapses_N_incoming;
  int32_t* __restrict  _ptr_array_synapses__synaptic_post = _array_synapses__synaptic_post;
+ int32_t* __restrict  _ptr_array_synapses_N_incoming = _array_synapses_N_incoming;
+ int32_t*   _ptr_array_synapses_N = _array_synapses_N;
+ int32_t* __restrict  _ptr_array_synapses_N_outgoing = _array_synapses_N_outgoing;
+ int32_t* __restrict  _ptr_array_synapses__synaptic_pre = _array_synapses__synaptic_pre;
 
 
     #include<iostream>
 
 
-    const int _N_pre = 100;
-    const int _N_post = 100;
+    const int _N_pre = 10;
+    const int _N_post = 10;
     _dynamic_array_synapses_N_incoming.resize(_N_post + 0);
     _dynamic_array_synapses_N_outgoing.resize(_N_pre + 0);
     int _raw_pre_idx, _raw_post_idx;
@@ -5175,9 +5204,9 @@ const int _num_synaptic_post = _dynamic_array_synapses__synaptic_post.size();
         long _uiter_step;
         {
                         
-            const int32_t _iter_low = 0;
-            const int32_t _iter_high = 100;
+            const int32_t _iter_high = 10;
             const int32_t _iter_step = 1;
+            const int32_t _iter_low = 0;
 
             _uiter_low = _iter_low;
             _uiter_high = _iter_high;
@@ -5256,17 +5285,15 @@ void _run_synapses_synapses_create_generator_codeobject();
 
 #endif
  [brian2.devices.cpp_standalone.device]
-DIAGNOSTIC Writing file code_objects/synapses_pre_codeobject.cpp:
+DIAGNOSTIC Writing file code_objects/neurongroup_resetter_codeobject.cpp:
 #include "objects.h"
-#include "code_objects/synapses_pre_codeobject.h"
+#include "code_objects/neurongroup_resetter_codeobject.h"
 #include "brianlib/common_math.h"
 #include "brianlib/stdint_compat.h"
 #include<cmath>
 #include<ctime>
 #include<iostream>
 #include<fstream>
-#include "brianlib/stdint_compat.h"
-#include "synapses_classes.h"
 
 ////// SUPPORT CODE ///////
 namespace {
@@ -5499,86 +5526,58 @@ namespace {
 
 
 
-void _run_synapses_pre_codeobject()
+void _run_neurongroup_resetter_codeobject()
 {
 	using namespace brian;
 
     const std::clock_t _start_time = std::clock();
 
 	///// CONSTANTS ///////////
-	int32_t* const _array_synapses__synaptic_post = _dynamic_array_synapses__synaptic_post.empty()? 0 : &_dynamic_array_synapses__synaptic_post[0];
-const int _num_postsynaptic_idx = _dynamic_array_synapses__synaptic_post.size();
-int32_t* const _array_synapses__synaptic_pre = _dynamic_array_synapses__synaptic_pre.empty()? 0 : &_dynamic_array_synapses__synaptic_pre[0];
-const int _num_synaptic_pre = _dynamic_array_synapses__synaptic_pre.size();
-const int _numt = 1;
-const int _numv_post = 100;
-double* const _array_synapses_lastupdate = _dynamic_array_synapses_lastupdate.empty()? 0 : &_dynamic_array_synapses_lastupdate[0];
-const int _numlastupdate = _dynamic_array_synapses_lastupdate.size();
+	const int _num_spikespace = 11;
+const int _numv = 10;
 	///// POINTERS ////////////
  	
- int32_t* __restrict  _ptr_array_synapses__synaptic_post = _array_synapses__synaptic_post;
- int32_t* __restrict  _ptr_array_synapses__synaptic_pre = _array_synapses__synaptic_pre;
- double*   _ptr_array_defaultclock_t = _array_defaultclock_t;
+ int32_t* __restrict  _ptr_array_neurongroup__spikespace = _array_neurongroup__spikespace;
  double* __restrict  _ptr_array_neurongroup_v = _array_neurongroup_v;
- double* __restrict  _ptr_array_synapses_lastupdate = _array_synapses_lastupdate;
 
 
 
-	// This is only needed for the _debugmsg function below	
-	
+	const int32_t *_events = _ptr_array_neurongroup__spikespace;
+	const int32_t _num_events = _ptr_array_neurongroup__spikespace[10];
 
+	//// MAIN CODE ////////////	
 	// scalar code
 	const int _vectorisation_idx = -1;
  	
 
 
 	
+	for(int _index_events=0; _index_events<_num_events; _index_events++)
 	{
-	std::vector<int> *_spiking_synapses = synapses_pre.peek();
-	const unsigned int _num_spiking_synapses = _spiking_synapses->size();
+	    // vector code
+		const int _idx = _events[_index_events];
+		const int _vectorisation_idx = _idx;
+                
+        double v;
+        v = 0;
+        _ptr_array_neurongroup_v[_idx] = v;
 
-	
-	{
-		for(unsigned int _spiking_synapse_idx=0;
-			_spiking_synapse_idx<_num_spiking_synapses;
-			_spiking_synapse_idx++)
-		{
-			const int _idx = (*_spiking_synapses)[_spiking_synapse_idx];
-			const int _vectorisation_idx = _idx;
-   			
-   const int32_t _postsynaptic_idx = _ptr_array_synapses__synaptic_post[_idx];
-   const double t = _ptr_array_defaultclock_t[0];
-   double v_post = _ptr_array_neurongroup_v[_postsynaptic_idx];
-   double lastupdate;
-   v_post += 0.01;
-   lastupdate = t;
-   _ptr_array_neurongroup_v[_postsynaptic_idx] = v_post;
-   _ptr_array_synapses_lastupdate[_idx] = lastupdate;
-
-		}
 	}
-    }
 
     const double _run_time = (double)(std::clock() -_start_time)/CLOCKS_PER_SEC;
-    synapses_pre_codeobject_profiling_info += _run_time;
+    neurongroup_resetter_codeobject_profiling_info += _run_time;
 }
 
-void _debugmsg_synapses_pre_codeobject()
-{
-	using namespace brian;
-	std::cout << "Number of synapses: " << _dynamic_array_synapses__synaptic_pre.size() << endl;
-}
 
  [brian2.devices.cpp_standalone.device]
-DIAGNOSTIC Writing file code_objects/synapses_pre_codeobject.h:
-#ifndef _INCLUDED_synapses_pre_codeobject
-#define _INCLUDED_synapses_pre_codeobject
+DIAGNOSTIC Writing file code_objects/neurongroup_resetter_codeobject.h:
+#ifndef _INCLUDED_neurongroup_resetter_codeobject
+#define _INCLUDED_neurongroup_resetter_codeobject
 
 #include "objects.h"
 
-void _run_synapses_pre_codeobject();
+void _run_neurongroup_resetter_codeobject();
 
-void _debugmsg_synapses_pre_codeobject();
 
 #endif
  [brian2.devices.cpp_standalone.device]
@@ -6158,8 +6157,8 @@ void brian_end();
 DIAGNOSTIC Writing file makefile:
 PROGRAM = main
 
-SRCS = objects.cpp main.cpp code_objects/synapses_pre_initialise_queue.cpp code_objects/neurongroup_group_variable_set_conditional_codeobject.cpp code_objects/neurongroup_stateupdater_codeobject.cpp code_objects/neurongroup_thresholder_codeobject.cpp code_objects/synapses_pre_push_spikes.cpp code_objects/neurongroup_resetter_codeobject.cpp code_objects/spikemonitor_codeobject.cpp code_objects/synapses_synapses_create_generator_codeobject.cpp code_objects/synapses_pre_codeobject.cpp network.cpp synapses_classes.cpp run.cpp brianlib/randomkit/randomkit.c
-H_SRCS = objects.h code_objects/synapses_pre_initialise_queue.h code_objects/neurongroup_group_variable_set_conditional_codeobject.h code_objects/neurongroup_stateupdater_codeobject.h code_objects/neurongroup_thresholder_codeobject.h code_objects/synapses_pre_push_spikes.h code_objects/neurongroup_resetter_codeobject.h code_objects/spikemonitor_codeobject.h code_objects/synapses_synapses_create_generator_codeobject.h code_objects/synapses_pre_codeobject.h network.h synapses_classes.h run.h brianlib/clocks.h brianlib/common_math.h brianlib/dynamic_array.h
+SRCS = objects.cpp main.cpp code_objects/spikemonitor_codeobject.cpp code_objects/synapses_pre_push_spikes.cpp code_objects/neurongroup_group_variable_set_conditional_codeobject.cpp code_objects/synapses_pre_initialise_queue.cpp code_objects/neurongroup_thresholder_codeobject.cpp code_objects/synapses_pre_codeobject.cpp code_objects/neurongroup_stateupdater_codeobject.cpp code_objects/synapses_synapses_create_generator_codeobject.cpp code_objects/neurongroup_resetter_codeobject.cpp network.cpp synapses_classes.cpp run.cpp brianlib/randomkit/randomkit.c
+H_SRCS = objects.h code_objects/spikemonitor_codeobject.h code_objects/synapses_pre_push_spikes.h code_objects/neurongroup_group_variable_set_conditional_codeobject.h code_objects/synapses_pre_initialise_queue.h code_objects/neurongroup_thresholder_codeobject.h code_objects/synapses_pre_codeobject.h code_objects/neurongroup_stateupdater_codeobject.h code_objects/synapses_synapses_create_generator_codeobject.h code_objects/neurongroup_resetter_codeobject.h network.h synapses_classes.h run.h brianlib/clocks.h brianlib/common_math.h brianlib/dynamic_array.h
 OBJS = ${SRCS:.cpp=.o}
 OBJS := ${OBJS:.c=.o}
 CC = @g++
@@ -6187,4 +6186,4 @@ endif
 
 %.o : %.cpp makefile
 	$(CC) $(CFLAGS) $< -o $@ [brian2.devices.cpp_standalone.device]
-2.114077568054199
+1.996994972229004

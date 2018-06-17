@@ -6,7 +6,7 @@ import time
 #BrianLogger.log_level_diagnostic()
 #set_device('cpp_standalone')
 
-N = 100
+N = 10
 tau = 10*ms
 I = 2 
 eqs = '''
@@ -16,7 +16,7 @@ G = NeuronGroup(N, eqs, threshold='v>1', reset='v = 0', method='exact')
 G.v = '1.0*i/N'
 
 # Comment these two lines out to see what happens without Synapses
-S = Synapses(G, G, on_pre='v_post += 0.01')
+S = Synapses(G, G, on_pre='v_post += 0.1')
 S.connect(condition='i!=j', p=1.0)
 
 spikemon = SpikeMonitor(G)
