@@ -1,4 +1,4 @@
-GS = ../graph_schema/
+GS = ../fyp-poets-ecosystem/submodules/graph_schema/
 JING = $(GS)external/jing-20081028/bin/jing.jar
 
 CPPFLAGS += -I $(GS)include -W -Wall -Wno-unused-parameter -Wno-unused-variable
@@ -56,3 +56,4 @@ include apps/snn_always_spike/makefile.inc
 include apps/snn_taylor/makefile.inc
 include apps/snn_sparse_spike/makefile.inc
 include apps/snn_noclock_always_spike/makefile.inc
+include apps/snn_ring_clock/makefile.inc
