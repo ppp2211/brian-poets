@@ -3,7 +3,7 @@ from brian2 import *
 import matplotlib.pyplot as plt
 import time
 #BrianLogger.log_level_diagnostic()
-#set_device('cpp_standalone')
+set_device('cpp_standalone')
 
 eqs = '''
 dv/dt = (I-v)/tau : 1
